@@ -1,1 +1,41 @@
 \subsection{Circuit Modelling}
+Based on the previously discussed assumptions and Figure (1.9), the circuit can be reconfigured as depicted in Figure (2). To elucidate the performance of the circuit in all four load modes, the following equations can be employed:\\
+
+[insert circuit diagram 1.7]\\
+
+\em{Figure 1.7: Power supply circuit with multimode load $R_L$}
+
+[insert circuit diagram 1.8]\\
+
+\em{Figure 1.8: Modified circuit with implemented model of circuit elements}\\
+
+The current analysis of the diodes involves utilizing the unit step function, which acts as a switch in the model. When in the on-state, the unit step function is set to 1, and when in the off-state, it is set to 0. This function can be defined as follows:
+
+\begin{equation}
+    i_d=u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-Va}{2}-V_t}{R_d})
+\end{equation}\\
+
+Likewise, the current flowing through the Zener diode:\\
+
+\begin{equation}
+    i_z=(\frac{V_b-V_z}{R_z})[u(V_b-V_z)]
+\end{equation}\\
+
+\large\textcolor{red}{Mode 1: The load does not include an inductor or resistor (both components are deactivated)}:\\
+
+[insert figure 1.9]\\
+
+\em{Figure 1.9: Circuit with no load (both devices off)}\\
+
+KCL at node A:
+
+\begin{equation}
+    i_d=i_c+i_s
+    u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-Va}{2}-V_t}{R_d})=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s}
+\end{equation}\\
+
+where u represents the unit step response.
+
+KCL at Node B:
+
+
