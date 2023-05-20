@@ -32,6 +32,7 @@ where $V_{\text{rms}}$ is the rms voltage, $\omega = 2\pi f$ is the angular freq
 \subsubsection{Capacitor} The capacitor is modelled as an ideal capacitor that does not dissipate energy. The current across the capacitor is given by:
 \begin{equation}
     i = C \frac{dV}{dt}
+    \label{eq:ideal_capacitor}
 \end{equation}
 where $C$ is the capacitance in Farads (F), $\frac{dV}{dt}$ is the rate of change of voltage $\left(\frac{V}{s}\right)$
 
@@ -101,11 +102,11 @@ Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0
 The diode is represented as a cell ($V_{th}$) in series with a resistor ($R_b$) and an ideal switch. The current flowing into the switch is represented by $i_d$. This is the piece-wise linear approximation of the diode.
 \begin{figure}[H]
     \centering
-    \begin{circuitikz} \draw
- 	(0,7) to[diode,l=$V_d$,i=$i_d$] (0,0)
-	(3,7) to[battery1, l=$V_{th}$] (3,6) 
-	(3,6) to[R, l=$R_b$, i_=$i_d$] (3,2)
-	(3,2) to[nos,o-o] (3,0);
+    \begin{circuitikz}[american voltages] \draw
+ 	(0,5) to[diode,o-o,l=$V_d$,i=$i_d$] (0,0)
+	(3,5) to[battery1,o-,l=$V_{th}$] (3,4) 
+	(3,4) to[R, l=$R_b$, i_=$i_d$] (3,1)
+	(3,1) to[nos,o-o] (3,0);
 \end{circuitikz}
     \caption{Piece-wise linear diode approximation of the ideal diode}
     \label{fig:piecewise_diode}
@@ -123,13 +124,101 @@ This expression matches the expression for the ideal diode presented in Equation
 \subparagraph{Determination of Maximum Current}
 To accurately model the diode using the piece-wise linear circuit in Figure \ref{fig:piecewise_diode}, a reasonable estimate of the maximum current flowing through the diode while it is forward biased must be made.\\
 
- Consider the behaviour of the diode inside the bridge rectifier:
+Consider the behaviour of the diode inside the bridge rectifier:
+
+\begin{figure}[H]
+	\centering
+	
+    \begin{circuitikz} [american voltages] \draw
+    
+    (0,0) to[vsourcesin, l=$V_{in}$] (0,4)
+    (0,4) to[battery1, l=$2V_{th}$] (2,4)
+    (2,4) to[R,l=$2R_b$,i=$i_d$, v=$V_d$] (7,4)
+    (7,4) to[nos,o-o] (8,4)
+    (8,4) to[short] (10,4)
+    (10,4) to[capacitor, l=$C$,v=$V_c$] (10,0)
+    (0,0) to[short] (10,0)
+    (5,0) node[ground]{} (5,-1);
+    
+    \end{circuitikz}
+	
+	\caption{Piece-wise linear diode model applied in the half-rectifier}
+	\label{fig:diode_circuit}
+\end{figure}
+
 \begin{itemize}
 	\item In a full-bridge rectifier, two diodes are used. One for each half of the cycle (.i.e. half the period of the input sinusoid). Thus, this inequality must be satisfied to ensure forward biasing $$V_d > 2V_{th} = V_d > 1.4V$$
 	\item The rectifier is being connected to a capacitor in Figure \ref{fig:powersupply}. When a capacitor is uncharged (.i.e. $V=0$) it behaves as a short circuit. In a DC circuit, the capacitor experiences maximal current at the instant the power supply is connected.
 	\item In an AC circuit (.i.e. with a sinusoidal input), the voltage changes over time, so the capacitor does not experience a sudden surge of voltage as it does in the DC circuit.
-	\item The maximum charging current occurs during the first peak of the sinusoidal wave, which occurs in the first half cycle: $$0 < t < \frac{T}{2}$$ where T is the period of the sinusoid.
+	\item The maximum charging current occurs during the first peak of the sinusoidal wave, which occurs in the first half cycle: $$0 < t < \frac{T}{2}$$ where T is the period of the sinusoid $T=\frac{1}{f}$
 \end{itemize} 
+
+Using nodal analysis, derive an expression for the current flowing through the capacitor. Considering the ideal capacitor model in Equation \ref{eq:ideal_capacitor}
+\begin{align}
+	i = C\frac{dV_c}{dt}
+\end{align}
+The rate of change of the capacitor voltage is the difference across the input and output terminals,
+\begin{align}
+	C\frac{dV_c}{dt} = \frac{V_{in}(t) - 2V_{th} - V_c}{2R_b}
+\end{align}
+Rearrange the above expression as a first-order non-homogenous linear differential equation,
+\begin{align}
+	Q\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) - 1.4
+	\label{eq:diff}
+\end{align}
+where $Q = 2R_bC$, $A = 230\sqrt{2}$, $\omega = 100\pi$.
+
+\subparagraph{Solution to ODE} To solve the ODE in Equation \ref{eq:diff} split into homogenous and non-homogenous parts. The homogenous part of this equation (.i.e. excluding the sinusoidal term) is:
+\begin{equation}
+	Q\frac{dV_c}{dt} + V_c(t) = 0
+\end{equation}
+which has a solution in the form
+\begin{equation}
+	V_c(t) = Be^{\frac{-t}{a}}
+\end{equation}
+where $B$ is an arbitrary constant to be determined by the initial conditions. 
+
+The non-homogenous part of the equation is defined over the interval $0 \leq t \leq \frac{T}{2}$ and is a sinusoid:
+\begin{equation}
+	Q\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) + 1.4
+\end{equation}
+To find the particular solution, assume a solution in the form:
+\begin{equation}
+	V_c(t) = M\text{sin}(\omega t) + N\text{cos}(\omega t)
+\end{equation}
+where $M$ and $N$ are arbitrary constants to be determined by initial conditions. 
+
+%Determine the phase shift of $V_{in}$ to account for this initial condition:
+%\begin{equation}
+%	\begin{split}
+%		V_{in}(t=0) = 230\sqrt{2}sin(100\pi (0) + \phi)
+%	\end{split}
+%\end{equation}
+%Apply equation \ref{eq:diff} at $t=0$
+%\begin{equation}
+%\begin{split}
+%	1.4  &= 230\sqrt{2}sin(\phi) \\
+%	\phi &= sin^{-1}\bracket{\frac{1.4}{230\sqrt{2}}} \\
+%		 &= 0.00430
+%\end{split}
+%\end{equation}
+%Hence, the ODE in Equation \ref{eq:diff} becomes,
+%\begin{equation}
+%	a\dot{V_c} + V_c = 230\sqrt{2}sin(100\pi t + 0.00430) - 1.4
+%	\label{eq:ode_diode}
+%\end{equation}
+%Given system parameters in Table \ref{tab:component_values},
+%\begin{equation}
+%	a = 2(0.0022)(3.2)
+%	  = 0.01408
+%\end{equation}
+%
+%\pagebreak
+%Solving equation \ref{eq:ode_diode} using Wolfram Alpha yields:
+%
+%\begin{equation}
+%	V_c(t) = e^{-71.022t} - 1.331
+%\end{equation}
 
 \subsubsection{Comparison to Shockley Diode}
 
