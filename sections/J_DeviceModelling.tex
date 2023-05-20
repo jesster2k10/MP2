@@ -98,7 +98,7 @@ Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0
     \caption{The ideal diode i-v characteristic. This graph assumes $V_{th}=0$}
     \label{fig:diode_iv_characterstic}
 \end{figure}
-Consider the behaviour of the diode inside the bridge rectifier. The diode is represented as a cell ($V_{th}$) in series with a resistor ($R_b$) and an ideal switch. The current flowing into the switch is represented by $i_d$. This is the piece-wise linear approximation of the diode.
+The diode is represented as a cell ($V_{th}$) in series with a resistor ($R_b$) and an ideal switch. The current flowing into the switch is represented by $i_d$. This is the piece-wise linear approximation of the diode.
 \begin{figure}[H]
     \centering
     \begin{circuitikz} \draw
@@ -120,7 +120,18 @@ Analytically $i_d$ can be described using Ohm's law and considering the voltage 
 \end{equation}
 This expression matches the expression for the ideal diode presented in Equation \ref{eq:ideal_diode}. 
 
-\subsubsection{Determination of Maximum Current}
+\subparagraph{Determination of Maximum Current}
+To accurately model the diode using the piece-wise linear circuit in Figure \ref{fig:piecewise_diode}, a reasonable estimate of the maximum current flowing through the diode while it is forward biased must be made.\\
+
+ Consider the behaviour of the diode inside the bridge rectifier:
+\begin{itemize}
+	\item In a full-bridge rectifier, two diodes are used. One for each half of the cycle (.i.e. half the period of the input sinusoid). Thus, this inequality must be satisfied to ensure forward biasing $$V_d > 2V_{th} = V_d > 1.4V$$
+	\item The rectifier is being connected to a capacitor in Figure \ref{fig:powersupply}. When a capacitor is uncharged (.i.e. $V=0$) it behaves as a short circuit. In a DC circuit, the capacitor experiences maximal current at the instant the power supply is connected.
+	\item In an AC circuit (.i.e. with a sinusoidal input), the voltage changes over time, so the capacitor does not experience a sudden surge of voltage as it does in the DC circuit.
+	\item The maximum charging current occurs during the first peak of the sinusoidal wave, which occurs in the first half cycle: $$0 < t < \frac{T}{2}$$ where T is the period of the sinusoid.
+\end{itemize} 
+
+>>>>>>> 026cd9b (update)
 \subsubsection{Comparison to Shockley Diode}
 
 \subsubsection{Zener Diode}
