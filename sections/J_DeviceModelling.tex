@@ -180,13 +180,49 @@ where $B$ is an arbitrary constant to be determined by the initial conditions.
 
 The non-homogenous part of the equation is defined over the interval $0 \leq t \leq \frac{T}{2}$ and is a sinusoid:
 \begin{equation}
-	Q\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) + 1.4
+	Q\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) - 1.4
 \end{equation}
 To find the particular solution, assume a solution in the form:
 \begin{equation}
-	V_c(t) = M\text{sin}(\omega t) + N\text{cos}(\omega t)
+	V_c(t) = M\text{sin}(\omega t) + N\text{cos}(\omega t) 
+	\label{vc_t}
 \end{equation}
-where $M$ and $N$ are arbitrary constants to be determined by initial conditions. 
+where $M$, $Z$ and $N$ are arbitrary constants to be determined by initial conditions. 
+
+\pagebreak
+To determine the constants $B$, $M$, $N$ apply the initial condition $V_c(0) = 0$. This is because at time $t=0$ the capacitor is uncharged:
+
+\begin{equation}
+	\begin{split}
+		0 = Be^{0} + M\text{sin}(0) + N\text{cos}(0) \\
+		  = B + N + Z \\
+		  \therefore B = -N
+	\end{split}
+\end{equation} 
+
+Consider the derivative $\frac{dV_c}{dt}$ for the lefthand side of the differential equation:
+\begin{equation}
+	\frac{dV_c}{dt} = \omega M\text{cos}(\omega t) - \omega N\text{sin}(\omega t)
+	\label{dvc_dt}
+\end{equation}
+
+Substitute Eq \ref{dvc_dt}, \ref{vc_t} into the original equation [Eq: \ref{eq:diff}]
+\begin{equation}
+	Q\sbracket{\omega M\text{cos}(\omega t) - \omega N\text{sin}(\omega t)} + M\text{sin}(\omega t) + N\text{cos}(\omega t) = A\text{sin}(\omega t) - 1.4
+\end{equation}
+
+This needs to hold for all $t$. Equate coefficients for sin and cos separately. 
+\begin{equation}
+	\begin{split}
+		\text{sin}(\omega t): Q(-\omega N) + M = A \\
+		\text{cos}(\omega t): Q\omega M + N = 0
+	\end{split}
+\end{equation}
+
+The solution to the ODE $V_c(t)$ is the combination of the homogenous and non-homogenous solutions
+\begin{equation}
+	V_c(t) = Be^{ta^{-1}} + M\text{sin}(\omega t) + N\text{cos}(\omega t) - 1.4
+\end{equation}
 
 %Determine the phase shift of $V_{in}$ to account for this initial condition:
 %\begin{equation}
