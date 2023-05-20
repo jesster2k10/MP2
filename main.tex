@@ -1,0 +1,156 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+% MARK - Packages
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[x11names,table,xcdraw]{xcolor}
+\usepackage{natbib}
+\usepackage{mathrsfs}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\usepackage[scr]{rsfso}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{bigfoot}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{titletoc,tocloft}
+\usepackage{setspace}
+\usepackage{natbib}
+\usepackage[a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[siunitx]{circuitikz}
+\usepackage{framed}
+\usepackage{quoting}
+\usepackage{xlop}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{csvsimple}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{physics} % for 'pdv' macro
+\usepackage{multicol}
+\usepackage{courier}
+\usepackage{sourcecodepro}
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+
+% MARK - Metadata
+\author{
+  Jesse Onolememen\\
+  20344056
+  \and
+  Omar Issa\\
+  20344056
+  \and
+  David Jones\\
+  20344056
+}
+\title{
+  \textbf{EEEN30150 Modelling \& Simulation} \\
+  \large Minor Project 2 (MP2): Dynamic Equations}
+\date{\today}
+\onehalfspacing
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\graphicspath{../exports}
+\bibliographystyle{agsm}
+\numberwithin{equation}{section}
+\setlength{\parindent}{0pt}
+
+% MARK - Quotations
+\colorlet{shadecolor}{LavenderBlush2}
+\colorlet{framecolor}{lightgray}
+\renewenvironment{shaded*}{%
+  \def\FrameCommand{\setlength{\FrameRule}{2pt}\fboxsep=\FrameSep \fcolorbox{framecolor}{shadecolor}}%
+  \MakeFramed {\advance\hsize-\width \FrameRestore}}%
+ {\endMakeFramed}
+
+
+\newenvironment{shquote}
+ {\begin{shaded*}
+  \quoting[leftmargin=0pt, vskip=0pt]
+ }
+ {\endquoting
+ \end{shaded*}
+}
+
+% Title format
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{0pt}{12pt}
+
+% MARK - Custom Commands
+\setcounter{section}{0}
+\renewcommand{\thesection}{\arabic{section}}
+\newcommand{\lpt}[1]{\mathcal{L}\{#1\}}
+\newcommand{\sbracket}[1]{\left[#1 \right]}
+\newcommand{\bracket}[1]{\left(#1 \right)}
+
+\def\therefore{\boldsymbol{\text{ }
+\leavevmode
+\lower0.4ex\hbox{$\cdot$}
+\kern-.5em\raise0.7ex\hbox{$\cdot$}
+\kern-0.55em\lower0.4ex\hbox{$\cdot$}
+\thinspace\text{ }}}
+
+% Listings
+\lstset{style=Matlab-editor}
+%\setmonofont{Lucida Console}[Scale=MatchLowercase] % select a suitable monospaced font
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+\lstset{framextopmargin=50pt,frame=bottomline}
+
+\usepackage{xcolor}
+\definecolor{maroon}{cmyk}{0, 0.87, 0.68, 0.32}
+\definecolor{halfgray}{gray}{0.55}
+\definecolor{ipython_frame}{RGB}{207, 207, 207}
+\definecolor{ipython_bg}{RGB}{247, 247, 247}
+\definecolor{ipython_red}{RGB}{186, 33, 33}
+\definecolor{ipython_green}{RGB}{0, 128, 0}
+\definecolor{ipython_cyan}{RGB}{64, 128, 128}
+\definecolor{ipython_purple}{RGB}{170, 34, 255}
+
+
+%%
+%% Python definition (c) 1998 Michael Weber
+%% Additional definitions (2013) Alexis Dimitriadis
+%% modified by me (should not have empty lines)
+%%
+\lstdefinelanguage{MatLab}{
+    basicstyle=\footnotesize,
+    keywordstyle=\color{ipython_green}\ttfamily,
+}
+
+% Matrix columns
+\setcounter{MaxMatrixCols}{15}
+\newcommand{\nodecirc}[1]{\textcircled{#1} \hspace{0.15cm} \triangleright \hspace{0.25cm}}
+
+% MARK - Begin Document
+
+\begin{document}
+
+% S; Front Page
+\maketitle
+
+% S; Plagarism Declaration
+\include{frontmatter/Plagarism}
+
+% S; Table of Contents
+\newpage
+\setlength{\cftsubsecindent}{1.5cm}
+\setlength{\cftsubsubsecindent}{1.5cm}
+\doublespacing
+\tableofcontents
+\onehalfspacing
+
+% S; Sections
+\include{frontmatter/Abstract}
+\include{sections/J_DeviceModelling}
+\include{sections/J_CircuitModelling}
+\include{sections/NumericalAnalysis}
+\include{sections/Simulation}
+\include{sections/Visualisation}
+
+% S; Appendix
+\include{frontmatter/Appendix}
+
+\end{document}

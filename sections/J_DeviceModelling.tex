@@ -1,0 +1,126 @@
+\section{Modelling}
+A model of each individual circuit component is fabricated. This is used to provide a model of the circuit as a whole, using nodal analysis methods .i.e. Krichoff's Laws
+
+\subsection{Component Values}
+The values of the circuit components are presented in the table below. Where there is an applicable tolerance level, the maximum and minimum values are shown. 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c||c|c|}\hline
+        & Value & \% Tolerance & \textbf{Maximum} & \textbf{Minimum} \\\hline
+       $C$ & $0.0022 F$ & $20\%$ & $0.00264F$ & $0.00176F$ \\
+       $R_s$ & $300\Omega$ & $10\%$ & $330\Omega$ & $270\Omega$ \\
+       $R_{L_1}$ & $65.7\Omega$ & $0\%$ & $65.7\Omega$  & $65.7\Omega$ \\
+       $R_{L_2}$ & $287\Omega$ & $0\%$ & $287\Omega$ & $287\Omega$ \\
+       $L_L$ & $0.01058 H$ & $0\%$ & $0.01058 H$ & $0.01058 H$ \\\hline
+    \end{tabular}
+    \caption{Circuit component values and their variances}
+    \label{tab:component_values}
+\end{table}
+
+\subsection{Component Modelling}
+Each individual component in the circuit must be represented analytically. Circuit components are assumed to be ideal, .i.e. there is an absence of source resistance and or impedance. The model does not account for inexactitudes in component values that may be realised in a practical implementation. 
+
+\subsubsection{Voltage Source} The voltage source is modelled as an ideal AC voltage source. There is no source impedance, thus, we assume that the source generates the exact amount of voltage across its terminals. 
+\begin{equation}
+    \begin{split}
+        V_{\text{in}} &= V_{\text{rms}}\sqrt{2}\text{sin}(\omega t + \phi)
+            \\ &= 230\sqrt{2}\text{sin}(100\pi t)V
+    \end{split}
+\end{equation}
+where $V_{\text{rms}}$ is the rms voltage, $\omega = 2\pi f$ is the angular frequency
+
+\subsubsection{Capacitor} The capacitor is modelled as an ideal capacitor that does not dissipate energy. The current across the capacitor is given by:
+\begin{equation}
+    i = C \frac{dV}{dt}
+\end{equation}
+where $C$ is the capacitance in Farads (F), $\frac{dV}{dt}$ is the rate of change of voltage $\left(\frac{V}{s}\right)$
+
+\subsubsection{Inductor} The inductor is modelled as an ideal inductor whose voltage is given by:
+\begin{equation}
+    V = L\frac{di}{dt}
+\end{equation}
+where $L$ is the inductance in Henry's, $\frac{di}{dt}$ is the rate of current change
+\subsubsection{Resistor} The resistor is modelled as an ideal resistor whose voltage is given by Ohm's law
+\begin{equation}
+    V=IR
+\end{equation}
+where $V$ is the voltage (V), $I$ is the current (A) and $R$ is the resistance ($\Omega$)
+
+\subsubsection{Switch} The switch is modelled as an ideal switch without any source resistance. The switch can be represented using a binary state .i.e. on or off. It is assumed that there is no propagation delay in the change of state and the effects are immediate. 
+
+\subsubsection{Transformer} The transformer is assumed to be ideal with a turns ratio of $20:1$. The voltage at either side of the transformer can be determined from its common ideal representation
+\begin{equation}
+    \frac{V_1}{V_2} = \frac{N_1}{N_2}
+\end{equation}
+where $N_1=20$ is the number primary turns, $N_2=1$ is the number of secondary turns, $V_1$ is the primary voltage, $V_2$ is the secondary voltage.\\
+
+The voltage at LV-side of the transformer is fed into the full-bridge rectifier. The secondary voltage $V_2$ is given by:
+\begin{equation}
+    V_2 = \frac{V_1N_2}{N_1}
+\end{equation}
+
+\subsubsection{Diode}
+The four diodes in the circuit are configured to form a full bridge rectifier. It is assumed all four diodes are identical.
+
+\paragraph{Shockley Ideal Diode}
+The diodes can be modelled as a Shockley diode in series with bulk resistance. The Shockley diode model is a simplified model to describe the behaviour of a diode:
+
+\begin{equation}
+	I_D = I_s\left( e^{\frac{V_D}{\eta V_T}} - 1 \right) + \frac{V_d}{R_b}	\label{shockeyDiodeWithBulkResistance}
+\end{equation}
+where,
+\begin{itemize}
+	\item $I_D$ is the diode current
+	\item $I_s$ is the saturation current
+	\item $V_D$ is the voltage across the diode
+	\item $\eta$ is the ideality factor
+	\item $V_T$ is the thermal voltage (determined by $V_T = \frac{KT}{q}$)
+	\item $R_b$ is the bulk resistance
+\end{itemize}	
+
+The Shockley diode presents a non-linear model of the diode's behaviour which complicates circuit analysis. A piece-wise linear approximation to the DC characteristic of the diode is used for simplicity.
+
+\paragraph{Piece-wise Linear Approximation}
+An ideal diode behaves as a switch–conducting current without any losses under forward bias, and completely blocking current under reverse bias. The biasing of a diode is determined by assessing whether the voltage drop across the diode is greater than its threshold voltage ($V_D \geq V_{th}$)
+
+\subparagraph{Ideal Diode}
+Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0.7 V$.  The current across diode can be represented analytically as:
+\begin{equation}
+    i_d = \begin{cases}
+        \infty \hspace{1cm} &V_d \geq 0.7V \\
+        0 \hspace{1cm}   &V_d < 0.7V
+    \end{cases}
+    \label{eq:ideal_diode}
+\end{equation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{graphics/diode_iv.png}
+    \caption{The ideal diode i-v characteristic. This graph assumes $V_{th}=0$}
+    \label{fig:diode_iv_characterstic}
+\end{figure}
+Consider the behaviour of the diode inside the bridge rectifier. The diode is represented as a cell ($V_{th}$) in series with a resistor ($R_b$) and an ideal switch. The current flowing into the switch is represented by $i_d$. This is the piece-wise linear approximation of the diode.
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz} \draw
+ 	(0,7) to[diode,l=$V_d$,i=$i_d$] (0,0)
+	(3,7) to[battery1, l=$V_{th}$] (3,6) 
+	(3,6) to[R, l=$R_b$, i_=$i_d$] (3,2)
+	(3,2) to[nos,o-o] (3,0);
+\end{circuitikz}
+    \caption{Piece-wise linear diode approximation of the ideal diode}
+    \label{fig:piecewise_diode}
+\end{figure}
+
+Analytically $i_d$ can be described using Ohm's law and considering the voltage drop across $R_b$ 
+\begin{equation}
+    i_d = \begin{cases}
+        \bracket{\frac{V_d - V_{th}}{R_b}} \hspace{1cm} &V_d \geq 0.7V \\
+        0 \hspace{1cm}   &V_d < 0.7V
+    \end{cases}
+\end{equation}
+This expression matches the expression for the ideal diode presented in Equation \ref{eq:ideal_diode}. 
+
+\subsubsection{Determination of Maximum Current}
+\subsubsection{Comparison to Shockley Diode}
+
+\subsubsection{Zener Diode}
