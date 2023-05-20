@@ -3,11 +3,11 @@ Based on the previously discussed assumptions and Figure (1.9), the circuit can 
 
 [insert circuit diagram 1.7]\\
 
-\em{Figure 1.7: Power supply circuit with multimode load $R_L$}
+\emph{Figure 1.7: Power supply circuit with multimode load $R_L$}
 
 [insert circuit diagram 1.8]\\
 
-\em{Figure 1.8: Modified circuit with implemented model of circuit elements}\\
+\emph{Figure 1.8: Modified circuit with implemented model of circuit elements}\\
 
 The current analysis of the diodes involves utilizing the unit step function, which acts as a switch in the model. When in the on-state, the unit step function is set to 1, and when in the off-state, it is set to 0. This function can be defined as follows:
 
@@ -25,9 +25,9 @@ Likewise, the current flowing through the Zener diode:\\
 
 [insert figure 1.9]\\
 
-\em{Figure 1.9: Circuit with no load (both devices off)}\\
+\emph{Figure 1.9: Circuit with no load (both devices off)}\\
 
-KCL at node A:
+\textcolor{blue}{KCL at node A:}
 
 \begin{equation}
     i_d=i_c+i_s
@@ -36,6 +36,128 @@ KCL at node A:
 
 where u represents the unit step response.
 
-KCL at Node B:
+\textcolor{blue}{KCL at Node B:}
+\begin{equation}
+    i_s=i_z
+    (\frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}u(V_b-V_z)
+\end{equation}\\
+
+Therefore, it is evident that when no load is connected, the current through the Zener can be determined by:
+
+\begin{equation}
+    i_z= \begin{cases}
+    \frac{V_a-V_b}{R_s}=0,  V_b<V_z\\
+    \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z},  V_b\geq V_z
+    \end{cases}
+\end{equation}\\
+
+When $V_b$ < $V_z$, $V_a$ is equal to $V_b$, and in this scenario, the current through the Zener can be expressed as:
+
+\begin{equation}
+    i_z=\begin{cases}
+        0,  V_a<V_z \\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z},  V_a>V_z
+    \end{cases}
+\end{equation}
+
+Therefore, if $V_a < V_z$, the Zener diode is in the cut-off region. In this case, the system can be described by the following expressions:\\
+
+\begin{equation}
+    \begin{cases}
+        i_c=C\frac{dV_a}{dt}\\
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=i_c
+    \end{cases}
+\end{equation}\\
+
+Consequently, the differential equation that arises from this is:
+
+\begin{equation}
+    \frac{dV_a}{dt}=\frac{1}{C}u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}),  \emph{if $V_a<V_z$}
+\end{equation}
+
+When $V_a \geq V_z$, the Zener diode is in reverse bias. In this situation, the system can be characterized by the following expressions:
+
+\begin{equation}
+    \begin{cases}
+        i_c=C\frac{dV_a}{dt}\\
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=i_c+i_s\\
+        i_s=\frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}
+    \end{cases}
+\end{equation}\\
+
+Thus, it is possible to determine the output voltage, denoted as $V_b$:\\
+
+\begin{equation}
+    V_b=\frac{V_aR_z+V_zR_s}{R_s+R_z}
+\end{equation}
+
+As a consequence, the following expression describes the current flowing through resistor $R_s$, which can be calculated as:
+
+\begin{equation}
+    i_s=\frac{V_a-V_b}{R_s}=\frac{V_a-\frac{V_aR_z+V_zR_s}{R_s+R_z}}{R_s}=\frac{V_a(R_s+R_z)-V_aR_z-V_zR_s}{R_s(R_s+R_z)}=\frac{V_a-V_z}{(R_s+R_z)}
+\end{equation}
+
+The current through the capacitor can now be calculated using the following expression:\\
+
+\begin{equation}
+    i_c=u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a-V_z}{(R_s+R_z)}
+\end{equation}
+
+
+As a result, the differential equation that emerges from this is:
+
+\begin{equation}
+    \frac{dV_a}{dt}=\frac{1}{C}\left(u\left(\frac{V_2-V_a}{2}-V_t\right)\left(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}\right)-\frac{V_a-V_z}{R_s+R_z}\right), \text{if } V_a \geq V_z
+\end{equation}\\
+
+\large\textcolor{red}{\emph{Mode 2: When a resistor is present at the load, the circuit depicted in Figure (1.9) can be simplified as follows:}}\\
+
+[insert figure 2]\\
+
+\emph{Figure 2 illustrates the revised circuit configuration when a resistor load is connected at the output, with one device activated.}\\
+
+\textcolor{blue}{KCL at Node A:}\\
+
+\begin{equation}
+    u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s}
+\end{equation}\\
+
+\textcolor{blue}{KCL at Node B:}\\
+
+\begin{equation}
+    \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}u(V_b-V_z)+\frac{V_b}{R_L}
+\end{equation}\\
+
+Therefore, it is evident that when a resistor is connected, the current flowing through resistor Rs can be expressed as:
+\begin{equation}
+    I_{R_s} = \frac{V_{in} - V_a}{R_s}
+\end{equation}
+
+
+where $V_{in}$ is the input voltage and $V_a$ is the voltage across the load resistor.\\
+
+\begin{equation}
+    i_s=\begin{cases}
+        \frac{V_a-V_b}{R_s}=\frac{V_b}{R_L},  V_b<V_z\\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+\frac{V_b}{R_L},  V_b \geq V_z
+    \end{cases}
+\end{equation}\\
+
+When $V_b$ < $V_z$, the voltage $V_b$ can be expressed as $\frac{R_LV_a}{R_s+R_L}$. Therefore, the above expression can be equivalently written as:
+
+\begin{equation}
+    \begin{cases}
+        \frac{V_a-V_b}{R_s}=\frac{V_b}{R_L}, \frac{R_LV_a}{R_s+R_L}<V_z\\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+\frac{V_b}{R_L}, \frac{R_LV_a}{R_s+R_L} \geq V_z
+    \end{cases}
+\end{equation}\\
+
+Hence, if $\frac{R_LV_a}{R_s+R_L}<V_z$, the Zener diode is in cut-off mode. In this case, the system can be described by the following expressions:
+
+\begin{equation}
+    \begin{cases}
+        
+    \end{cases}
+\end{equation}
 
 
