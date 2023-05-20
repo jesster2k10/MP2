@@ -117,13 +117,17 @@ As a result, the differential equation that emerges from this is:
 \emph{Figure 2 illustrates the revised circuit configuration when a resistor load is connected at the output, with one device activated.}\\
 
 \textcolor{blue}{KCL at Node A:}\\
-
+\begin{equation}
+    i_d=i_c+i_s
+\end{equation}
 \begin{equation}
     u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s}
 \end{equation}\\
 
 \textcolor{blue}{KCL at Node B:}\\
-
+\begin{equation}
+    i_s=i_z+i_L
+\end{equation}
 \begin{equation}
     \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}u(V_b-V_z)+\frac{V_b}{R_L}
 \end{equation}\\
@@ -156,8 +160,289 @@ Hence, if $\frac{R_LV_a}{R_s+R_L}<V_z$, the Zener diode is in cut-off mode. In t
 
 \begin{equation}
     \begin{cases}
-        
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}=i_c+i_s\\
+        i_c=C\frac{dV_a}{dt}\\
+        i_s=\frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+\frac{V_b}{R_L}
     \end{cases}
+\end{equation}\\
+
+Therefore, the voltage across the load, Vb, can be determined as:
+
+\begin{equation}
+    V_b=\frac{R_LR_zV_a+R_LR_sV_z}{R_zR_s+R_zR_L+R_sR_L}
 \end{equation}
+
+The following expression determines the current flowing through the resistor Rs:
+
+\begin{equation}
+    i_s=\frac{V_a-V_b}{R_s}=\frac{V_a(\frac{1}{R_z}+\frac{1}{R_L})-\frac{V_z}{R_z}}{(\frac{1}{R_s}+\frac{1}{R_z}+\frac{1}{R_L})R_s}=\frac{V_a(\frac{R_L+R_z}{R_zR_L})-\frac{R_LV_z}{R_LR_z}}{(\frac{R_zR_L+R_sR_z+R_sR_L}{R_zR_L})}=\frac{V_a(R_L+R_z)-R_LV_z}{(R_zR_L+R_sR_z+R_sR_L)}
+\end{equation}\\
+
+As a result, the current through the capacitor can be calculated as:
+
+\begin{equation}
+    i_c=i_d-i_s=u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}-\frac{V_a(R_L+R_z)-R_LV_Z}{(R_zR_L+R_s(R_z+R_L))}
+\end{equation}\\
+
+Consequently, the resulting differential equation can be expressed as:\\
+
+\begin{equation}
+    \frac{dV_a}{dt}=\frac{1}{C}\left(u\left(\frac{V_2-V_a}{2}-V_{th}\right)\left(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}\right)-\frac{V_a(R_L+R_z)-R_LV_Z}{R_zR_L+R_s(R_z+R_L)}\right), \text{if } \frac{R_LV_a}{R_s+R_L} \geq V_z
+\end{equation}\\
+
+\large\textcolor{red}{Mode 3: Taking into account the presence of both a resistor and an inductor at the load:}\\
+
+[insert figure 2.1]\\
+
+\emph{Figure 2.1 illustrates the simplified circuit configuration when a resistor and an inductor are connected at the output, with one device activated.}
+
+\textcolor{blue}{KCL at Node A:}\\
+\begin{equation}
+    i_d=i_c+i_s
+\end{equation}
+\begin{equation}
+    u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s}
+\end{equation}\\
+
+\textcolor{blue}{KCL at Node B:}\\
+\begin{equation}
+    i_s=i_z+i_L
+\end{equation}
+\begin{equation}
+    \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}u(V_b-V_z)+i_L
+\end{equation}\\
+
+\textcolor{blue}{KCL at Node C:}\\
+\begin{equation}
+    i_L=\frac{V_b-V_c}{R_2}
+\end{equation}\\
+
+Therefore, it is evident that when a resistor and an inductor are connected, the current flowing through the resistor Rs can be determined by the following expression:
+
+\begin{equation}
+     i_s=\begin{cases}
+        \frac{V_a-V_b}{R_s}=i_L,  V_b<V_z\\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+i_L,  V_b \geq V_z
+        \end{cases}
+\end{equation}\\
+
+When $V_b < V_z$, $V_a - R_sI_L$ is equal to $V_b$. Therefore, the above expression can be equivalently written as follows:
+
+\begin{equation}
+    \begin{cases}
+        \frac{V_a-V_b}{R_s}=\frac{V_b}{R_L}, V_a-R_sI_L<V_z\\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+i_L, V_a-R_sI_L>V_z
+    \end{cases}
+\end{equation}\\
+
+Thus, the Zener is in cut-off if $V_a - R_sI_L < V_z$, and the resulting expressions describing the system are:
+
+\begin{equation}
+    \begin{cases}
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=i_s+i_L\\
+        i_c=C\frac{dV_a}{dt}\\
+        V_c=L\frac{di_L}{dt}\\
+        i_L=i_s=\frac{V_b-V_c}{R_2}=\frac{V_a-V_b}{R_s}
+    \end{cases}
+\end{equation}\\
+
+Therefore, the voltage across the inductor can be determined as:\\
+
+\begin{equation}
+    V_c=V_a-(R_s+R_2)i_L
+\end{equation}
+
+Furthermore, the current flowing through the capacitor can be determined as:\\
+
+\begin{equation}
+    i_c=i_d-i_L=u(\frac{V_2-V_a}{2}-V_{th})(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-i-L
+\end{equation}\\
+
+Consequently, the resulting system of differential equations can be expressed as:\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{di_L}{dt}=\frac{1}{L}(V_a-(R_s+R_2)i_L)\\
+        \frac{dV_a}{dt}=\frac{1}{C}\left(u\left(\frac{V_2-V_a}{2}-V_{th}\right)\left(\frac{V_2-V_a}{2}-V_{th}\right)\left(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}\right)-i_L\right), \text{if } V_a-R_si_L<V_z
+    \end{cases}
+\end{equation}\\
+
+Thus, the Zener is in reverse bias if $V_a - R_sI_L \geq V_z$, and the resulting expressions describing the system are:
+
+\begin{equation}
+    \begin{cases}
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=i_s+i_L\\
+        i_c=C\frac{dV_a}{dt}\\
+        V_c=L\frac{di_L}{dt}\\
+        i_s=\frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+i_L\\
+        V_c=V_b-R_2i_L
+    \end{cases}
+\end{equation}\\
+
+Therefore, the output voltage, Vb, can be expressed as:\\
+
+\begin{equation}
+    V_b=\frac{R_zV_a+R_sV_z-i_LR_sR_z}{R_z+R_s}
+\end{equation}\\
+
+Additionally, the voltage across the inductor, denoted as Vc, can also be determined:\\
+
+\begin{equation}
+    V_c=V_b-R_2i_L=\frac{R_zV_a+R_s(V_z-i_LR_z)}{R_z+R_s}-R_2i_L=\frac{R_zV_a+R_sV_z-i_L(R_s(R_z+R_2)+R_2R_z)}{R_z+R_s}
+\end{equation}\\
+
+The current flowing through the capacitor, ic, can be calculated as:\\
+
+\begin{equation}
+    i_c=i_d-i_L=u(\frac{V_2-V_a}{2}-V_{th})(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a-V_z+i_LR_z}{R_z+R_s}
+\end{equation}\\
+
+Thus, the resulting set of differential equations is:
+
+\begin{equation}
+    \begin{cases}
+        \frac{di_L}{dt}=\frac{1}{L}(\frac{R_zV_a+R_sV_z-i_L(R_s(R_z+R_2)+R_2R_z)}{(R_z+R_s)})\\
+        \frac{dV_a}{dt}=\frac{1}{C}(u(\frac{V_2-V_a}{2}-V_{th})(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a-V_z+i_LR_z}{R_z+R_s}),  \text{if } V_a-R_si_L \geq V_z
+    \end{cases}
+\end{equation}\\
+
+\large\textcolor{red}{Mode 4: Taking into account the scenario where both devices are activated, the circuit depicted in Figure (1.9) can be simplified as follows:}\\
+
+[insert figure 2.2]\\
+
+\emph{Figure 2.2 illustrates the simplified circuit configuration when a resistor load, resistor R, and an inductor are connected at the output. In this case, both devices are activated.}\\
+
+\textcolor{blue}{KCL at Node A:}\\
+\begin{equation}
+    i_d=i_c+i_s
+\end{equation}
+\begin{equation}
+    u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s}
+\end{equation}\\
+
+\textcolor{blue}{KCL at Node B:}\\
+\begin{equation}
+    i_s=i_z+i_L+i_{R_L}
+\end{equation}
+\begin{equation}
+    \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}u(V_b-V_z)+i_L+\frac{V_b}{R_L}
+\end{equation}\\
+
+\textcolor{blue}{KCL at Node C:}\\
+\begin{equation}
+    i_L=\frac{V_b-V_c}{R_2}
+\end{equation}\\
+
+As a result of connecting a resistor and an inductor, the current passing through the resistor Rs can be expressed as follows:\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{V_a-V_b}{R_s}=i_L+\frac{V_b}{R_L},  V_b<V_z\\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+i_L+\frac{V_b}{R_L},  V_b>V_z
+    \end{cases}
+\end{equation}\\
+
+Therefore, if $V_b < V_z$, the equation $V_b = V_a - \frac{i_L R_s}{R_s+R_L} R_L$ can be alternatively expressed as:\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{V_a-V_b}{R_s}=i_L+\frac{V_b}{R_L},  \frac{V_a-i_LR_s}{R_s+R_L}R_L<V_z\\
+        \frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+i_L+\frac{V_b}{R_L},  \frac{V_a-i_LR_s}{R_s+R_L}>V_z
+    \end{cases}
+\end{equation}\\
+
+Therefore, the Zener diode is in the cut-off state if $V_a - \frac{i_L R_s}{R_s+R_L} R_L < V_Z$. In this case, the resulting expressions describing the system are:\\
+
+
+[this below system of equations needs to be check, specifically the = $i_c+i_s$ that eugene has. Should it be $i_s+i_L$ and the value for $i_s $]
+\begin{equation}
+    \begin{cases}
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=i_s+i_L\\
+        i_s=\frac{V_a-V_b}{R_s}=i_L+\frac{V_b}{R_L}
+        i_c=C\frac{dV_a}{dt}\\
+        V_c=L\frac{di_L}{dt}\\
+        i_s=\frac{V_a-V_b}{R_s}=\frac{V_b-V_z}{R_z}+i_L\\
+        V_c=V_b-R_2i_L
+    \end{cases}
+\end{equation}\\
+
+Therefore, the output voltage, Vb, can be expressed as:\\
+
+\begin{equation}
+    V_b=\frac{V-a-i_LR_s}{R_s+R_L}R_L
+\end{equation}\\
+
+Therefore, the voltage across the inductor can be described as:\\
+
+\begin{equation}
+    V_c=V_b-R_2i_L=\frac{V_a-i_LR_s}{R_s+R_L}R_L-R_2i_L
+\end{equation}\\
+
+Moreover, the current flowing through the resistor Rs can be expressed as:\\
+
+\begin{equation}
+    i_s=i_L+\frac{V_b}{R_L}=i_L+\frac{V_a-i_LR_s}{R_s+R_L}=\frac{V_a+i_LR_L}{R_s+R_L}
+\end{equation}\\
+
+Furthermore, the current flowing through the capacitor can be described as:\\
+
+\begin{equation}
+    i_c=i_d-i_s=u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a+i_LR_L}{R_s+R_L}
+\end{equation}\\
+
+Consequently, the resulting set of differential equations can be expressed as:\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{di_L}{dt}=\frac{1}{L}(\frac{V_aR_L-i_L(R_s(R_L+R_2)+R_LR_2)}{(R_L+R_s)})\\
+        \frac{dV_a}{dt}=\frac{1}{C}(u(\frac{V_2-V_a}{2}-V_{th})(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a+i_LR_L}{R_L+R_s}),  \text{if } \frac{V_a-i_LR_s}{R_s+R_L}R_L<V_z
+    \end{cases}
+\end{equation}\\
+
+In the event that the Zener diode is subjected to reverse bias, and the condition $V_a - \frac{i_L R_s}{R_s+R_L} R_L \geq V_Z$ is satisfied, the system can be described by the following expressions:\\
+
+\begin{equation}
+    \begin{cases}
+        u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=i_s+i_L\\
+        i_s=\frac{V_a-V_b}{R_s}=i_L+\frac{V_b}{R_L}
+        i_c=C\frac{dV_a}{dt}\\
+        V_c=L\frac{di_L}{dt}\\
+        V_c=V_b-R_2i_L
+    \end{cases}
+\end{equation}\\
+
+Therefore, the resulting output voltage, Vb, can be expressed as:\\
+
+\begin{equation}
+    V_b=\frac{V_aR_z+V_zR_s-i_LR_sR_z}{R_zR_s+R_LR_z+R_sR_L}R_L
+\end{equation}\\
+
+As a result, the voltage across the inductor can be denoted as:\\
+
+\begin{equation}
+    V_c=V_b-R_2i_L=\frac{V_aR_z+V_zR_s-i_LR_sR_z}{R_zR_s+R_LR_z+R_sR_L}R_L-R_2i_L
+\end{equation}\\
+
+Additionally, the current flowing through resistor Rs can be described as:\\
+
+\begin{equation}
+    i_s=\frac{V_a(R_z+R_L)-V_zR_L+i_LR_LR_z}{R_zR_s+R_LR_z+R_sR_L}
+\end{equation}\\
+
+Moreover, the current flowing through the capacitor can be expressed as:\\
+
+\begin{equation}
+    i_c=i_d-i_s=u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a(R_z+R_L)-V_zR_L+i_LR_zR_L}{R_zR_s+R_LR_z+R_sR_L}
+\end{equation}\\
+
+Consequently, the resulting set of differential equations can be summarized as:\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{di_L}{dt}=\frac{1}{L}(\frac{V_aR_z+V_zR_s-i_LR_sR_z}{R_zR_s+R_LR_z+R_sR_L})\\
+        \frac{dV_a}{dt}=\frac{1}{C}(u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a(R_z+R_L)-V_zR_L+i_LR_zR_L}{R_zR_s+R_LR_z+R_sR_L}),  \text{if } \frac{V_a-i_LR_s}{R_s+R_L}R_L \geq V_z
+    \end{cases}
+\end{equation}\\
+
 
 
