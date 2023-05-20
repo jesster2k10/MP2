@@ -11,6 +11,7 @@ The values of the circuit components are presented in the table below. Where the
        $R_s$ & $300\Omega$ & $10\%$ & $330\Omega$ & $270\Omega$ \\
        $R_{L_1}$ & $65.7\Omega$ & $0\%$ & $65.7\Omega$  & $65.7\Omega$ \\
        $R_{L_2}$ & $287\Omega$ & $0\%$ & $287\Omega$ & $287\Omega$ \\
+       $R_b$ & $3.2 \Omega$ & $0\%$ & $3.2 \Omega$ & $3.2 \Omega$ \\
        $L_L$ & $0.01058 H$ & $0\%$ & $0.01058 H$ & $0.01058 H$ \\\hline
     \end{tabular}
     \caption{Circuit component values and their variances}
@@ -153,30 +154,30 @@ Consider the behaviour of the diode inside the bridge rectifier:
 	\item The maximum charging current occurs during the first peak of the sinusoidal wave, which occurs in the first half cycle: $$0 < t < \frac{T}{2}$$ where T is the period of the sinusoid $T=\frac{1}{f}$
 \end{itemize} 
 
-Using nodal analysis, derive an expression for the current flowing through the capacitor. Considering the ideal capacitor model in Equation \ref{eq:ideal_capacitor}
+The rate of change of the capacitor voltage ($\frac{dV_c}{dt}$) is the difference across the input and output terminals,
 \begin{align}
-	i = C\frac{dV_c}{dt}
+	\frac{dV_c}{dt} = \frac{V_{in}(t) - 2V_{th} - V_c}{2R_b}
+	\label{eq:dvc_dt}
 \end{align}
-The rate of change of the capacitor voltage is the difference across the input and output terminals,
+The input voltage $V_{in}(t)$ is stepped down by a factor of 20 due to the rectifier being connected to the LV-side of the ideal transformer (see Figure \ref{fig:powersupply}). Hence it's amplitude $A$ is given by $A = \frac{230\sqrt{2}}{20}$.\\
+
+Substituting [\ref{eq:dvc_dt}] into the ideal capacitor model in [\ref{eq:ideal_capacitor}], derive a first-order ODE of $V_c(t)$
 \begin{align}
-	C\frac{dV_c}{dt} = \frac{V_{in}(t) - 2V_{th} - V_c}{2R_b}
-\end{align}
-Rearrange the above expression as a first-order non-homogenous linear differential equation,
-\begin{align}
-	Q\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) - 1.4
+	2R_bC\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) - 1.4
 	\label{eq:diff}
 \end{align}
-where $Q = 2R_bC$, $A = 230\sqrt{2}$, $\omega = 100\pi$.
+where $A$ is the amplitude of $V_{in}(t)$, $\omega = 100\pi$. To solve the ODE, split it into homogenous and non-homogenous parts. \\
 
-\subparagraph{Solution to ODE} To solve the ODE in Equation \ref{eq:diff} split into homogenous and non-homogenous parts. The homogenous part of this equation (.i.e. excluding the sinusoidal term) is:
+The homogenous part of this equation (.i.e. excluding the sinusoidal term) is:
 \begin{equation}
-	Q\frac{dV_c}{dt} + V_c(t) = 0
+	2R_bC\frac{dV_c}{dt} + V_c(t) = 0
 \end{equation}
 which has a solution in the form
 \begin{equation}
-	V_c(t) = Be^{\frac{-t}{a}}
+	V_c(t) = Be^{-t\bracket{\frac{1}{2R_bC}}}
 \end{equation}
 where $B$ is an arbitrary constant to be determined by the initial conditions. 
+\\
 
 The non-homogenous part of the equation is defined over the interval $0 \leq t \leq \frac{T}{2}$ and is a sinusoid:
 \begin{equation}
@@ -187,75 +188,107 @@ To find the particular solution, assume a solution in the form:
 	V_c(t) = M\text{sin}(\omega t) + N\text{cos}(\omega t) 
 	\label{vc_t}
 \end{equation}
-where $M$, $Z$ and $N$ are arbitrary constants to be determined by initial conditions. 
-
-\pagebreak
-To determine the constants $B$, $M$, $N$ apply the initial condition $V_c(0) = 0$. This is because at time $t=0$ the capacitor is uncharged:
-
-\begin{equation}
-	\begin{split}
-		0 = Be^{0} + M\text{sin}(0) + N\text{cos}(0) \\
-		  = B + N + Z \\
-		  \therefore B = -N
-	\end{split}
-\end{equation} 
-
-Consider the derivative $\frac{dV_c}{dt}$ for the lefthand side of the differential equation:
-\begin{equation}
-	\frac{dV_c}{dt} = \omega M\text{cos}(\omega t) - \omega N\text{sin}(\omega t)
-	\label{dvc_dt}
-\end{equation}
-
-Substitute Eq \ref{dvc_dt}, \ref{vc_t} into the original equation [Eq: \ref{eq:diff}]
-\begin{equation}
-	Q\sbracket{\omega M\text{cos}(\omega t) - \omega N\text{sin}(\omega t)} + M\text{sin}(\omega t) + N\text{cos}(\omega t) = A\text{sin}(\omega t) - 1.4
-\end{equation}
-
-This needs to hold for all $t$. Equate coefficients for sin and cos separately. 
-\begin{equation}
-	\begin{split}
-		\text{sin}(\omega t): Q(-\omega N) + M = A \\
-		\text{cos}(\omega t): Q\omega M + N = 0
-	\end{split}
-\end{equation}
+where $M$ and $N$ are arbitrary constants to be determined by initial conditions.\\
 
 The solution to the ODE $V_c(t)$ is the combination of the homogenous and non-homogenous solutions
 \begin{equation}
-	V_c(t) = Be^{ta^{-1}} + M\text{sin}(\omega t) + N\text{cos}(\omega t) - 1.4
+	V_c(t) = Be^{-t\bracket{\frac{1}{2R_bC}}} + M\text{sin}(\omega t) + N\text{cos}(\omega t) - 1.4
+\end{equation}
+At time $t=0$ the capacitor is uncharged. Thus, the initial condition holds $V_c(0) = 0$
+
+Define $p$ as $2R_bC$. The given ordinary differential equation [\ref{eq:diff}] can then be written as:
+\begin{align}
+p\frac{dV_c}{dt} + V_c(t) = A\sin(\omega t) - 1.4
+\end{align}
+
+The initial condition $V_c(0) = 0$ translates to:
+\begin{equation}
+B + N - 1.4 = 0
 \end{equation}
 
-%Determine the phase shift of $V_{in}$ to account for this initial condition:
-%\begin{equation}
-%	\begin{split}
-%		V_{in}(t=0) = 230\sqrt{2}sin(100\pi (0) + \phi)
-%	\end{split}
-%\end{equation}
-%Apply equation \ref{eq:diff} at $t=0$
-%\begin{equation}
-%\begin{split}
-%	1.4  &= 230\sqrt{2}sin(\phi) \\
-%	\phi &= sin^{-1}\bracket{\frac{1.4}{230\sqrt{2}}} \\
-%		 &= 0.00430
-%\end{split}
-%\end{equation}
-%Hence, the ODE in Equation \ref{eq:diff} becomes,
-%\begin{equation}
-%	a\dot{V_c} + V_c = 230\sqrt{2}sin(100\pi t + 0.00430) - 1.4
-%	\label{eq:ode_diode}
-%\end{equation}
-%Given system parameters in Table \ref{tab:component_values},
-%\begin{equation}
-%	a = 2(0.0022)(3.2)
-%	  = 0.01408
-%\end{equation}
-%
-%\pagebreak
-%Solving equation \ref{eq:ode_diode} using Wolfram Alpha yields:
-%
-%\begin{equation}
-%	V_c(t) = e^{-71.022t} - 1.331
-%\end{equation}
+The derivative of this non-homogeneous part of the ODE [\ref{vc_t}] is:
+\begin{equation}
+\frac{dV_c}{dt} = M\omega\cos(\omega t) - N\omega\sin(\omega t)
+\end{equation}
 
-\subsubsection{Comparison to Shockley Diode}
+Substituting the derivative of $V_c(t)$ and $V_c(t)$ into the non-homogeneous ODE yields:
+\begin{align}
+p(M\omega\cos(\omega t) - N\omega\sin(\omega t)) + (M\sin(\omega t) + N\cos(\omega t)) &= A\sin(\omega t) - 1.4
+\end{align}
+
+This simplifies to:
+\begin{align}
+pM\omega\cos(\omega t) - pN\omega\sin(\omega t) + M\sin(\omega t) + N\cos(\omega t) &= A\sin(\omega t) - 1.4
+\end{align}
+
+To satisfy this equation for all $t$, the coefficients of $\sin(\omega t)$ and $\cos(\omega t)$ on the left-hand side must match those on the right-hand side. This results in a system of equations:
+\begin{align}
+pM\omega + N &= 0\\
+-pN\omega + M &= A
+\end{align}
+
+Solving this system yields $M$ and $N$. Substituting $M$ into the first equation provides $N$:
+\begin{align}
+N &= -pM\omega\\
+-p(-pM\omega)\omega + M &= A\\
+p^2M\omega^2 + M &= A
+\end{align}
+
+Solving for $M$ gives:
+\begin{equation}
+M = \frac{A}{p^2\omega^2 + 1}
+\end{equation}
+
+Substituting $M$ back into the first equation yields $N$:
+\begin{equation}
+N = -pM\omega = -p\frac{A}{p^2\omega^2 + 1}\omega = -\frac{pA\omega}{p^2\omega^2 + 1}
+\end{equation}
+
+Using the initial condition $V_c(0) = 0$ and the equation $B + N - 1.4 = 0$, the value of $B$ is found to be:
+\begin{equation}
+B = 1.4 - N = 1.4 + \frac{pA\omega}{p^2\omega^2 + 1}
+\end{equation}
+
+Consequently, the constants $B$, $M$, and $N$ are found to be:
+\begin{align}
+B &= 1.4 + \frac{pA\omega}{p^2\omega^2 + 1}\\
+M &= \frac{A}{p^2\omega^2 + 1}\\
+N &= -\frac{pA\omega}{p^2\omega^2 + 1}
+\end{align}
+Substitute the values for $p=2R_bC=0.01408$, $A=\frac{230\sqrt{2}}{20}$ and $\omega=100\pi$:
+\begin{align}
+	B &= 1.4 + \frac{(0.01408)(\frac{230\sqrt{2}}{20})(100\pi)}{(0.01408)^2(100\pi)^2 + 1}\\
+	M &= \frac{\frac{230\sqrt{2}}{20}}{(0.01408)^2(100\pi)^2 + 1}\\
+	N &= -\frac{(0.01408)(\frac{230\sqrt{2}}{20})(100\pi)}{(0.01408)^2(100\pi)^2 + 1}
+\end{align}
+Thus, the constants $B, M, N$ are expressed numerically as,
+\begin{align}
+	B &= 4.897 \\
+	M &= 0.7907 \\
+	N &= -3.497
+\end{align}
+Finally derive the solution for $V_c(t)$:
+\begin{equation}
+	V_c(t) = 4.897e^{-71.0227t} + 0.7907\text{sin}(100\pi t) -3.497\text{cos}(100\pi t) - 1.4
+	\label{eq:capacitor_voltage}
+\end{equation}
+Hence, determine the capacitor current $i_c(t)$ referring to Equation \ref{eq:ideal_capacitor}
+\begin{equation}
+	\begin{split}
+		i_c(t) &= 0.0022\sbracket{-71.0227(4.897)e^{-71.0227t} + 100\pi*0.7907\cos(100\pi t) + 100\pi*3.497\sin(100\pi t)} \\
+			   &=-0.7651e^{-71.0227t} + 0.5464\cos(100\pi t) + 2.41695\sin(100\pi t)
+	\end{split}
+\end{equation}
+
+\pagebreak
+The maximum current can be determined graphically by plotting $i_c(t)$ over the interval $0 < t < \frac{T}{2}$
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{graphics/diode_current.png}
+	\caption{$V_c(t)$ and $i_c(t)$ plot over a half period}
+	\label{fig:diode_current}
+\end{figure}
+The graph above gives a reasonable approximation of the maximum current $1.917A$ flowing through the signal diode in forward bias. The piecewise-linear diode model approximates the behaviour of the Shockley diode for a current range up to $\simeq 3.834A$.
 
 \subsubsection{Zener Diode}
+
