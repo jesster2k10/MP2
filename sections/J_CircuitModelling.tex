@@ -317,7 +317,7 @@ Thus, the resulting set of differential equations is:
     i_d=i_c+i_s
 \end{equation}
 \begin{equation}
-    u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d}=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s}
+    u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})=C(\frac{dV_a}{dt}+\frac{V_a-V_b}{R_s})
 \end{equation}\\
 
 \textcolor{blue}{KCL at Node B:}\\
@@ -395,7 +395,7 @@ Consequently, the resulting set of differential equations can be expressed as:\\
 \begin{equation}
     \begin{cases}
         \frac{di_L}{dt}=\frac{1}{L}(\frac{V_aR_L-i_L(R_s(R_L+R_2)+R_LR_2)}{(R_L+R_s)})\\
-        \frac{dV_a}{dt}=\frac{1}{C}(u(\frac{V_2-V_a}{2}-V_{th})(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a+i_LR_L}{R_L+R_s}),  \text{if } \frac{V_a-i_LR_s}{R_s+R_L}R_L<V_z
+        \frac{dV_a}{dt}=\frac{1}{C}(u(\frac{V_2-V_a}{2}-V_{th})(\frac{\frac{V_2-V_a}{2}-V_{th}}{R_d})-\frac{V_a+i_LR_L}{R_L+R_s}),  \text{if } \frac{V_a-i_LR_s}{R_s+R_L}R_L<V_z
     \end{cases}
 \end{equation}\\
 
