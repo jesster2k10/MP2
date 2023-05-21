@@ -1,5 +1,264 @@
 \section{Numerical Analysis}
 \subsection{Classic Runge-Kutta Method}
+
+Belonging to a family of iterative methodologies, Runge-Kutta methods, particularly the fourth-order variant (RK4), serve as prominent tools for numerically addressing differential equations. RK4 finds widespread use due to its efficacy in generating solutions to ordinary differential equations (ODEs) that may otherwise be challenging or impractical to solve analytically.
+
+The crux of the Runge-Kutta method lies in using derivative evaluations at several junctures within a designated time step to project an estimate for the function's value at the succeeding step. This is achieved by approximating the Taylor series up to the order of the step size, which is conventionally represented by 'h'.
+
+To illustrate, for a first-order ODE defined as $y' = f(t, y)$, the application of RK4 to progress from time $t$ to $t + h$ would involve the following steps:
+
+\begin{equation}
+\begin{aligned}
+k_1 &= h \cdot f(t, y), \\
+k_2 &= h \cdot f(t + \frac{h}{2}, y + \frac{k_1}{2}), \\
+k_3 &= h \cdot f(t + \frac{h}{2}, y + \frac{k_2}{2}), \\
+k_4 &= h \cdot f(t + h, y + k_3), \\
+y(t + h) &= y(t) + \frac{1}{6} \cdot (k_1 + 2k_2 + 2k_3 + k_4).
+\end{aligned}
+\end{equation}
+
+In this instance, the calculated 'k' values represent estimations of the function's slope at diverse points within the time step. The method essentially involves crafting a weighted mean of these slopes to derive the next value.\\
+
+Let us define the next step in the solution, $y_{n+1}$, by the equation
+\begin{equation}
+y_{n+1} = y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4) \quad (3.1)
+\end{equation}
+Here, $h$ represents the increment in the value of $t$ at each step.
+
+The coefficients $k_i$ denote the slopes at different points in the time step and are defined as follows:
+\begin{equation}
+f(t, y) = \frac{dy}{dt}\bigg|_{(t, y)} = y'(t, y) \quad (3.2)
+\end{equation}
+\begin{align*}
+k_1 &= f(t_n, y_n), &\text{initial slope using Euler's method},\\
+k_2 &= f \left(t_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right), &\text{slope at the midpoint using $y$ and $k_1$},\\
+k_3 &= f \left(t_n + \frac{h}{2}, y_n + \frac{k_2}{2}\right), &\text{slope at the midpoint using $y$ and $k_2$},\\
+k_4 &= f(t_n + h, y_n + k_3), &\text{slope at the end of the interval using $y$ and $k_3$}.
+\end{align*}
+
+These coefficients are defined for $n = 0, 1, 2, 3, \ldots$ . It can be clearly observed that this method bestows higher weights to the midpoint slopes during the computation of their weighted average.
+
+RK4 can be conveniently extended to cater to systems of ordinary differential equations by replacing $y_n$ with the corresponding vector of unknowns.
+
+Four distinctive scenarios are to be considered, each featuring diverse loads connected to the DC rectifier. These will be thoroughly analyzed individually. In the derivation of the equations, an emphasis is placed on optimizing them to incorporate a minimal number of operations. The priority order is addition, multiplication, and division, enabling a reduction in the utilized machine cycles.
+
+\begin{center}
+\Large Establishing Initial Conditions for the Runge-Kutta Algorithm
+\end{center}\\
+
+The Runge-Kutta algorithm, like any other method used for numerically solving ordinary differential equations, requires predefined initial conditions to initiate its iteration process. These initial conditions serve as the springboard for the subsequent calculations. In the context of an electrical circuit, these conditions are established based on the state of the system at the start time, typically denoted as t = 0s.
+
+For a circuit that has been left in a stationary state before power supply is connected, we can infer that all transient effects have subsided and the system is in a state of equilibrium. As such, it's reasonable to assume that the capacitor in the circuit is completely discharged, indicating a zero voltage across it. Similarly, no currents are flowing through the circuit elements as no potential difference exists to drive them. These constitute the initial conditions at the outset for the Runge-Kutta algorithm's iterations.
+
+\begin{center}
+    \Large No-Load Behavior and Single Reactive Element Analysis
+\end{center}\\
+
+
+Under a no-load condition, where the output is an open circuit, the system exhibits a distinct behavior. In such cases, it is evident that the system involves a single reactive element, specifically a capacitor. Consequently, the complexity of the system is reduced, and it can be described by a single ordinary differential equation (ODE). This ODE captures the relationship between the variables \(y\) and its derivative \(y'\), serving as a fundamental equation governing the system's behavior in the absence of a load. By analyzing and solving this ODE, we can gain insights into the dynamics and characteristics of the system when it operates without any external load connected to it.\\
+
+Consequently, we can express the resulting equations for \(y\) and \(y'\) (the derivatives of \(y\)) as follows:\\
+
+\begin{equation}
+    y=[V_a]    
+\end{equation}\\
+
+\begin{equation}
+    y'=[\frac{dV_a}{dt}]=[\frac{i_c}{C}]
+\end{equation}\\
+
+The expression for $y'$ of the Zener diode in the reverse-biased state can be obtained by utilizing Equation (1.65):
+
+\begin{equation}
+    \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_2 \geq V_z
+\end{equation}\\
+
+\begin{equation}
+    => y'=\frac{1}{C}[(u(\frac{V_2-e_2}{2}-V_{th})(\frac{\frac{V_2-e_2}{2}-V_{th}}{R_b})-\frac{V_a-V_z}{R_s+R_z}]
+\end{equation}\\
+
+The expression for $y'$ of the Zener diode in the cut-off state can be obtained by utilizing Equation (1.58):
+
+\begin{equation}
+     \frac{d(e_2)}{dt}=\frac{1}{C} \sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}} \cdot u\bracket{\frac{e_1-e_2}{2}-V_{th}}} \hspace{0.5cm} \text{for} \hspace{0.1cm} e_2 < V_z
+    \label{eq:de2dt_reverse_bias}
+\end{equation}\\
+
+\begin{equation}
+    =>y'=\frac{1}{C}[u(\frac{V_2-V_a}{2}-V_t)\frac{\frac{V_2-V_a}{2}-V_t}{R_d}]
+\end{equation}\\
+
+The voltage of the capacitor for the next iteration in the Runge-Kutta algorithm can be calculated using Equations (2.7) and (2.9), taking into account the state of the Zener diode. Additional parameters can be determined by considering the input voltages $V_2$ and Va at each iteration.
+
+To evaluate the state of the Zener diode, the voltage across it is examined at the beginning of each iteration. If this voltage is equal to or exceeds the threshold voltage $V_z$ of the Zener diode, it is considered to be in a reverse bias state. Conversely, if the voltage is below this threshold, the diode is in a cut-off state. The expression to calculate the voltage across the Zener diode at any given time can be derived from Equation (2.3).
+
+\begin{equation}
+    V_b=\begin{cases}
+        V_a, V_b \leq V_z\\
+        \frac{V_aR_z+V_zR_s}{R_s+R_z}, V_b>V_z
+    \end{cases}
+\end{equation}\\
+
+The equation (2) can be utilized to determine the current flowing through the Zener diode:\\
+
+\begin{equation}
+    i_z=\frac{V_b-V_z}{R_z}u(V_b-V_z)
+\end{equation}\\
+
+In this scenario, the current flowing through the resistor Rs is equal to the current passing through the Zener diode. However, an alternative approach to determine this current through the resistor can also be derived using:\\
+
+\begin{equation}
+    i_s=\frac{V_a-V_b}{R_s}
+\end{equation}\\
+
+The Equation (1.9) provides the necessary information to determine the current through the diodes:\\
+
+\begin{equation}
+    i_d=u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-V_a}{2}-V_t}{R_d})
+\end{equation}\\
+
+The current through the capacitor can be expressed as follows:\\
+
+\begin{equation}
+    i_c=i_s-i_d
+\end{equation}\\
+
+When considering a resistive load, the characteristics and behavior of the system can be further elaborated. Unlike reactive elements, such as capacitors or inductors, which introduce phase shifts and complex dynamics, resistive loads primarily consist of resistive elements like resistors. These resistive elements do not cause significant phase differences and primarily dissipate electrical energy as heat.
+
+In the specific scenario of a resistive load, the system's equations and calculations revolve around the properties of resistive elements. These elements allow for simpler and more direct mathematical representations, enabling easier analysis and understanding of the system's behavior. By incorporating the appropriate equations and considering the characteristics of resistive loads, we can gain valuable insights into the system's performance, stability, and overall dynamics under these conditions.
+
+In scenarios where it is evident that only one reactive element, specifically a capacitor, is present, the system can be effectively described by a single ordinary differential equation (ODE). Consequently, the resulting equations for $y$ and $y'$ can be expressed as follows:
+
+\begin{equation}
+    y=[V_a]
+\end{equation}\\
+
+\begin{equation}
+    y'=[\frac{dV_a}{dt}]=[\frac{i_c}{C}]
+\end{equation}\\
+
+The equation (1.78) provides the derived expression for $y'$ of the Zener diode in its reverse-biased state.\\
+
+\begin{equation}
+    \frac{de_2}{dt}=\frac{1}{C}\left(u\left(\frac{V_2-e_2}{2}-V_{th}\right)\left(\frac{\frac{V_2-e_2}{2}-V_{th}}{R_b}\right)-\frac{e_2(R_L+R_z)-R_LV_Z}{R_zR_L+R_s(R_z+R_L)}\right), \text{if } \frac{R_Le_2}{R_s+R_L} \geq V_z
+\end{equation}\\
+
+\begin{equation}
+    =>y'=\frac{1}{C}[u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-V_a}{2}}{R_d}-\frac{e_2(R_L+R_z)-R_LV_Z}{R_zR_L+R_s(R_z+R_L)})]
+\end{equation}
+
+The equation (1.65) yields the determined value for $y'$ of the Zener diode when it is in the cut-off state:\\
+
+\begin{equation}
+    \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_2 \geq V_z
+\end{equation}
+
+\begin{equation}
+    y'=\frac{1}{C}[u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-V_a}{2}-V_t}{R_d}-\frac{V_a}{(R_s+R_L)}]
+\end{equation}\\
+
+The equations (3.4.3) and (3.4.4) provide a means to calculate the voltage at the capacitor for the next iteration using the Runge-Kutta method, taking into account the state of the Zener diode. Additional parameters can be determined by utilizing the input voltages V2 and Va at each iteration.
+
+The condition for the Zener modes remains the same as described previously. In this particular case, the expression for Vb can be derived using Equation (2.8.2).\\
+
+\begin{equation}
+    V_b=\begin{cases}
+        \frac{\frac{V_a}{R_s}}{\frac{1}{R_s+\frac{1}{R_L}}}, V_b \leq V_z\\
+        \frac{\frac{V_a}{R_s}+\frac{V_z}{R_z}}{\frac{1}{R_s}+\frac{1}{R_L}+\frac{1}{R_z}}, V_b>V_z
+    \end{cases}=\begin{cases}
+        \frac{R_LV_a}{R_s+R_L}, V_b \leq V_z\\
+        \frac{R_zV_a+R_sV_z}{\frac{R_zR_s}{R_L}+R_z+R_s}, V_b>V_z
+    \end{cases}
+\end{equation}\\
+
+The expression for the current flowing through the load resistance $R_L$ can be expressed as:\\
+
+\begin{equation}
+    I_{R_L}=\frac{V_b}{R_L}
+\end{equation}\\
+
+All other parameters can be determined using the previously derived equations.
+
+ the circuit under consideration involves two reactive elements, namely an inductor and a capacitor. This leads to a more complex system that can be described by a system of ordinary differential equations (ODEs). Consequently, the resulting equations for the vectors $y$ and $y'$, which represent the variables and their derivatives, can be formulated to capture the behavior of the circuit. Taking into account the inductive and capacitive elements, the analysis of this system requires an understanding of the dynamics, interactions, and interplay between these reactive components. By solving the system of ODEs, we can gain insights into the voltage and current relationships, energy transfers, and the overall behavior of the circuit under the influence of both the inductor and the capacitor.\\
+
+In this scenario, the circuit comprises both an inductor and a capacitor as reactive elements. As a result, it is represented by a system of ODEs, where the equations involving the vectors $y$ and $y'$ describe its behavior. Solving these equations provides insights into the circuit's voltage-current relationships and energy dynamics.\\
+
+\begin{equation}
+    y=[\frac{V_a}{I_L}]
+\end{equation}\\
+
+\begin{equation}
+    y'=[\begin{cases}
+        \frac{dV_a}{dt}\\
+        \frac{dI_L}{dt}
+    \end{cases}]=[\begin{cases}
+        \frac{i_c}{C}\\
+        \frac{V_c}{L}
+    \end{cases}]
+\end{equation}\\
+
+The equation (1.94) yields the derived expression for $y'$ of the Zener diode in its reverse-biased state:\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{di_L}{dt}=\frac{1}{L}(\frac{R_ze_2+R_sV_z-i_L(R_s(R_z+R_2)+R_2R_z)}{(R_z+R_s)})\\
+        \frac{de_2}{dt}=\frac{1}{C}(u(\frac{V_2-e_2}{2}-V_{th})(\frac{V_2-e_2}{2}-V_{th})(\frac{\frac{V_2-e_2}{2}-V_{th}}{R_b})-\frac{e_2-V_z+i_LR_z}{R_z+R_s}),  \text{if } e_2-R_si_L \geq V_z
+    \end{cases}
+\end{equation}\\
+
+\begin{equation}
+    y'=[\begin{cases}
+        \frac{1}{C}(u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-V_a}{2}-V_t}{R_d}-\frac{V_a-V_z+i_LR_z}{(R_z+R_s)})\\
+        \frac{1}{L}(\frac{R_zV_a+R_sV_z-i_L(R_s(R_z+R_2)+R_2R_z)}{R_z+R_s})
+    \end{cases}]
+\end{equation}\\
+
+The equation (1.89) provides the determined expression for $y'$ of the Zener diode when it is in the cut-off state.\\
+
+\begin{equation}
+    \begin{cases}
+        \frac{di_L}{dt}=\frac{1}{L}(e_2-(R_s+R_2)i_L)\\
+        \frac{de_2}{dt}=\frac{1}{C}\left(u\left(\frac{V_2-e_2}{2}-V_{th}\right)\left(\frac{V_2-e_2}{2}-V_{th}\right)\left(\frac{\frac{V_2-e_2}{2}-V_{th}}{R_b}\right)-i_L\right), \text{if } e_2-R_si_L<V_z
+    \end{cases}
+\end{equation}\\
+
+\begin{equation}
+    =>y'=[\begin{cases}
+        \frac{1}{C}(u(\frac{V_2-V_a}{2}-V_t)(\frac{\frac{V_2-V_a}{2}-V_t}{R_d}-I_L)\\
+        \frac{1}{L}(V_a-(R_s+R_2)I_L)
+    \end{cases}]
+\end{equation}\\
+
+Equations $(3.5.3)$ and $(3.5.4)$ provide a means to determine the voltage across the capacitor and the current flowing through the inductor at the next iteration within the Runge-Kutta algorithm. These calculations depend on the state of the Zener diode. Other parameters can be obtained by considering the input voltage $V_2$, $V_a$, and $I_L$ at each iteration.
+
+The conditions for the Zener modes remain consistent with what has been previously discussed. In this specific scenario, the value of $V_b$ can be derived from Equation $(2.14)$.\\
+
+
+[need to change this equation to equation 3.5.5 in eugenes]
+\begin{equation}
+    V_b=\begin{cases}
+        \frac{\frac{V_a}{R_s}}{\frac{1}{R_s+\frac{1}{R_L}}}, V_b \leq V_z\\
+        \frac{\frac{V_a}{R_s}+\frac{V_z}{R_z}}{\frac{1}{R_s}+\frac{1}{R_L}+\frac{1}{R_z}}, V_b>V_z
+    \end{cases}=\begin{cases}
+        \frac{R_LV_a}{R_s+R_L}, V_b \leq V_z\\
+        \frac{R_zV_a+R_sV_z}{\frac{R_zR_s}{R_L}+R_z+R_s}, V_b>V_z
+    \end{cases}
+\end{equation}\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Numerical Algorithim}
 \subsection{Timestep Scale}
 \subsection{Maximial Diode Current}
