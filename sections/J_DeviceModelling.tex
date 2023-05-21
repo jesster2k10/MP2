@@ -139,7 +139,7 @@ The Shockley diode presents a non-linear model of the diode's behaviour which co
 An ideal diode behaves as a switch–conducting current without any losses under forward bias, and completely blocking current under reverse bias. The biasing of a diode is determined by assessing whether the voltage drop across the diode is greater than its threshold voltage ($V_D \geq V_{th}$)
 
 \subparagraph{Ideal Diode}
-Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0.7 V$.  The current across diode can be represented analytically as:
+Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0.7 V$. \citep{silicionDiodeThresholdVoltage} The current across diode can be represented analytically as:
 \begin{equation}
     i_d = \begin{cases}
         \infty \hspace{1cm} &V_d \geq 0.7V \\
@@ -366,7 +366,7 @@ The maximum current can be determined graphically by plotting $i_c(t)$ over the 
 	\caption{$V_c(t)$ and $i_c(t)$ plot over a half period}
 	\label{fig:diode_current}
 \end{figure}
-The graph above gives a reasonable approximation of the maximum current $1.917A$ flowing through the signal diode in forward bias. The piecewise-linear diode model approximates the behaviour of the Shockley diode for a current range up to $\simeq 3.834A$.
+The graph above gives a reasonable approximation of the maximum current $1.917A$ flowing through the signal diode in forward bias. The piece-wise linear diode model approximates the behaviour of the Shockley diode for a current range up to $\simeq 3.834A$.
 
 \pagebreak
 \subsubsection{Zener Diode} An ideal zener diode behaves like an ideal diode for $v > -V_z$. At $v = -V_z$ it conducts current in the reverse direction. A zener diode can be modelled in the reverse breakdown region by the series combination of a voltage source $V_z$ and resistance $r_z$. 
@@ -382,7 +382,7 @@ The piece-wise linear approximation of the ideal diode can be applied to the zen
 	(3,1) to[nos,o-o] (3,0);
 \end{circuitikz}
     \caption{Piece-wise linear diode approximation of the zener diode}
-    \label{fig:piecewise_diode}
+    \label{fig:piecewise_zener}
 \end{figure}
 
 The resulting i-v characteristic is the same as the ideal diode,
