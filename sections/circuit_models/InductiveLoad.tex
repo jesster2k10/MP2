@@ -1,0 +1,32 @@
+\subsubsection{Inductive Load}
+\begin{figure}[H]
+	\centering
+	
+	\begin{circuitikz} [american voltages] \draw
+    
+    (0,0) to[vsourcesin, l=$V_{2}$] node[label=\textcircled{1}] {} (0,5)
+    (0,5) to[battery1, l=$2V_{th}$] (1.9,5)
+    (1.5,5) to[R,l=$2R_b$,i=$i_d$, v=$V_d$] (4.5,5)
+    (4.5,5) to[nos,o-o] (6,5)
+    
+    (6,5) node[label=\textcircled{2}] {} to[capacitor, i=$i_c$, l=$C$,v=$V_c$] (6,0)
+    
+    (6,5) to[R,l=$R_s$,i=$i_s$] (9,5)
+    
+    (9,5) node[label=\textcircled{3}] {} to[battery1, l=$V_z$] (9,4)
+    (9,4) to[R, l=$R_z$, i=$i_z$] (9,2)
+    (9,2) to[nos,o-o] (9,0.5)
+    (9,0.5) to[short] (9,0)
+    
+    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_2}$] (12,3)
+    (12,3) to[inductor,l=$L$] (12,0)
+    
+    (9,5) to[short,-o] (12,5)
+    (0,0) to[short] (12,0)
+    (6,0) node[ground]{} (5,-1);
+    
+    \end{circuitikz}
+	
+	\label{circ:resistive_load}
+	\caption{Power supply circuit with an inductive load $L$}
+\end{figure}
