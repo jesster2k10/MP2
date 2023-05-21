@@ -12,12 +12,25 @@ The values of the circuit components are presented in the table below. Where the
        $R_{L_1}$ & $65.7\Omega$ & $0\%$ & $65.7\Omega$  & $65.7\Omega$ \\
        $R_{L_2}$ & $287\Omega$ & $0\%$ & $287\Omega$ & $287\Omega$ \\
        $R_b$ & $3.2 \Omega$ & $0\%$ & $3.2 \Omega$ & $3.2 \Omega$ \\
+       $R_z$ & $4.85 \Omega$ & $0\%$ & $4.85 \Omega$ & $4.85 \Omega$ \\
+       $V_z$ & $6.2 V$ & $0\%$ & $6.2 V$ & $6.2 V$ \\
        $L_L$ & $0.01058 H$ & $0\%$ & $0.01058 H$ & $0.01058 H$ \\\hline
     \end{tabular}
     \caption{Circuit component values and their variances}
     \label{tab:component_values}
 \end{table}
+where,
+\begin{itemize}
+	\item $C$ is the capacitance value of the capacitor connected to the rectifier
+	\item $R_s$ is the resistance value of the resistor parallel to the capacitor
+	\item $R_{L_1}, R_{L_2}$ are one of the resistance values of the multi-mode load
+	\item $R_b$ is the bulk resistance of the ideal diode
+	\item $L_L$ is the inductance of the load
+	\item $R_z$ is the breakdown resistance of the zener diode
+	\item $V_z$ is the breakdown voltage of the zener diode
+\end{itemize}
 
+\pagebreak
 \subsection{Component Modelling}
 Each individual component in the circuit must be represented analytically. Circuit components are assumed to be ideal, .i.e. there is an absence of source resistance and or impedance. The model does not account for inexactitudes in component values that may be realised in a practical implementation. 
 
@@ -48,11 +61,51 @@ where $L$ is the inductance in Henry's, $\frac{di}{dt}$ is the rate of current c
 \end{equation}
 where $V$ is the voltage (V), $I$ is the current (A) and $R$ is the resistance ($\Omega$)
 
-\subsubsection{Switch} The switch is modelled as an ideal switch without any source resistance. The switch can be represented using a binary state .i.e. on or off. It is assumed that there is no propagation delay in the change of state and the effects are immediate. 
+\subsubsection{Switch} The switch is modelled as an ideal switch without any source resistance. The switch can be represented using a binary state .i.e. on or off. It is assumed that there is no propagation delay in the change of state and the effects are immediate. \\
+
+Analytically this can be described as the unit step function $u(t)$,
+\begin{equation}
+	u(t) = \begin{cases}
+		0 \hspace{0.5cm} t < 0, \\
+		1 \hspace{0.5cm} t < 1
+	\end{cases}
+	\label{eq:unit_step_function}
+\end{equation}
+This represents an instantaneous transition from "off" (0) to "on" (1) at $t=0$, which is the idealised model of a switch operation. 
+
+\begin{figure}[H]
+\centering	
+\begin{tikzpicture}
+\begin{axis}[
+    axis lines = middle,
+    xlabel = $t$,
+    ylabel = {$u(t)$},
+    ytick={0,1},
+    xtick={-2,0,2},
+    ymax = 1.5,
+    ymin = -0.5,
+    xmax = 3,
+    xmin = -3
+]
+\addplot[
+    domain=-3:0, 
+    samples=100, 
+    color=red,
+] {0};
+\addplot[
+    domain=0:3, 
+    samples=100, 
+    color=red,
+] {1};
+\end{axis}
+\end{tikzpicture}
+\caption{Unit step function $u(t)$}
+\end{figure}
 
 \subsubsection{Transformer} The transformer is assumed to be ideal with a turns ratio of $20:1$. The voltage at either side of the transformer can be determined from its common ideal representation
 \begin{equation}
     \frac{V_1}{V_2} = \frac{N_1}{N_2}
+    \label{eq:ideal_transformer}
 \end{equation}
 where $N_1=20$ is the number primary turns, $N_2=1$ is the number of secondary turns, $V_1$ is the primary voltage, $V_2$ is the secondary voltage.\\
 
@@ -96,8 +149,33 @@ Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0
 \end{equation}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=10cm]{graphics/diode_iv.png}
-    \caption{The ideal diode i-v characteristic. This graph assumes $V_{th}=0$}
+%    \includegraphics[width=10cm]{graphics/diode_iv.png}
+\begin{tikzpicture}
+\begin{axis}[
+    axis lines = middle,
+    xlabel = $V$ (V),
+    ylabel = $I$ (A),
+    ytick={0,1},
+    xtick={-1,0,0.7,1},
+    ymax = 1.5,
+    ymin = -0.5,
+    xmax = 1.5,
+    xmin = -1.5
+]
+\addplot[
+    domain=-1.5:0.7, 
+    samples=100, 
+    color=red,
+] {0};
+\addplot[
+    domain=0.7:1.5, 
+    samples=100, 
+    color=red,
+] {1};
+\draw[dashed] (axis cs:0.7,-0.5) -- (axis cs:0.7,1.5) node[pos=0.5, right] {$V_{T}$};
+\end{axis}
+\end{tikzpicture}
+    \caption{The ideal diode i-v characteristic}
     \label{fig:diode_iv_characterstic}
 \end{figure}
 The diode is represented as a cell ($V_{th}$) in series with a resistor ($R_b$) and an ideal switch. The current flowing into the switch is represented by $i_d$. This is the piece-wise linear approximation of the diode.
@@ -148,7 +226,7 @@ Consider the behaviour of the diode inside the bridge rectifier:
 \end{figure}
 
 \begin{itemize}
-	\item In a full-bridge rectifier, two diodes are used. One for each half of the cycle (.i.e. half the period of the input sinusoid). Thus, this inequality must be satisfied to ensure forward biasing $$V_d > 2V_{th} = V_d > 1.4V$$
+	\item In a full-bridge rectifier, two diodes are used. One for each half of the cycle (.i.e. half the period of the input sinusoid). \citep{rectifier} Thus, this inequality must be satisfied to ensure forward biasing $$V_d > 2V_{th} = V_d > 1.4V$$
 	\item The rectifier is being connected to a capacitor in Figure \ref{fig:powersupply}. When a capacitor is uncharged (.i.e. $V=0$) it behaves as a short circuit. In a DC circuit, the capacitor experiences maximal current at the instant the power supply is connected.
 	\item In an AC circuit (.i.e. with a sinusoidal input), the voltage changes over time, so the capacitor does not experience a sudden surge of voltage as it does in the DC circuit.
 	\item The maximum charging current occurs during the first peak of the sinusoidal wave, which occurs in the first half cycle: $$0 < t < \frac{T}{2}$$ where T is the period of the sinusoid $T=\frac{1}{f}$
@@ -290,5 +368,27 @@ The maximum current can be determined graphically by plotting $i_c(t)$ over the 
 \end{figure}
 The graph above gives a reasonable approximation of the maximum current $1.917A$ flowing through the signal diode in forward bias. The piecewise-linear diode model approximates the behaviour of the Shockley diode for a current range up to $\simeq 3.834A$.
 
-\subsubsection{Zener Diode}
+\pagebreak
+\subsubsection{Zener Diode} An ideal zener diode behaves like an ideal diode for $v > -V_z$. At $v = -V_z$ it conducts current in the reverse direction. A zener diode can be modelled in the reverse breakdown region by the series combination of a voltage source $V_z$ and resistance $r_z$. 
+\\
 
+The piece-wise linear approximation of the ideal diode can be applied to the zener resulting in
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}[american voltages] \draw
+ 	(0,5) node[label=A] {} to[ZZener diode,o-o,l=$V_z$,i=$i_z$] (0,0)
+	(3,5) node[label=A] {} to[battery1,o-,l=$V_{z}$] (3,4) 
+	(3,4) to[R, l=$R_z$, i_=$i_z$] (3,1)
+	(3,1) to[nos,o-o] (3,0);
+\end{circuitikz}
+    \caption{Piece-wise linear diode approximation of the zener diode}
+    \label{fig:piecewise_diode}
+\end{figure}
+
+The resulting i-v characteristic is the same as the ideal diode,
+\begin{equation}
+    i_z = \begin{cases}
+        \bracket{\frac{V_{A} - V_{z}}{R_z}} \hspace{1cm} &V_{A} \geq V_z \\
+        0 \hspace{1cm}   &V_{A} < V_z
+    \end{cases}
+\end{equation}

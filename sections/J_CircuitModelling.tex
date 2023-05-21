@@ -1,13 +1,54 @@
 \subsection{Circuit Modelling}
-Based on the previously discussed assumptions and Figure (1.9), the circuit can be reconfigured as depicted in Figure (2). To elucidate the performance of the circuit in all four load modes, the following equations can be employed:\\
+%Based on the previously discussed assumptions and Figure (1.9), the circuit can be reconfigured as depicted in Figure (2). To elucidate the performance of the circuit in all four load modes, the following equations can be employed:\\
+Reconfigure the circuit in Figure \ref{fig:powersupply} with the following adjustments:
+\begin{itemize}
+	\item The original circuit is taken from the LV side of the ideal transformer, thus, the AC voltage source is given by $V_2$ (referring to the ideal transformer model defined in Equation \ref{eq:ideal_transformer})
+	\item The bridge rectifier is taken as two half-rectifiers. One for each half of the cycle (.i.e. half the period of the input sinusoid)
+	\item The diodes have been replaced by their linearised models
+\end{itemize}
 
-[insert circuit diagram 1.7]\\
+\begin{figure}[H]
+	\centering
+	
+	\begin{circuitikz} [american voltages] \draw
+    
+    (0,0) to[vsourcesin, l=$V_{2}$] node[label=\textcircled{1}] {} (0,5)
+    (0,5) to[battery1, l=$2V_{th}$] (1.9,5)
+    (1.5,5) to[R,l=$2R_b$,i=$i_d$, v=$V_d$] (4.5,5)
+    (4.5,5) to[nos,o-o] (6,5)
+    
+    (6,5) node[label=\textcircled{2}] {} to[capacitor, l=$C$,v=$V_c$] (6,0)
+    
+    (6,5) to[R,l=$R_s$,i=$i_s$] (9,5)
+    
+    (9,5) node[label=\textcircled{3}] {} to[battery1, l=$V_z$] (9,4)
+    (9,4) to[R, l=$R_z$, i=$i_z$] (9,2)
+    (9,2) to[nos,o-o] (9,0.5)
+    (9,0.5) to[short] (9,0)
+    
+    (9,5) to[short] (12,5)
+    (12,5) node[label=\textcircled{4}] {} to[short] (12,4)
+    (12,4) to[nos,o-o] (12,3)
+    (12,3) to[R, l=$287\Omega$] (12,1)
+    (12,1) to[short] (12,0)
+    
+    (12,5) to[short] (13,5)
+    (13,5) to[nos,o-o] (14,5)
+    (14,5) to[short] (15,5)
+    
+    (15,5) node[label=\textcircled{5}] {} to[R,l=$65.7 \Omega$,i=$i_l$] (15,3)
+    (15,3) to[L,l=$105.8\text{mH}$] (15,0)
+    
+    (0,0) to[short] (15,0)
+    (7.5,0) node[label=\textcircled{0}] {} node[ground]{} (5,-1);
+    
+    \end{circuitikz}
+	
+	
+	\caption{Reconfigured power supply circuit with the multi-mode load}
+\end{figure}
 
-\emph{Figure 1.7: Power supply circuit with multimode load $R_L$}
-
-[insert circuit diagram 1.8]\\
-
-\emph{Figure 1.8: Modified circuit with implemented model of circuit elements}\\
+%% UNCHANGED %%
 
 The current analysis of the diodes involves utilizing the unit step function, which acts as a switch in the model. When in the on-state, the unit step function is set to 1, and when in the off-state, it is set to 0. This function can be defined as follows:
 
