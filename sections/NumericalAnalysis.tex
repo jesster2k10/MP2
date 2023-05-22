@@ -346,7 +346,7 @@ This implementation enables efficient and accurate simulation and analysis of th
 
 \emph{Figure 3.1: MATLAB Function M-File for Computing Voltages and Currents in the Circuit at Time n+1}\\
 
-\Large\textcolor{blue}{\textbf{Refining Timestep Selection for Accurate Circuit Analysis}}
+\Large{\textcolor{blue}{\textbf{Refining Timestep Selection for Accurate Circuit Analysis}}
 
 
 To determine an appropriate timestep for the numerical algorithm, the input to the circuit, in this case, is a mains signal with a frequency of 50 Hz. Through a process of trial and error, it was found that a timestep of 20 μs, resulting in 1000 cycles per second, is sufficient for accurate simulations. However, it is sensible to verify this choice by comparing the results with a smaller timestep, such as 10 μs, which is half the size of 20 μs. If the difference between the resulting waveforms produced by the RungeKuttaCircuit using both timesteps is negligible, it indicates that the chosen timestep size is acceptable.
