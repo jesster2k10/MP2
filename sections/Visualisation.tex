@@ -1,1 +1,54 @@
 \section{Visualisation}
+A dynamic user interface was created using MATLAB's GUIDE package to visualize the outcomes of the numerical method. The interface allows users to examine voltage nodes and measure the current across any component. When a specific element is probed, its voltage or current is plotted in real-time, resembling the behavior in LTspice. This functionality was implemented using MATLAB.
+
+\subsection{User Interface}
+
+*Include circuit  here
+
+
+\begin{itemize}
+    \item The user interface displayed in the figure exhibits several notable features, incorporating the circuit provided in the assignment brief with some modifications. These modifications include:
+\end{itemize}
+
+\begin{itemize}
+    \item Incorporation of an ammeter in series with the bridge rectifier, this allows for the user to measure the current flowing through the diode $i_d$
+\end{itemize}
+
+\begin{itemize}
+    \item Addition of a switch in series with the load resistor, allowing the user to connect or disconnect the load resistor as desired.
+\end{itemize}
+
+\begin{itemize}
+    \item Introduction of a series combination of a switch, resistor, and inductor in parallel with the load resistor. This arrangement allows for a simpler way to connect and disconnect the inductive load as required.
+\end{itemize}
+
+\begin{itemize}
+    \item Establishment of a ground node which is used as a reference in order to measure node voltages
+\end{itemize}
+
+\subsubsection{Measured Voltages}
+
+labelling the essential nodes is done to allow for probing of voltages displayed below
+
+$V_A$: The voltage across the capacitor relative to the ground.
+
+$V_B$: The voltage across the Zener diode relative to the ground.
+
+$V_C$: The voltage across the inductor relative to the ground.
+
+$V_D$: The voltage across the resistive load relative to the ground.
+
+$V_E$: The voltage across both the resistor $R_2$ and the inductor $L$ relative to ground.
+
+Several new elements were then added for the simulation of the circuit. 
+
+These elements are states as: 
+\begin{itemize}
+    \item Resistor and Inductor
+    \item Resistor
+    \item Inductor
+    \item None 
+    \item Switch
+\end{itemize}
+
+When the "Resistor and Inductor" is enabled, both the inductive load and resistive load are connected. When the "resistor" is enabled, the inductive load is disconnected and resistive load is connected. When the "Inductor" is enabled, the resistive load is disconnected and the inductive load is connected. When "None" is enabled, neither the resistive load or the inductive load are connected. When "Switch" is enabled, the switches are connected and disconnected in a way to satisfy the condition that the power supply is switched on when the time t=0, where the smoothing capacitor voltage as well as the current flowing through the inductor is zero, none of the loading devices are active, 
