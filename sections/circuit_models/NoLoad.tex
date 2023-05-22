@@ -106,10 +106,10 @@ In the first case of \eqref{eq:iz_condensed}, the Zener is in reverse bias. The 
 The above equations are a direct result of applying Kirchhoff's Current Law at node \textcircled{2} and considering the capacitor's current-voltage relationship. Consequently, the arising differential equation is given by:
 \begin{equation}
      \frac{d(e_2)}{dt}=\frac{1}{C} \sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}} \cdot u\bracket{\frac{e_1-e_2}{2}-V_{th}}} \hspace{0.5cm} \text{for} \hspace{0.1cm} e_2 < V_z
-    \label{eq:de2dt_reverse_bias}
+    \label{eq:noLoad_diffEq1}
 \end{equation}
 
-\eqref{eq:de2dt_reverse_bias} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse bias conditions when $e_2 < V_z$.
+\eqref{eq:noLoad_diffEq1} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse bias conditions when $e_2 < V_z$.
 
 \subparagraph{Forward Bias}
 In the condition where $e_2 \geq V_z$, the Zener diode transitions to a forward bias state. The circuit characteristics during this state are governed by the equations presented below.
@@ -143,5 +143,6 @@ The current through the capacitor can now be calculated using the following expr
 As a result, the differential equation that emerges from this is
 \begin{equation}
     \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_2 \geq V_z
+    \label{eq:noLoad_diffEq2}
 \end{equation}
 
