@@ -14,7 +14,7 @@ The values of the circuit components are presented in the table below. Where the
        $R_b$ & $3.2 \Omega$ & $0\%$ & $3.2 \Omega$ & $3.2 \Omega$ \\
        $R_z$ & $4.85 \Omega$ & $0\%$ & $4.85 \Omega$ & $4.85 \Omega$ \\
        $V_z$ & $6.2 V$ & $0\%$ & $6.2 V$ & $6.2 V$ \\
-       $L_L$ & $0.01058 H$ & $0\%$ & $0.01058 H$ & $0.01058 H$ \\\hline
+       $L$ & $0.01058 H$ & $0\%$ & $0.01058 H$ & $0.01058 H$ \\\hline
     \end{tabular}
     \caption{Circuit component values and their variances}
     \label{tab:component_values}
@@ -25,7 +25,7 @@ where,
 	\item $R_s$ is the resistance value of the resistor parallel to the capacitor
 	\item $R_{L_1}, R_{L_2}$ are one of the resistance values of the multi-mode load
 	\item $R_b$ is the bulk resistance of the ideal diode
-	\item $L_L$ is the inductance of the load
+	\item $L$ is the inductance of the load
 	\item $R_z$ is the breakdown resistance of the zener diode
 	\item $V_z$ is the breakdown voltage of the zener diode
 \end{itemize}
@@ -112,7 +112,7 @@ where $N_1=20$ is the number primary turns, $N_2=1$ is the number of secondary t
 
 The voltage at LV-side of the transformer is fed into the full-bridge rectifier. The secondary voltage $V_2$ is given by:
 \begin{equation}
-    V_2 = \frac{V_1N_2}{N_1}
+    V_2 = \frac{V_1N_2}{N_1} = \frac{V_1}{20}
 \end{equation}
 
 \subsubsection{Diode}
@@ -176,7 +176,7 @@ Assume that the diode is a silicon diode with a threshold voltage of $V_{th} = 0
 \draw[dashed] (axis cs:0.7,-0.5) -- (axis cs:0.7,1.5) node[pos=0.5, right] {$V_{T}$};
 \end{axis}
 \end{tikzpicture}
-    \caption{The ideal diode i-v characteristic}
+    \caption{The ideal silicon diode i-v characteristic}
     \label{fig:diode_iv_characterstic}
 \end{figure}
 The diode is represented as a cell ($V_{th}$) in series with a resistor ($R_b$) and an ideal switch. The current flowing into the switch is represented by $i_d$. This is the piece-wise linear approximation of the diode.

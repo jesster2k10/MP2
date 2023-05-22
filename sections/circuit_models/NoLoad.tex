@@ -40,7 +40,7 @@ Applying KCL to determine an expression for $i_d(t)$ at node \textcircled{2}
     	i_d(t) = i_c(t) + i_s
     \end{split}
 \end{equation}
-Apply the primary equation for $i_d(t)$ [Eq \ref{eq:diode_current}], the ideal capacitor model [Eq. \ref{eq:ideal_capacitor}] and Ohm's law,
+Apply the primary equation for $i_d(t)$ \eqref{eq:diode_current}, the ideal capacitor model \eqref{eq:ideal_capacitor} and Ohm's law,
 \begin{equation}
 	\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} = C \frac{d(e_2)}{dt} + \frac{e_2 - e_3}{R_s}
 	\label{eq:mode1_node2}
@@ -74,7 +74,7 @@ In the second case where \(e_2 \geq V_z\), the Zener diode is \textbf{forward bi
 \end{equation}
 
 \subparagraph{Reverse Bias}
-During the reverse bias state of the Zener diode, the voltage $e_3$ across the diode may fall below the Zener voltage $V_z$. The current $i_z$ flowing through the Zener diode under the no-load condition can be expressed as a function of $e_2$ and $e_3$ as given by Equation \ref{eq:mode1_node3},
+During the reverse bias state of the Zener diode, the voltage $e_3$ across the diode may fall below the Zener voltage $V_z$. The current $i_z$ flowing through the Zener diode under the no-load condition can be expressed as a function of $e_2$ and $e_3$ as given by \eqref{eq:mode1_node3},
 
 \begin{equation}
 	i_z = \begin{cases}
@@ -93,7 +93,7 @@ When $e_3 < V_z$, the voltage $e_2$ is equivalent to $e_3$ rendering the current
     \label{eq:iz_condensed}
 \end{equation}
 
-In the first case of Equation \ref{eq:iz_condensed}, the Zener is in reverse bias. The system's state can be described by:
+In the first case of \eqref{eq:iz_condensed}, the Zener is in reverse bias. The system's state can be described by:
 \begin{equation}
     \begin{split}
         i_c(t) &= C\frac{d(e_2)}{dt} \\
@@ -109,7 +109,7 @@ The above equations are a direct result of applying Kirchhoff's Current Law at n
     \label{eq:de2dt_reverse_bias}
 \end{equation}
 
-Equation \ref{eq:de2dt_reverse_bias} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse bias conditions when $e_2 < V_z$.
+\eqref{eq:de2dt_reverse_bias} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse bias conditions when $e_2 < V_z$.
 
 \subparagraph{Forward Bias}
 In the condition where $e_2 \geq V_z$, the Zener diode transitions to a forward bias state. The circuit characteristics during this state are governed by the equations presented below.
@@ -119,7 +119,7 @@ In the condition where $e_2 \geq V_z$, the Zener diode transitions to a forward 
     i_s &= \frac{e_2-e_3}{R_s}=\frac{e_3-V_z}{R_z}
 \end{align}
 \begin{itemize}
-	\item The current $i_c(t)$, flowing through the capacitor, is described by equation \ref{eq:ideal_capacitor}
+	\item The current $i_c(t)$, flowing through the capacitor, is described by \eqref{eq:ideal_capacitor}
 	\item The relationship between $i_c(t)$ and $i_s$ is prior established by KCL
 	\item Further, the current $i_s$ flowing through the source resistor $R_s$ is equivalent to the current flowing through the Zener diode
 \end{itemize}
