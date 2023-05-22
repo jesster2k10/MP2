@@ -62,116 +62,100 @@ Applying KCL to determine an expression for $i_{L_1}$ at node \textcircled{4}
 	i_{L_1} = \frac{e_3}{R_L}
 \end{equation}
 
-\pagebreak
 \paragraph{Differential Equations}
-The behavior of the circuit under load conditions also yields two distinct scenarios, each giving rise to a unique differential equation. These scenarios depend on the value of \(e_2\) in relation to \(V_z\)
-
-\begin{itemize}
-	\item In the case where $$\frac{R_{L_1}e_2}{R_s+R_{L_1}} < V_z$$ the Zener diode remains in \textbf{reverse bias} region
-	\item In the case where $$\frac{R_{L_1}e_2}{R_s+R_{L_1}} \geq V_z$$ the Zener diode remains in \textbf{forward bias}
-\end{itemize}
-
-\paragraph{Reverse bias}
-Given that the system is connected to a resistive load $R_{L_1}$, the current flowing through the resistor $R_s$, denoted as $i_s$, can be expressed by Ohm's law as:
+The current $i_s$ depends on the biasing of the zener diode. The biasing of the zener is determined by the relation between $e_3$ and $V_z$. Two set of differential equations are derived based on the operation of the Zener.
+\subparagraph{Reverse Bias}
+When $e_3 < V_z$ the zener is in reverse bias. There is no additional current flow at node \textcircled{3} as the switch remains open. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_{l_1}$$
 \begin{equation}
-    i_s = \frac{e_2 - e_3}{R_s}
+	\frac{e_2-e_3}{R_s}=\frac{e_3}{R_{L_1}}
+	\label{eq:resistiveLoad_node3}
 \end{equation}
-where $e_2$ is the voltage across the capacitor and $e_3$ is the voltage across the load resistor $R_{L_1}$.
-\\
-The current $i_s$ can be further categorised into two cases based on the condition of the Zener diode:
-\begin{equation}
-    i_s=\begin{cases}
-        \frac{e_2-e_3}{R_s}=\frac{e_3}{R_{L_1}},  & e_3<V_z\\
-        \frac{e_2-e_3}{R_s}=\frac{e_3-V_z}{R_z}+\frac{e_3}{R_{L_1}},  & e_3 \geq V_z
-    \end{cases}
-    \label{eq:is_cases}
-\end{equation}
-
-Next, we can substitute the expression for $e_3$ in terms of $e_2$ into Equation \ref{eq:is_cases}, yielding:
-
-\begin{equation}
-    i_s=\begin{cases}
-        \frac{e_2-e_3}{R_s}=\frac{e_3}{R_{L_1}}, & \frac{R_{L_1}e_2}{R_s+R_{L_1}}<V_z\\
-        \frac{e_2-e_3}{R_s}=\frac{e_3-V_z}{R_z}+\frac{e_3}{R_{L_1}}, & \frac{R_{L_1}e_2}{R_s+R_{L_1}} \geq V_z
-    \end{cases}
-    \label{eq:is_substituted}
-\end{equation}
-
-It is clear from Equation \ref{eq:is_substituted} that when $\frac{R_{L_1}e_2}{R_s+R_{L_1}}<V_z$, the Zener diode is in reverse bias.\\
-
-In this case, the system is governed by the following set of equations:
+In this state, the system is governed by these set of equations
 \begin{equation}
 	\begin{split}
     	i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}\\
     	i_c(t)&=C\frac{d(e_2)}{dt}\\
-    	i_s&=\frac{e_2-e_3}{R_s}=\frac{e_3-V_z}{R_z}+\frac{e_3}{R_{L_1}}
+    	i_s&=\frac{e_2-e_3}{R_s}=\frac{e_3}{R_{L_1}}
 	\end{split}
-	    \label{eq:system_cutoff}
+	    \label{eq:resistiveLoad_system}
 \end{equation}
-Recalling that $e_3 = e_4$, the load voltage $e_3$ can be derived. 
-\begin{equation}
-	e_3 = \frac{R_{L_1} e_2}{R_s + R_{L_1}}
-\end{equation}
-Substitute expression for $e_3$ into $i_s$
+Solving \eqref{eq:resistiveLoad_node3} for $e_3$ gives an expression for the voltage at node \textcircled{3}
 \begin{equation}
 	\begin{split}
-		i_s = \frac{\frac{R_{L_1} e_2}{R_s + R_{L_1}}}{R_{L_1}} = \frac{R_{L_1}e_2}{R_s+R_{L_1}(R_{L_1})}
-		    = \frac{e_2}{R_s + R_{L_1}}
+		R_{L_1}e_2 - R_{L_1}e_3 = R_s e_3 \\
+		R_{L_1}e_2 = (R_{L_1} + R_s)e_3 \\
+		e_3 = \frac{R_{L_1}e_2}{R_{L_1} + R_s}
 	\end{split}
+	\label{eq:resistiveLoad_outputVoltage}
 \end{equation}
-Thus, the current in the capacitor is,
+Substitute $e_3$ into the expression for $i_s$ from \eqref{eq:resistiveLoad_system}
 \begin{equation}
-	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2}{R_s + R_{L_1}}
+	\begin{split}
+		i_s &= \frac{e_2 - \frac{R_{L_1}e_2}{R_{L_1} + R_s}}{R_s} 
+			= \frac{e_2 (1 - \frac{R_{L_1}}{R_{L_1} + R_s})}{R_s} \\
+			&= \frac{e_2 (\frac{(R_{L_1} + R_s) - R_{L_1}}{R_{L_1} + R_s})}{R_s} 
+			= \frac{e_2}{R_{L_1} + R_s}
+	\end{split}
+	\label{eq:resistiveLoad_is}
 \end{equation}
-The resulting differential equation is then
+Hence, the current across the capacitor $i_c(t)$ is:
 \begin{equation}
-	\frac{d(e_2)}{dt} = \frac{1}{C} \sbracket{ \bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2}{R_s + R_{L_1}} }
+	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2}{R_{L_1} + R_s}
 \end{equation}
-for $$\frac{R_{L_1}e_2}{R_s+R_{L_1}} < V_z$$
-
-\subparagraph{Forward Bias} In the condition where $\frac{R_{L_1}e_2}{R_s+R_{L_1}} \geq V_z$ the Zener transitions to a forward bias state. The circuit characteristics during this state are governed by the system of equations below
-\begin{align}
-    i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}\\
-    i_c(t) &= C\frac{de_2}{dt}\\
-    i_s &= \frac{e_2-e_3}{R_s} = \frac{e_3 - V_z}{R_z} + \frac{e_3}{R_{L_1}}
-    \label{eq:system_zener}
-\end{align}
-
-Starting with the third equation of the system. The current $i_s$ can be expressed as a sum of the currents passing through $R_z$ and $R_{L_1}$
-\begin{align}
-i_s &= \frac{e_2-e_3}{R_s} = \frac{e_3 - V_z}{R_z} + \frac{e_3}{R_{L_1}}
-\label{eq:forward_current}
-\end{align}
-Now, isolate $e_3$ in the above equation to determine the expression for the load voltage $e_3$,
-\begin{align}
-e_3(R_sR_z+R_sR_{L_1}) &= R_{L_1}R_ze_2 + R_{L_1}R_sV_z\\
-e_3 &= \frac{R_{L_1}R_ze_2+R_{L_1}R_sV_z}{R_sR_z+R_sR_{L_1}+R_zR_{L_1}}
-\label{eq:e3_forward_bias}
-\end{align}
-After substituting $e_3$ from Eq. \ref{eq:e3_forward_bias} into Eq. \ref{eq:forward_current}, express $i_s$ as follows
+and it's resulting differential equation is,
 \begin{equation}
-    i_s = \frac{R_sR_zR_{L_1}e_2 - R_{L_1}R_ze_2 - R_{L_1}R_sV_z}{R_s^2R_z+R_s^2R_{L_1}+R_sR_zR_{L_1}}
-    \label{eq:is_forward_simplified}
+	\frac{de_2}{dt} = \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2}{R_{L_1} + R_s}}
+	\label{eq:resistiveLoad_DiffEq1}
 \end{equation}
-
+This condition only holds true when $e_3 < V_z$, or, when
 \begin{equation}
-i_s = \frac{e_2(R_sR_zR_{L_1} - R_{L_1}R_z) - R_{L_1}R_sV_z}{R_sR_z(2R_{L_1} + R_z)}
+	\frac{R_{L_1}e_2}{R_{L_1} + R_s} < V_z
 \end{equation}
 
-Now, observe that the first two terms in the numerator are the same, so we can simplify this equation further:
-
+\subparagraph{Forward Bias}
+When $e_3 \geq V_z$ the zener is in forward bias. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_{l_1} + i_z$$
 \begin{equation}
-i_s = \frac{R_{L_1}e_2R_s - R_{L_1}R_sV_z}{R_sR_z(2R_{L_1} + R_z)}
+	\frac{e_2-e_3}{R_s}=\frac{e_3}{R_{L_1}} + \frac{e_3 - V_z}{R_z}
+	\label{eq:resistiveLoad_forwardBias_node3}
 \end{equation}
-
-Finally, factor $R_{L_1}R_s$ out of the numerator:
-
+In this state, the system is governed by these set of equations
 \begin{equation}
-i_s = \frac{R_{L_1}R_s(e_2 - V_z)}{R_sR_z(2R_{L_1} + R_z)}
+	\begin{split}
+    	i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}\\
+    	i_c(t)&=C\frac{d(e_2)}{dt}\\
+    	i_s&=\frac{e_2-e_3}{R_s}=\frac{e_3}{R_{L_1}} + \frac{e_3 - V_z}{R_z}
+	\end{split}
+	    \label{eq:resistiveLoad_forwardBias_system}
 \end{equation}
-
-And if you divide both the numerator and denominator by $R_s$ we get the final equation:
-
+Solving \eqref{eq:resistiveLoad_forwardBias_node3} for $e_3$ gives an expression for the voltage at node \textcircled{3}
 \begin{equation}
-i_s = \frac{R_{L_1}(e_2 - V_z)}{R_z(2R_{L_1} + R_z)}
+\begin{split}
+R_{L_1} R_z e_2 - R_{L_1} R_z e_3 &= R_s R_z e_3 + R_s R_{L_1} (e_3 - V_z) \\
+R_{L_1} R_z e_2 - R_s R_{L_1} V_z &= (R_{L_1} R_z + R_s R_z + R_s R_{L_1}) e_3 \\
+e_3 &= \frac{R_{L_1} R_z e_2 + R_s R_{L_1} V_z}{R_s R_{L_1} + R_s R_z + R_{L_1} R_z}
+\end{split}
 \end{equation}
+Substitute $e_3$ into the expression for $i_s$ from \eqref{eq:resistiveLoad_forwardBias_system}
+\begin{equation}
+\begin{split}
+i_s &= \frac{e_2 - \left(\frac{R_{L_1}R_z e_2 + R_{L_1}R_s V_z}{R_s R_{L_1} + R_s R_z + R_{L_1} R_z}\right)}{R_s} \\
+&= \frac{e_2 (R_s R_{L_1} + R_s R_z + R_{L_1} R_z) - R_{L_1}R_z e_2 - R_{L_1}R_s V_z}{R_s (R_s R_{L_1} + R_s R_z + R_{L_1} R_z)} \\
+&= \frac{e_2 R_s R_{L_1} + e_2 R_s R_z + e_2 R_{L_1} R_z - R_{L_1}R_z e_2 - R_{L_1}R_s V_z}{R_s^2 R_{L_1} + R_s^2 R_z + R_s R_{L_1} R_z} \\
+&= \frac{e_2 R_{L_1} + e_2 R_z - R_{L_1} V_z}{R_{L_1} R_z + R_s R_z + R_s R_{L_1}}
+\end{split}
+\end{equation}
+Hence, the current across the capacitor $i_c(t)$ is:
+\begin{equation}
+	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 R_{L_1} + e_2 R_z - R_{L_1} V_z}{R_{L_1} R_z + R_s R_z + R_s R_{L_1}}
+\end{equation}
+and it's resulting differential equation is,
+\begin{equation}
+	\frac{de_2}{dt} = \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 R_{L_1} + e_2 R_z - R_{L_1} V_z}{R_{L_1} R_z + R_s R_z + R_s R_{L_1}}}
+	\label{eq:resistiveLoad_DiffEq2}
+\end{equation}
+This condition only holds true when $e_3 \geq V_z$, or, when
+\begin{equation}
+	\frac{R_{L_1} R_z e_2 + R_s R_{L_1} V_z}{R_s R_{L_1} + R_s R_z + R_{L_1} R_z} \geq V_z
+\end{equation}
+
+

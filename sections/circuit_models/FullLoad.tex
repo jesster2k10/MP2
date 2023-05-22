@@ -117,7 +117,7 @@ Hence, the current across the capacitor $i_c(t)$ is:
 \end{equation}
 and it's resulting differential equation is,
 \begin{equation}
-	\frac{de_2}{dt} = \frac{1}{c}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 - R_s i_l}{R_{L_1} + R_s} - i_l}
+	\frac{de_2}{dt} = \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 - R_s i_l}{R_{L_1} + R_s} - i_l}
 	\label{eq:fullLoad_DiffEq1}
 \end{equation}
 This condition only holds true when $e_3 < V_z$.
@@ -139,7 +139,7 @@ This also only holds true when $e_3 < V_z$, or, when
 \end{equation}
 
 \subparagraph{Forward Bias}
-When $e_3 \geq V_z$ the zener is in reverse bias. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_{l_{12}} + i_z = i_{l_1} + i_l + i_z$$
+When $e_3 \geq V_z$ the zener is in forward bias. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_{l_{12}} + i_z = i_{l_1} + i_l + i_z$$
 \begin{equation}
 	\frac{e_2 - e_3}{R_s} = \frac{e_3}{R_{L_1}} + \frac{e_3 - V_z}{R_z} + i_l
 	\label{eq:forwardBias_node3}
