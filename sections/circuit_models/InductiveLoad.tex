@@ -20,7 +20,7 @@ The primary switch is off, and the secondary switch is on. The equivalent circui
     (9,2) to[nos,o-o] (9,0.5)
     (9,0.5) to[short] (9,0)
     
-    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_2}$,i=$i_{l_2}$] (12,3)
+    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_2}$,i=$i_l$] (12,3)
     (12,3) to[inductor,l=$L$] (12,0)
     
     (9,5) to[short] (12,5)
@@ -48,15 +48,128 @@ Determine an expression for $i_d(t)$ at node \textcircled{2} using KCL
 Determine an expression for $i_s$ at node \textcircled{3} using KCL
 \begin{equation}
 	\begin{split}
-		i_s &= i_z + i_{l_2} \\
+		i_s &= i_z + i_l \\
 		\frac{e_2 - e_3}{R_s} &= \frac{e_3 - V_z}{R_z} + i_{l_2}
 	\end{split}
 	\label{eq:inductiveLoad_node3}
 \end{equation}
 
 \subparagraph{Node \textcircled{4}}
-Determine an expression for $i_{l_2}$ at node \textcircled{4} using KCL
+Determine an expression for $i_l$ at node \textcircled{4} using KCL
 \begin{equation}
-	i_{l_2} = \frac{e_3 - e_4}{R_{L_2}}
+	i_l = \frac{e_3 - e_4}{R_{L_2}}
 	\label{eq:inductiveLoad_node4}
 \end{equation}
+\paragraph{Differential Equations}
+The current $i_s$ depends on the biasing of the zener diode. The biasing of the zener is determined by the relation between $e_3$ and $V_z$. Two set of differential equations are derived based on the operation of the Zener.
+
+\subparagraph{Reverse Bias}
+When $e_3 < V_z$ the zener is in reverse bias. There is no additional current flow at node \textcircled{3} as the switch remains open. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_l$$
+\begin{equation}
+	\frac{e_2 - e_3}{R_s} = i_l
+	\label{eq:inductiveload_il}
+\end{equation}
+
+Recalling the ideal inductor model in \eqref{eq:ideal_inductor} the rate of change of $i_{l}$ related to output voltage $e_4$ by,
+\begin{equation}
+	\begin{split}
+		e_4 = L\frac{di_l}{dt} = e_3
+	\end{split}
+	\label{eq:inductiveLoad_output}
+\end{equation}
+
+In this state, the system is characterised by these set of equations
+\begin{align}
+	i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} \\
+	i_s &= i_l = \frac{e_2 - e_3}{R_s} = \frac{e_3 - e_4}{R_{L_2}} \\
+	i_c(t) &= C \frac{de_2}{d_t} \\
+	e_4 &= L\frac{di_l}{dt}
+	\label{eq:inductiveLoad_system}
+\end{align}
+The voltage $e_4$ at node \textcircled{4} is given by KVL,
+\begin{equation}
+	e_4 = e_3 = e_2 - (R_s + R_{L_2})i_l
+\end{equation}
+Hence, the current across the capacitor $i_c(t)$ is:
+\begin{equation}
+	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - i_l
+\end{equation}
+and it's resulting differential equation is,
+\begin{equation}
+	\frac{de_2}{dt} = \frac{1}{c}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - i_l}
+	\label{eq:inductiveLoad_DiffEq1}
+\end{equation}
+This condition only holds true when $e_3 < V_z$.
+\\
+
+Another differential equation can be found relating the rate of change of $i_l$ to the inductance from the system of equations in \eqref{eq:inductiveLoad_system}.
+\begin{equation}
+	\begin{split}
+		L\frac{di_l}{dt} &= e_2 - (R_s + R_{L_2})i_l \\
+		 \frac{di_l}{dt} &= \frac{1}{L}\bracket{e_2 - (R_s + R_{L_2})i_l}
+	\end{split}
+	\label{eq:inductiveLoad_DiffEq2}
+\end{equation}
+This also only holds true when $e_3 < V_z$, or, when
+\begin{equation}
+	e_2 - (R_s + R_{L_2})i_l < V_z
+\end{equation}
+
+\subparagraph{Forward Bias}
+When $e_3 \geq V_z$ the zener is in reverse bias. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_l + i_z$$
+\begin{equation}
+	\frac{e_2 - e_3}{R_s} = \frac{e_3 - V_z}{R_z} + i_l
+	\label{eq:inductiveLoad_forwardBias_node3}
+\end{equation}
+In this state, the system is characterised by these set of equations
+\begin{equation}
+	\begin{split}
+		i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} \\
+		i_s &= \frac{e_2 - e_3}{R_s} = \frac{e_3 - V_z}{R_z} + i_l \\
+		i_c(t) &= C \frac{de_2}{d_t} \\
+		e_4 &= L\frac{di_l}{dt} = e_3 - R_{L_2}i_l
+	\end{split}
+	\label{eq:inductiveLoad_system_forwardBias}
+\end{equation}
+Solving \eqref{eq:inductiveLoad_forwardBias_node3} for $e_3$ gives an expression for the voltage at node \textcircled{3}
+\begin{equation}
+	\begin{split}
+		R_z e_2 - R_z e_3 = R_s e_3 - R_s V_z + R_z R_s i_l \\
+		(R_s + R_z) e_3 = R_z e_2 + R_s V_z - R_z R_s i_l \\
+		e_3 = \frac{R_z e_2 + R_s V_z - R_z R_s i_l}{R_s + R_z}
+	\end{split}
+	\label{eq:inductiveLoad_forwardBias_e3}
+\end{equation}
+Substitute $e_3$ into the expression for $i_s$ from \eqref{eq:inductiveLoad_system_forwardBias},
+\begin{equation}
+	\begin{split}
+		i_s &= \frac{e_2 - \left(\frac{R_z e_2 + R_s V_z - R_z R_s i_l}{R_s + R_z}\right)}{R_s} \\
+		    &= \frac{R_s e_2 - R_z e_2 - R_s V_z + R_z R_s i_l}{R_s + R_z} \\
+		    &= \frac{e_2 - V_z + R_z i_l}{R_s + R_z}
+	\end{split}
+\end{equation}
+Hence, the current across the capacitor $i_c(t)$ is:
+\begin{equation}
+	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 - V_z + R_z i_l}{R_s + R_z}
+\end{equation}
+and it's resulting differential equation is,
+\begin{equation}
+	\frac{de_2}{dt} = \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 - V_z + R_z i_l}{R_s + R_z}}
+	\label{eq:inductiveLoad_DiffEq3}
+\end{equation}
+This condition only holds true when $e_3 \geq V_z$. Another differential equation can be found relating the rate of change of $i_l$ to the inductance from the system of equations in \eqref{eq:inductiveLoad_system_forwardBias}.
+\begin{equation}
+	\begin{split}
+		L\frac{di_l}{dt} &= \frac{R_z e_2 + R_s V_z - R_z R_s i_l}{R_s + R_z} - R_{L_2}i_l \\
+		 \frac{di_l}{dt} &= \frac{1}{L} \sbracket{\frac{R_z e_2 + R_s V_z - R_z R_s i_l}{R_s + R_z} - R_{L_2}i_l}
+	\end{split}
+	\label{eq:inductiveLoad_DiffEq4}
+\end{equation}
+This also only holds true when $e_3 \geq V_z$, or, when
+\begin{equation}
+	\frac{R_z e_2 + R_s V_z - R_z R_s i_l}{R_s + R_z} \geq V_z
+\end{equation}
+
+Thus, four differential equations \eqref{eq:inductiveLoad_DiffEq1}, \eqref{eq:inductiveLoad_DiffEq2}, \eqref{eq:inductiveLoad_DiffEq3}, \eqref{eq:inductiveLoad_DiffEq4} have been derived characterising the operation of the circuit under inductive load conditions.
+
+
