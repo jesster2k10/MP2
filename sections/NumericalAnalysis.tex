@@ -1,19 +1,33 @@
 \section{Numerical Analysis}
-\subsection{Classic Runge-Kutta Method}
+Differential equations describing the circuit under all four modes of operation have been derived:
+\begin{itemize}
+    \item \eqref{eq:noLoad_diffEq1} \eqref{eq:noLoad_diffEq2} describe the circuit under \textbf{no load}
+    \item \eqref{eq:resistiveLoad_DiffEq1} \eqref{eq:resistiveLoad_DiffEq2}  describe the circuit under a \textbf{resistive load}
+    \item \eqref{eq:inductiveLoad_DiffEq1} \eqref{eq:inductiveLoad_DiffEq2} \eqref{eq:inductiveLoad_DiffEq3} \eqref{eq:inductiveLoad_DiffEq4} describe the circuit under an \textbf{inductive load}
+    \item \eqref{eq:fullLoad_DiffEq1} \eqref{eq:fullLoad_DiffEq2} \eqref{eq:fullLoad_DiffEq3} \eqref{eq:fullLoad_DiffEq4} describe the circuit under a \textbf{full load}
+\end{itemize}
 
-Belonging to a family of iterative methodologies, Runge-Kutta methods, particularly the fourth-order variant (RK4), serve as prominent tools for numerically addressing differential equations. RK4 finds widespread use due to its efficacy in generating solutions to ordinary differential equations (ODEs) that may otherwise be challenging or impractical to solve analytically.
+The 4th order variation of the Runge-Kutta (RK4) method is used to solve these differential equations
 
-The crux of the Runge-Kutta method lies in using derivative evaluations at several junctures within a designated time step to project an estimate for the function's value at the succeeding step. This is achieved by approximating the Taylor series up to the order of the step size, which is conventionally represented by 'h'.
+\subsection{Runge-Kutta Method}
+\subsubsection{Overview}
+Runge-Kutta is a numerical method used to solve initial value ordinary differential equations
+\begin{itemize}
+    \item It approximates the solution by dividing the interval into smaller steps and iteratively computing the solution at each step \citep{rungeKutta}
+    \item The fourth order variation of Runge-Kutta (RK4) is used in this numerical analysis as it offers a good balance between accuracy and computation cost
+\end{itemize}
 
-To illustrate, for a first-order ODE defined as $y' = f(t, y)$, the application of RK4 to progress from time $t$ to $t + h$ would involve the following steps:
+The core mechanism of the Runge-Kutta method encompasses the evaluation of derivatives at multiple instances within a specific time interval, $h$. Through this process, an estimation of the function's subsequent value is projected. This strategy achieves its efficacy by implementing an approximation to the Taylor series, truncated according to the designated step size, $h$ \citep{rungeKutta}
+\leavevmode\newline
 
+For a first-order ODE defined as $\frac{dy}{dt} = f(t, y)$ the application of RK4 to progress from time $t$ to $t + h$ would involve the following steps:
 \begin{equation}
 \begin{aligned}
-k_1 &= h \cdot f(t, y), \\
-k_2 &= h \cdot f(t + \frac{h}{2}, y + \frac{k_1}{2}), \\
-k_3 &= h \cdot f(t + \frac{h}{2}, y + \frac{k_2}{2}), \\
-k_4 &= h \cdot f(t + h, y + k_3), \\
-y(t + h) &= y(t) + \frac{1}{6} \cdot (k_1 + 2k_2 + 2k_3 + k_4).
+k_1 &= hf(t, y), \\
+k_2 &= hf(t + \frac{h}{2}, y + \frac{k_1}{2}), \\
+k_3 &= hf(t + \frac{h}{2}, y + \frac{k_2}{2}), \\
+k_4 &= hf(t + h, y + k_3), \\
+y(t + h) &= y(t) + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4).
 \end{aligned}
 \end{equation}
 
@@ -44,7 +58,7 @@ Four distinctive scenarios are to be considered, each featuring diverse loads co
 
 \begin{center}
  Establishing Initial Conditions for the Runge-Kutta Algorithm
-\end{center}\\
+\end{center}\leavevmode\newline
 
 The Runge-Kutta algorithm, like any other method used for numerically solving ordinary differential equations, requires predefined initial conditions to initiate its iteration process. These initial conditions serve as the springboard for the subsequent calculations. In the context of an electrical circuit, these conditions are established based on the state of the system at the start time, typically denoted as t = 0s.
 
@@ -52,7 +66,7 @@ For a circuit that has been left in a stationary state before power supply is co
 
 \begin{center}
      No-Load Behavior and Single Reactive Element Analysis
-\end{center}\\
+\end{center}\leavevmode\newline
 
 Under a no-load condition, where the output is an open circuit, the system exhibits a distinct behavior. In such cases, it is evident that the system involves a single reactive element, specifically a capacitor. Consequently, the complexity of the system is reduced, and it can be described by a single ordinary differential equation (ODE). This ODE captures the relationship between the variables \(y\) and its derivative \(y'\), serving as a fundamental equation governing the system's behavior in the absence of a load. By analyzing and solving this ODE, we can gain insights into the dynamics and characteristics of the system when it operates without any external load connected to it.\\
 
@@ -358,6 +372,219 @@ By evaluating the waveforms and assessing the level of deviation between the two
 [Graph for Circuit Parameters versus time without load]\\
 
 \emph{Figure 3.2.1: Voltage across the load and capacitor, and current through the Zener diode under no-load conditions}\\
+
+In the absence of a load, the circuit operates as anticipated. Initially, the output voltage tracks the input voltage until it surpasses the Zener threshold. Subsequently, as the Zener diode enters reverse bias, the load voltage is clamped and maintains a relatively stable value at around 6.5 V. At this juncture, the Zener diode begins to conduct, aligning with the expected behavior.\\
+
+[insert graph for figure 3.2.2]\\
+
+\emph{Figure 3.2.2: Voltage across the load and capacitor, and current through the Zener diode with a resistive load
+}\\
+
+% Figure 3.2.2: Load and capacitor voltages and current through the Zener with a resistive load
+
+When simulating the circuit with a resistive load, the output voltage also undergoes clipping. However, due to the voltage divider formed by resistors Rs and RL, it no longer tracks the input waveform. As a result, it takes more time for the output voltage to stabilize. Additionally, it can be observed that the inclusion of a resistor in parallel with the Zener diode leads to a reduction in the steady-state current flowing through the Zener.
+
+The equations for this scenario can be expressed as follows:
+
+- Voltage across the load ($V_L$):
+\[V_L = V_{out}\]
+
+- Voltage across the capacitor ($V_c$):
+\[V_c = V_{out}\]
+
+- Current through the Zener diode ($I_Z$):
+\[I_Z = \frac{V_{out} - V_Z}{R_Z}\]
+
+Please note that in the above equations, $V_{out}$ represents the output voltage, $V_Z$ represents the Zener voltage, and $R_Z$ represents the resistance of the Zener diode.\\
+
+[insert figure 3.2.3]\\
+
+\emph{Figure 3.2.3: Voltage across the load and capacitor, and current through the Zener diode with an inductive load}\\
+
+By examining Figure 3.2.3, it becomes evident that the circuit is unable to provide sufficient current to cause the output voltage to clip when an inductive load is connected. As a result, a noticeable ripple appears in the output waveform, whereas in previous cases, the Zener diode effectively reduced such ripple.\\
+
+[insert Figure 3.2.4]\\
+
+\emph{Figure 3.2.4: Voltage across the load and capacitor, and current through the Zener diode with the full load}\\
+
+% Figure 3.2.4: Load and capacitor voltages and current through the Zener with the full load
+
+When the full load is connected to the DC rectifier, the steady-state mean output voltage is further reduced, as the resistive load also draws a portion of the current.
+
+In summary, the output waveforms for different time steps are the same, indicating that a timestep of 20 μs is sufficiently small for a single iteration of the Runge-Kutta method in stable operation.
+
+The overall trend in each case is evident and consistent with what is observed in actual AC-DC converters [3]. The capacitor takes time to charge and, depending on the connected load, stabilizes at a voltage between 12 and 14V. The charging curve resembles that of real capacitors when charged from a DC source. The main difference between the outputs of the RC circuit and the examined circuit is that the curve is not exactly exponential due to the capacitor being charged in steps, which is a result of the sinusoidal input passed through the Wien bridge.
+
+In steady state, there is ripple added to the DC output due to the constant charging and discharging of the capacitor caused by the changing input voltage. However, this ripple effect is negligible in each case.
+
+It is important to note that when the inductive load is connected, the output voltage is so low that the Zener diode is always in the cut-off state. This is realistic because the voltage across the inductor depends on the derivative of the current flowing through it. As the DC rectifier effectively stabilizes the output voltage and the ripple is minimal, the inductor barely contributes to the load impedance when connected. Therefore, it can be assumed that the output voltage is approximately equivalent to the output of a voltage divider formed by resistors R2 and Rs:
+
+\[V_b \approx \frac{R2}{R2 + Rs} \cdot V_a\]   (3.9)
+
+Overall, it can be concluded that using the Runge-Kutta method has yielded sensible results, and there is no need to implement a different numerical method.\\
+
+The estimation of the maximal current through the diodes, as mentioned by your friend, is an important consideration in the modeling of the circuit. With the use of the RungeKuttaCircuit command, it becomes possible to compare and analyze the current flowing through the diodes in all four possible modes of operation.
+
+\textcolor{blue}{Maximal Diode Current: Analysis and Implications}\\
+
+During the modeling process, it is crucial to ensure that the current flowing through the diodes remains within acceptable limits. By comparing the simulated or calculated currents with the estimated maximal current of approximately 2.227 A, engineers can assess whether the diodes are operating within their specified range.
+
+Exceeding the maximal current rating of the diodes can lead to detrimental effects such as increased power dissipation, voltage drops, and potential failure of the diodes. Therefore, monitoring and analyzing the diode currents in different modes of operation using the RungeKuttaCircuit command allows for a comprehensive assessment of their performance and adherence to the specified limits.
+
+Overall, considering the estimated maximal current through the diodes and utilizing the RungeKuttaCircuit command, engineers can gain valuable insights into the current behavior and ensure the diodes' reliable operation within the established limits.\\
+
+[insert figure 3.3]\\
+
+\emph{Figure 3.3: Current through the diode bridge in various operating modes}\\
+
+As observed, the current through the diode bridge is maximized when the full load is connected. As the capacitor charges to its steady-state voltage, the current through the diodes tends to decrease, which aligns with expectations.
+
+Furthermore, the maximal current passing through the diodes is measured to be 2.2275 A. This value corresponds to the previous prediction, providing additional evidence that the model and approximation are mutually consistent.\\
+
+\textcolor{blue}{Analysis of Nominal Values and Variation in Load Voltage}\\
+
+To gain insights into the behavior of the circuit under normal operating conditions, it is essential to analyze the nominal values of its components. This analysis includes considering the tolerances of resistor Rs and capacitor C, as outlined in Table 1. 
+
+The load voltage in the circuit will inherently vary based on the actual values of capacitance C and resistance R. These variations have an impact on the peak-to-peak output voltages and mean values in different modes of operation. A summary of these values is provided in the table below:\\
+
+\begin{table}[htbp]
+\centering
+\caption{Analysis of Circuit Values}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Mode} & \textbf{Capacitance C (mF)} & \textbf{Resistance Rs ($\Omega$)} & \textbf{Mean Output Voltage Vb (V)} & \textbf{Peak-to-Peak Output Voltage Vb (mV)} \\
+\hline
+No Load & 2.2 & 270 & 6.646 & 1.887 \\
+& 2.64 & 243 & 6.660 & 1.9 \\
+& 1.76 & 243 & 6.660 & 2.85 \\
+& 2.64 & 297 & 6.634 & 1.324 \\
+& 1.76 & 297 & 6.634 & 1.985 \\
+\hline
+Resistive Load & 2.2 & 270 & 6.527 & 1.878 \\
+& 2.64 & 243 & 6.542 & 1.892 \\
+& 1.76 & 243 & 6.542 & 2.837 \\
+& 2.64 & 297 & 6.515 & 1.317 \\
+& 1.76 & 297 & 6.515 & 1.976 \\
+\hline
+Inductive Load & 2.2 & 270 & 2.693 & 47.989 \\
+& 2.64 & 243 & 2.914 & 45.832 \\
+& 1.76 & 243 & 2.914 & 68.674 \\
+& 2.64 & 297 & 2.504 & 35.268 \\
+& 1.76 & 297 & 2.504 & 52.844 \\
+\hline
+Full Load & 2.2 & 270 & 2.270 & 38.564 \\
+& 2.64 & 243 & 2.463 & 37.162 \\
+& 1.76 & 243 & 2.463 & 55.689 \\
+& 2.64 & 297 & 2.105 & 28.117 \\
+& 1.76 & 297 & 2.105 & 42.132 \\
+\hline
+\end{tabular}
+\end{table}
+
+\emph{Table 3.1: Output Voltage Ranges in Various Modes of Operation}\\
+
+From the table above, it is evident that the mean output voltage increases as the resistance value $R_s$ decreases. The output ripple is influenced by the time constant $\tau = R_sC$, where a higher time constant leads to a reduced ripple and vice versa. This behavior aligns with the expected characteristics of a typical RC circuit.
+
+To ensure proper operation, resistor $R_s$ should not exceed a power dissipation of $0.5$ W. It is important to note that this power rating is typically a continuous rating, and the peak transient energy dissipation rate is not provided. The power loss in the resistor due to heat is governed by Joule's Law:
+
+\[ P = I^2R \]
+
+where $P$ represents the power, $I$ is the current passing through the resistor, and $R$ is the resistance value.\\
+
+\begin{equation}
+    P=RI^2
+\end{equation}\\
+
+In the context of resistor dissipation, the power dissipated in a resistor ($P$) can be calculated using Joule's Law:
+
+\[ P = I^2R \]
+
+where $I$ represents the current flowing through the resistor and $R$ denotes the resistance value.
+
+It is worth noting that the maximum continuous voltage drop across resistor $R_s$ occurs when tested with the full load, as depicted in Figures (3.2). Therefore, it would be reasonable to simulate the circuit in that specific mode to determine the peak power load.
+
+Additionally, it is evident that increasing the capacitance would result in a longer charging time, but it should not have a significant impact on the steady-state output current or voltage. On the other hand, decreasing the resistance would increase the current flow, leading to a higher power dissipation in the resistor according to Joule's Law. These assumptions can be verified by conducting simulations and varying the resistance and capacitance values in a full-load scenario.\\
+
+[insert figure 3.4]\\
+
+\emph{Figure 3.4 illustrates the power dissipated in the resistor $R_s$ for various combinations of capacitance $C$ and resistance $R_s$}\\
+
+The table below displays the average power dissipation values:\\
+
+\begin{table}[h]
+\centering
+\caption{Mean power dissipated in resistor Rs in steady state}
+\begin{tabular}{ccc}
+\hline
+Capacitance C (mF) & Resistance Rs (Ω) & Mean power dissipated (mW) \\
+\hline
+2.2                & 270               & 486.6                      \\
+2.64               & 243               & 515.8                      \\
+1.76               & 243               & 515.6                      \\
+2.64               & 297               & 460.3                      \\
+1.76               & 297               & 460.3                      \\
+\hline
+\end{tabular}
+\end{table}\\
+
+\emph{Table 3.2: Mean power dissipation for varying Rs and C values}\\
+
+Based on Figure 3.4 and Table 3.2, it is evident that the tolerance of the capacitor has minimal impact on the average steady-state power dissipation. However, increasing the capacitance results in a longer time to reach steady state and a smaller ripple in the steady state.
+
+Decreasing the resistance does increase the power dissipation in the resistor, and it should be noted that when the resistor approaches its minimum value, the power dissipation exceeds the $1/2$ W threshold. Therefore, it is advisable to select a resistor with a power rating of at least $3/4$ W or a better tolerance.\\
+
+In addition to the information provided, it is also important to investigate the behavior of the circuit when switches are opened and closed while power is applied. This scenario allows us to analyze the effects of switching on the output voltage. Specifically, we will examine the following scenario:\\
+
+\begin{table}[h]
+\centering
+\caption{Switching Events and Corresponding Times}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Event} & \textbf{Time (s)} \\
+\hline
+Power is applied & 0 \\
+\hline
+Resistive load is turned on & 2 \\
+\hline
+Inductive load is turned on & 4.2 \\
+\hline
+Inductive load is turned off & 5.863 \\
+\hline
+\end{tabular}
+\end{table}
+\emph{Table 3.3 showcases the chronological sequence of events in the switching scenario. It highlights the specific timings at which each event occurs}\\
+
+To ensure accurate simulation results in the switching scenario, it is important to minimize the timestep before any load is connected or disconnected. This is due to the idealized assumption that the switches open and close instantaneously. By approaching the initial conditions as closely as possible, precision can be maintained.
+
+To achieve this, a geometric series approach can be employed. The last 20 μs cycle before switching is divided into 12 smaller cycles, with the timestep reduced by a factor of 2 in each iteration except the last one. This results in timesteps of 10, 5, 2.5, ... 10/211, and 10/211 μs. The final two steps are approximately 4.88 ns each, allowing for highly accurate initial conditions after the switching event and minimizing errors.
+
+The switching scenario can be implemented using the function-m file RungeKuttaCircuit described previously. In MATLAB, the implementation would involve writing a script that calls the RungeKuttaCircuit function with the appropriate inputs and parameters. This enables the simulation of the circuit's behavior during the switching events.\\
+
+[matlab code figure 3.5]\\
+
+\emph{Figure 3.5: MATLAB script for generating outputs in the switching scenario}\\
+
+This script generates the following output:\\
+
+[insert figure 3.6 matlab plot generated]\\
+
+\emph{Figure 3.6 illustrates the voltages and currents observed in the switching scenario}\\
+
+The observed behavior in the switching scenario aligns with expectations. Following each event, the circuit undergoes a transient state before eventually stabilizing into a steady state. The charging and discharging curves of the capacitor exhibit the anticipated behavior. The current through the inductor is present only when the inductive load is connected, and it gradually reduces as the steady state is established.
+
+It is noteworthy that when the inductive load is connected, the voltage at the inductor experiences a spike that is limited by the Zener diode voltage. Conversely, when the load is disconnected, a large negative peak is observed. However, our model cannot precisely determine the exact voltage at this peak, as discussed previously with Equation (3.7). According to the model, the voltage would be infinite, which is not realistic. In reality, when a mechanical switch is used, electrical breakdown occurs upon disconnection, allowing some current to flow through the inductor. As a result, the output voltage does not reach infinity.\\
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
