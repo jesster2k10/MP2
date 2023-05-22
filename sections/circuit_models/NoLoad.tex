@@ -23,7 +23,7 @@ Both switches are off, meaning that there is no load on the power supply, hence 
     (12,5) to[open,v=$e_3$] (12,0)
     
     (9,5) to[short,-o] (12,5)
-    (0,0) to[short,o-o] (12,0)
+    (0,0) to[short,-o] (12,0)
     (6,0) node[ground]{} (5,-1);
     
     \end{circuitikz}
@@ -47,6 +47,7 @@ Apply the primary equation for $i_d(t)$ [Eq \ref{eq:diode_current}], the ideal c
 \end{equation}
 
 \subparagraph{Node \textcircled{3}}
+Applying KCL to determine an expression for $i_s$ at node \textcircled{3}
 \begin{equation}
     \begin{split}
         i_s &= i_z(t)

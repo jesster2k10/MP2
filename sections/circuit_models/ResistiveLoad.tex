@@ -22,8 +22,8 @@
     
     (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_1}$,v=$e_4$] (12,0)
     
-    (9,5) to[short,-o] (12,5)
-    (0,0) to[short,o-o] (12,0)
+    (9,5) to[short] (12,5)
+    (0,0) to[short] (12,0)
     (6,0) node[ground]{} (5,-1);
     
     \end{circuitikz}
@@ -47,6 +47,7 @@ Apply the primary equation for $i_d(t)$ [Eq \ref{eq:diode_current}], the ideal c
 \end{equation}
 
 \subparagraph{Node \textcircled{3}}
+Applying KCL to determine an expression for $i_s(t)$ at node \textcircled{3}
 \begin{equation}
     i_s(t) = i_z(t) + i_{L_1}
 \end{equation}
@@ -56,6 +57,7 @@ Apply the primary equation for $i_d(t)$ [Eq \ref{eq:diode_current}], the ideal c
 Note: $e_4 = e_3$ as there is no voltage drop between nodes \textcircled{4} and \textcircled{3}.
 
 \subparagraph{Node \textcircled{4}}
+Applying KCL to determine an expression for $i_{L_1}$ at node \textcircled{4}
 \begin{equation}
 	i_{L_1} = \frac{e_3}{R_L}
 \end{equation}

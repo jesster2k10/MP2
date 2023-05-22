@@ -1,4 +1,5 @@
 \subsubsection{Full Load}
+Both the primary and secondary switches are turned on resulting in a full load on the circuit.
 \begin{figure}[H]
 	\centering
 	
@@ -18,19 +19,56 @@
     (9,2) to[nos,o-o] (9,0.5)
     (9,0.5) to[short] (9,0)
     
-    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_1}$] (12,0)
+    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_1}$,i=$i_{l_1}$] (12,0)
     (12,5) to[short] (15,5)
     (15,5) node[label=\textcircled{5}] {} to[short] (15,4.5)
-    (15,4.5) to[R,l=$R_{L_2}$] (15,2.5)
+    (15,4.5) to[R,l=$R_{L_2}$,i=$i_{l_2}$] (15,2.5)
     (15,2.5) to[inductor,l=$L$] (15,1.5)
     (15,1.5) to[short] (15,0)
     
-    (9,5) to[short,-o] (12,5)
+    (9,5) to[short,i=$i_l$] (12,5)
     (0,0) to[short] (15,0)
     (7.5,0) node[ground]{} (5,-1);
     
     \end{circuitikz}
 	
-	\label{circ:resistive_load}
+	\label{circ:full_load}
 	\caption{Power supply circuit with the full load applied}
 \end{figure}
+
+\paragraph{Nodal Analysis}
+\subparagraph{Node \textcircled{2}}
+Determine an expression for $i_d(t)$ at node \textcircled{2} using KCL
+\begin{equation}
+	\begin{split}
+		i_d(t) &= i_c(t) + i_s \\
+		\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} &= C \frac{d(e_2)}{dt} + \frac{e_2 - e_3}{R_s}
+	\end{split}
+	\label{eq:fullLoad_node2}
+\end{equation}
+
+\subparagraph{Node \textcircled{3}}
+Determine an expression for $i_s$ at node \textcircled{3} using KCL
+\begin{equation}
+	\begin{split}
+		i_s &= i_z + i_{l} \\
+		\frac{e_2 - e_3}{R_s} &= \frac{e_3 - V_z}{R_z} + i_{l}
+	\end{split}
+	\label{eq:fullLoad_node3}
+\end{equation}
+
+\subparagraph{Node \textcircled{4}}
+Determine an expression for $i_l$ at node \textcircled{4} using KCL
+\begin{equation}
+	\begin{split}
+		i_l &= i_{l_1} + i_{l_2} \\
+		    &= \frac{e_4}{R_{L_1}} + \frac{e_4 - e_5}{R_{L_2}}
+	\end{split}
+\end{equation}
+Note $e_4 = e_3$ and $e_4 = e_5$ as there are no voltage drops across these terminals.
+\begin{equation}
+	\begin{split}
+	 \therefore i_l = \frac{e_3}{R_{L_1}} + \frac{e_3 - e_4}{R_{L_2}}
+	\end{split}
+	\label{eq:fullLoad_node4}
+\end{equation}

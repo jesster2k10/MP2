@@ -1,4 +1,6 @@
 \subsubsection{Inductive Load}
+The primary switch is off, and the secondary switch is on. The equivalent circuit has a resistive and inductive load connected in series
+
 \begin{figure}[H]
 	\centering
 	
@@ -18,15 +20,43 @@
     (9,2) to[nos,o-o] (9,0.5)
     (9,0.5) to[short] (9,0)
     
-    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_2}$] (12,3)
+    (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_2}$,i=$i_{l_2}$] (12,3)
     (12,3) to[inductor,l=$L$] (12,0)
     
-    (9,5) to[short,-o] (12,5)
+    (9,5) to[short] (12,5)
     (0,0) to[short] (12,0)
     (6,0) node[ground]{} (5,-1);
     
     \end{circuitikz}
 	
-	\label{circ:resistive_load}
+	\label{circ:inductive_load}
 	\caption{Power supply circuit with an inductive load $L$}
 \end{figure}
+
+\paragraph{Nodal Analysis}
+\subparagraph{Node \textcircled{2}}
+Determine an expression for $i_d(t)$ at node \textcircled{2} using KCL
+\begin{equation}
+	\begin{split}
+		i_d(t) &= i_c(t) + i_s \\
+		\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} &= C \frac{d(e_2)}{dt} + \frac{e_2 - e_3}{R_s}
+	\end{split}
+	\label{eq:inductiveLoad_node2}
+\end{equation}
+
+\subparagraph{Node \textcircled{3}}
+Determine an expression for $i_s$ at node \textcircled{3} using KCL
+\begin{equation}
+	\begin{split}
+		i_s &= i_z + i_{l_2} \\
+		\frac{e_2 - e_3}{R_s} &= \frac{e_3 - V_z}{R_z} + i_{l_2}
+	\end{split}
+	\label{eq:inductiveLoad_node3}
+\end{equation}
+
+\subparagraph{Node \textcircled{4}}
+Determine an expression for $i_{l_2}$ at node \textcircled{4} using KCL
+\begin{equation}
+	i_{l_2} = \frac{e_3 - e_4}{R_{L_2}}
+	\label{eq:inductiveLoad_node4}
+\end{equation}
