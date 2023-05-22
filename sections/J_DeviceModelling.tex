@@ -199,7 +199,7 @@ Analytically $i_d$ can be described using Ohm's law and considering the voltage 
         0 \hspace{1cm}   &V_d < 0.7V
     \end{cases}
 \end{equation}
-This expression matches the expression for the ideal diode presented in Equation \ref{eq:ideal_diode}. 
+This expression matches the expression for the ideal diode presented in \eqref{eq:ideal_diode}. 
 
 \subparagraph{Determination of Maximum Current}
 To accurately model the diode using the piece-wise linear circuit in Figure \ref{fig:piecewise_diode}, a reasonable estimate of the maximum current flowing through the diode while it is forward biased must be made.\\
@@ -240,7 +240,7 @@ The rate of change of the capacitor voltage ($\frac{dV_c}{dt}$) is the differenc
 \end{align}
 The input voltage $V_{in}(t)$ is stepped down by a factor of 20 due to the rectifier being connected to the LV-side of the ideal transformer (see Figure \ref{fig:powersupply}). Hence it's amplitude $A$ is given by $A = \frac{230\sqrt{2}}{20}$.\\
 
-Substituting [\ref{eq:dvc_dt}] into the ideal capacitor model in [\ref{eq:ideal_capacitor}], derive a first-order ODE of $V_c(t)$
+Substituting \eqref{eq:dvc_dt} into the ideal capacitor model in \eqref{eq:ideal_capacitor}, derive a first-order ODE of $V_c(t)$
 \begin{align}
 	2R_bC\frac{dV_c}{dt} + V_c(t) = A\text{sin}(\omega t) - 1.4
 	\label{eq:diff}
@@ -275,7 +275,7 @@ The solution to the ODE $V_c(t)$ is the combination of the homogenous and non-ho
 \end{equation}
 At time $t=0$ the capacitor is uncharged. Thus, the initial condition holds $V_c(0) = 0$
 
-Define $p$ as $2R_bC$. The given ordinary differential equation [\ref{eq:diff}] can then be written as:
+Define $p$ as $2R_bC$. The given ordinary differential equation \eqref{eq:diff} can then be written as:
 \begin{align}
 p\frac{dV_c}{dt} + V_c(t) = A\sin(\omega t) - 1.4
 \end{align}
@@ -285,7 +285,7 @@ The initial condition $V_c(0) = 0$ translates to:
 B + N - 1.4 = 0
 \end{equation}
 
-The derivative of this non-homogeneous part of the ODE [\ref{vc_t}] is:
+The derivative of this non-homogeneous part of the ODE \eqref{vc_t} is:
 \begin{equation}
 \frac{dV_c}{dt} = M\omega\cos(\omega t) - N\omega\sin(\omega t)
 \end{equation}
@@ -351,7 +351,7 @@ Finally derive the solution for $V_c(t)$:
 	V_c(t) = 4.897e^{-71.0227t} + 0.7907\text{sin}(100\pi t) -3.497\text{cos}(100\pi t) - 1.4
 	\label{eq:capacitor_voltage}
 \end{equation}
-Hence, determine the capacitor current $i_c(t)$ referring to Equation \ref{eq:ideal_capacitor}
+Hence, determine the capacitor current $i_c(t)$ referring to \eqref{eq:ideal_capacitor}
 \begin{equation}
 	\begin{split}
 		i_c(t) &= 0.0022\sbracket{-71.0227(4.897)e^{-71.0227t} + 100\pi*0.7907\cos(100\pi t) + 100\pi*3.497\sin(100\pi t)} \\
