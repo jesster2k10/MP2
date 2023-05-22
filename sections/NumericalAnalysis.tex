@@ -54,7 +54,6 @@ For a circuit that has been left in a stationary state before power supply is co
     \Large No-Load Behavior and Single Reactive Element Analysis
 \end{center}\\
 
-
 Under a no-load condition, where the output is an open circuit, the system exhibits a distinct behavior. In such cases, it is evident that the system involves a single reactive element, specifically a capacitor. Consequently, the complexity of the system is reduced, and it can be described by a single ordinary differential equation (ODE). This ODE captures the relationship between the variables \(y\) and its derivative \(y'\), serving as a fundamental equation governing the system's behavior in the absence of a load. By analyzing and solving this ODE, we can gain insights into the dynamics and characteristics of the system when it operates without any external load connected to it.\\
 
 Consequently, we can express the resulting equations for \(y\) and \(y'\) (the derivatives of \(y\)) as follows:\\
@@ -123,6 +122,8 @@ The current through the capacitor can be expressed as follows:\\
     i_c=i_s-i_d
 \end{equation}\\
 
+\Large\textcolor{blue}{Resistive Load}\\
+
 When considering a resistive load, the characteristics and behavior of the system can be further elaborated. Unlike reactive elements, such as capacitors or inductors, which introduce phase shifts and complex dynamics, resistive loads primarily consist of resistive elements like resistors. These resistive elements do not cause significant phase differences and primarily dissipate electrical energy as heat.
 
 In the specific scenario of a resistive load, the system's equations and calculations revolve around the properties of resistive elements. These elements allow for simpler and more direct mathematical representations, enabling easier analysis and understanding of the system's behavior. By incorporating the appropriate equations and considering the characteristics of resistive loads, we can gain valuable insights into the system's performance, stability, and overall dynamics under these conditions.
@@ -179,7 +180,9 @@ The expression for the current flowing through the load resistance $R_L$ can be 
 
 All other parameters can be determined using the previously derived equations.
 
- the circuit under consideration involves two reactive elements, namely an inductor and a capacitor. This leads to a more complex system that can be described by a system of ordinary differential equations (ODEs). Consequently, the resulting equations for the vectors $y$ and $y'$, which represent the variables and their derivatives, can be formulated to capture the behavior of the circuit. Taking into account the inductive and capacitive elements, the analysis of this system requires an understanding of the dynamics, interactions, and interplay between these reactive components. By solving the system of ODEs, we can gain insights into the voltage and current relationships, energy transfers, and the overall behavior of the circuit under the influence of both the inductor and the capacitor.\\
+\Large\textcolor{blue}{Inductive Load}\\
+
+ The circuit under consideration involves two reactive elements, namely an inductor and a capacitor. This leads to a more complex system that can be described by a system of ordinary differential equations (ODEs). Consequently, the resulting equations for the vectors $y$ and $y'$, which represent the variables and their derivatives, can be formulated to capture the behavior of the circuit. Taking into account the inductive and capacitive elements, the analysis of this system requires an understanding of the dynamics, interactions, and interplay between these reactive components. By solving the system of ODEs, we can gain insights into the voltage and current relationships, energy transfers, and the overall behavior of the circuit under the influence of both the inductor and the capacitor.\\
 
 In this scenario, the circuit comprises both an inductor and a capacitor as reactive elements. As a result, it is represented by a system of ODEs, where the equations involving the vectors $y$ and $y'$ describe its behavior. Solving these equations provides insights into the circuit's voltage-current relationships and energy dynamics.\\
 
@@ -239,8 +242,85 @@ The conditions for the Zener modes remain consistent with what has been previous
     V_b=\begin{cases}
         V_a-R_sI_L, V_b \leq V_z\\
         \frac{\frac{V_a}{R_s}-I_L+\frac{V_z}{R_z}}{\frac{1}{R_s+\frac{1}{R_z}}}, V_b>V_z
-    \end{cases}=\
+    \end{cases}=\begin{cases}
+        V_a-R_sI_L, V_b \leq V_z\\
+        \frac{R_z(V_a-I_LR_s)+V_zR_s}{R_s+R_z}, V_b>V_z
+    \end{cases} 
 \end{equation}\\
+
+The expression for the current flowing through resistor R2 is as follows:\\
+
+\begin{equation}
+    I_{R_2}=I_L
+\end{equation}\\
+
+The voltage across the inductor Vc can be expressed as:\\
+
+\begin{equation}
+    V_c=V_b-R_2I_L
+\end{equation}\\
+
+The remaining parameters can be determined utilizing previously derived equations.\\
+
+\Large\textcolor{blue}{Full Load}
+
+The circuit being discussed involves two reactive elements, specifically an inductor and a capacitor. As a result, the behavior of the circuit can be accurately described by a system of ordinary differential equations (ODEs). These equations, involving the vectors $y$ and $y'$, capture the dynamics and interactions between the inductor and capacitor within the circuit.
+
+Now, shifting our focus to the concept of full load, it is important to recognize that full load conditions can significantly impact the performance of a circuit or system. Under full load, the system operates at its maximum or rated capacity, experiencing the highest current or power demand. This state is crucial for evaluating the reliability, efficiency, and functionality of the circuit, ensuring that it can handle the load without compromising its performance.
+
+When examining the behavior of a circuit under full load, considerations such as power consumption, heat dissipation, and voltage stability become paramount. Engineers and designers must carefully size and design the circuit to meet the demands of full load conditions, ensuring safe and efficient operation.
+
+Understanding the behavior of a circuit with reactive elements, as described in your friend's message, allows us to evaluate its performance under full load accurately. By considering the derived equations for $y$ and $y'$ within the context of full load, we can assess the system's capability to handle maximum demands and determine its overall reliability and efficiency under these challenging operating conditions.
+
+\begin{equation}
+    y=[V_a\\
+    I_L]
+\end{equation}
+
+\begin{equation}
+    y'=[\frac{dV_a}{dt}\\
+    \frac{dI_L}{dt}]=[\frac{i_c}{C}\\
+    \frac{V_c}{L}]\\
+\end{equation}
+
+
+$y'$ for Zener in reverse-biased state has been found from the Equations (1.93, 1.94, 1.95, 1.96):\\
+
+\begin{equation}
+    y'=[\frac{1}{C}(u(\frac{V_2-e_2}{2}-V_{th})(\frac{V_2-e_2}{2}-V_{th})(\frac{\frac{V_2-e_2}{2}-V_{th}}{R_b})-\frac{V_a(R_z+R_L)+R_L(i_LR_z-V_z)}{(R_s(R_z+R_L)+R_LR_z)}\\
+    \frac{1}{L}(R_L\frac{V_aR_z+(V_z-i_LR_z)R_s}{(R_s(R_z+R_L)+R_LR_z)}-R_2i_L)]
+\end{equation}\\
+
+The equation (2.21.6) provides the derived expression for $y'$ of the Zener diode when it is in the cut-off state.\\
+
+\begin{equation}
+    y'=[\frac{1}{C}(u((\frac{V_2-e_2}{2}-V_{th})(\frac{\frac{V_2-e_2}{2}-V_{th}}{R_b})-\frac{V_a+i_LR_L}{R_s+R_L}\\
+    \frac{1}{L}(\frac{-i_L(R_s(R_L+R_2)+R_LR_2)+V_aR_L}{R_s+R_L})]
+\end{equation}\\
+
+By utilizing Equations (3.6.3) and (3.6.4), it is possible to determine the voltage across the capacitor and the current flowing through the inductor at the subsequent iteration in the Runge-Kutta algorithm. These calculations are contingent upon the state of the Zener diode. Moreover, by considering the input voltage V2, Va, and IL at each iteration, it becomes feasible to ascertain other parameters.\\
+
+\begin{equation}
+    V_b=\begin{cases}
+        \frac{\frac{V_a}{R_s}-I_L}{\frac{1}{R_s}+\frac{1}{R_L}}, V_b \leq V_z\\
+        \frac{\frac{V_a}{R_s}-I_L+\frac{V_z}{R_z}}{\frac{1}{R_s}+\frac{1}{R_L}+\frac{1}{R_z}}, V_b>V_z
+    \end{cases}=\begin{cases}
+        R_L\frac{V_a-I_LR_s}{R_L+R_s}, V_b \leq V_z\\
+        \frac{R_zV_a-I_LR_sR_z+V_zR_s}{R_s+\frac{R_sR_z}{R_L}+R_z}, V_b>V_z
+    \end{cases}
+\end{equation}\\
+
+The remaining parameters can be determined by employing previously derived equations.\\
+
+\Large\textcolor{blue}{Switching in Motion}\\
+
+In the realm of switching in motion, as your friend highlighted, the ability to connect or disconnect loads using switches while power is applied to the circuit is a crucial aspect. When dealing with resistive loads, the previously derived equations remain accurate, assuming an ideal resistor with no dynamic response to changes in voltage or current.
+
+For connecting an inductive load, it becomes essential to ensure that the current through the inductor is maintained at $0A$. Under this condition, the aforementioned equations remain valid. However, the model described above does not encompass the scenario when an inductive load is disconnected. Previously, it was assumed that the switch is ideal, leading to instantaneous disconnection as the time interval ($\Delta t$) approaches zero ($\Delta t \to 0s$). However, in practical situations, when the switch is flipped, the current through the inductor will not instantaneously reduce to zero. As a result, the voltage across the inductor can be expressed using the equation [4]:
+
+This highlights the need to consider the dynamics of inductive loads during switching in motion, as the instantaneous reduction of current to zero may not be achieved. Proper analysis and understanding of these dynamics are essential for accurate modeling and effective control of systems involving inductive loads.
+
+    
 
 
 
