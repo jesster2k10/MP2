@@ -21,12 +21,10 @@ Both the primary and secondary switches are turned on resulting in a full load o
     
     (12,5) node[label=\textcircled{4}] {} to[R,l=$R_{L_1}$,i=$i_{l_1}$] (12,0)
     (12,5) to[short] (15,5)
-    (15,5) node[label=\textcircled{5}] {} to[short] (15,4.5)
-    (15,4.5) to[R,l=$R_{L_2}$,i=$i_{l_2}$] (15,2.5)
-    (15,2.5) to[inductor,l=$L$] (15,1.5)
-    (15,1.5) to[short] (15,0)
+    (15,5) node[label=\textcircled{5}] {} to[R,l=$R_{L_2}$,i=$i_{l_2}$] (15,3)
+    (15,3) to[inductor,l=$L$,i=$i_l$] (15,0)
     
-    (9,5) to[short,i=$i_l$] (12,5)
+    (9,5) to[short,i=$i_{l_{12}}$] (12,5)
     (0,0) to[short] (15,0)
     (7.5,0) node[ground]{} (5,-1);
     
@@ -52,23 +50,150 @@ Determine an expression for $i_s$ at node \textcircled{3} using KCL
 \begin{equation}
 	\begin{split}
 		i_s &= i_z + i_{l} \\
-		\frac{e_2 - e_3}{R_s} &= \frac{e_3 - V_z}{R_z} + i_{l}
+		\frac{e_2 - e_3}{R_s} &= \frac{e_3 - V_z}{R_z} + i_{l_{12}}
 	\end{split}
 	\label{eq:fullLoad_node3}
 \end{equation}
 
 \subparagraph{Node \textcircled{4}}
-Determine an expression for $i_l$ at node \textcircled{4} using KCL
+Determine an expression for $i_{l_{12}}$ at node \textcircled{4} using KCL
 \begin{equation}
 	\begin{split}
-		i_l &= i_{l_1} + i_{l_2} \\
+		i_{l_{12}} &= i_{l_1} + i_{l_2} \\
 		    &= \frac{e_4}{R_{L_1}} + \frac{e_4 - e_5}{R_{L_2}}
 	\end{split}
 \end{equation}
 Note $e_4 = e_3$ and $e_4 = e_5$ as there are no voltage drops across these terminals.
 \begin{equation}
 	\begin{split}
-	 \therefore i_l = \frac{e_3}{R_{L_1}} + \frac{e_3 - e_4}{R_{L_2}}
+	 \therefore i_{l_{12}} = \frac{e_3}{R_{L_1}} + \frac{e_3 - e_4}{R_{L_2}}
 	\end{split}
 	\label{eq:fullLoad_node4}
 \end{equation}
+Recalling the ideal inductor model in \eqref{eq:ideal_inductor} the rate of change of $i_{l}$ related to output voltage $e_4$ by,
+\begin{equation}
+	\begin{split}
+		e_4 = L\frac{di_l}{dt} = L\frac{di_{l_2}}{dt}
+	\end{split}
+	\label{eq:fullLoad_output}
+\end{equation}
+
+\paragraph{Differential Equations}
+The current $i_s$ depends on the biasing of the zener diode. The biasing of the zener is determined by the relation between $e_3$ and $V_z$. Two set of differential equations are derived based on the operation of the Zener.
+
+\subparagraph{Reverse Bias}
+When $e_3 < V_z$ the zener is in reverse bias. There is no additional current flow at node \textcircled{3} as the switch remains open. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_{l_{12}} = i_{l_1} + i_{l_2}$$
+Note: Current $i_{l_2}$ equals $i_l$
+\begin{equation}
+	\frac{e_2 - e_3}{R_s} = \frac{e_3}{R_{L_1}} + i_l
+	\label{eq:node3}
+\end{equation}
+In this state, the system is characterised by these set of equations
+\begin{align}
+	i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} \\
+	i_s &= \frac{e_3}{R_{L_1}} + i_l \\
+	i_c(t) &= C \frac{de_2}{d_t} \\
+	e_4 &= L\frac{di_l}{dt} = e_3 - R_{L_2}i_l
+	\label{eq:fullLoad_system}
+\end{align}
+Solving \eqref{eq:node3} for $e_3$ gives an expression for the voltage at node \textcircled{3}
+\begin{equation}
+\begin{split}
+	e_3 &= \frac{e_2R_{L_1} - i_l R_s R_{L_1}}{R_s + R_{L_1}} \\
+	    &= \bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1}
+\end{split}
+\label{eq:e3_il}
+\end{equation}
+Substitute $e_3$ into the expression for $i_s$ from \eqref{eq:fullLoad_system}
+\begin{equation}
+ \begin{split}
+	i_s &= \frac{\bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1}}{R_{L_1}} + i_l \\
+		&= \frac{e_2 - R_s i_l}{R_{L_1} + R_s} + i_l
+ \end{split}
+\end{equation}
+Hence, the current across the capacitor $i_c(t)$ is:
+\begin{equation}
+	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 - R_s i_l}{R_{L_1} + R_s} - i_l
+\end{equation}
+and it's resulting differential equation is,
+\begin{equation}
+	\frac{de_2}{dt} = \frac{1}{c}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 - R_s i_l}{R_{L_1} + R_s} - i_l}
+	\label{eq:fullLoad_DiffEq1}
+\end{equation}
+This condition only holds true when $e_3 < V_z$.
+
+\pagebreak
+Another differential equation can be found relating the rate of change of $i_l$ to the inductance from the system of equations in \eqref{eq:fullLoad_system}.
+\begin{equation}
+	\begin{split}
+		L\frac{di_l}{dt} &= \bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1} - R_{L_2}i_l \\
+		 \frac{di_l}{dt} &= \frac{1}{L} \sbracket{
+		 	\bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1} - R_{L_2}i_l
+		 }
+	\end{split}
+	\label{eq:fullLoad_DiffEq2}
+\end{equation}
+This also only holds true when $e_3 < V_z$, or, when
+\begin{equation}
+	\bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1} < V_z
+\end{equation}
+
+\subparagraph{Forward Bias}
+When $e_3 \geq V_z$ the zener is in reverse bias. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_{l_{12}} + i_z = i_{l_1} + i_l + i_z$$
+\begin{equation}
+	\frac{e_2 - e_3}{R_s} = \frac{e_3}{R_{L_1}} + \frac{e_3 - V_z}{R_z} + i_l
+	\label{eq:forwardBias_node3}
+\end{equation}
+In this state, the system is characterised by these set of equations
+\begin{align}
+	i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} \\
+	i_s &= \frac{e_3}{R_{L_1}} + \frac{e_3 - V_z}{R_z} + i_l \\
+	i_c(t) &= C \frac{de_2}{d_t} \\
+	e_4 &= L\frac{di_l}{dt} = e_3 - R_{L_2}i_l
+	\label{eq:fullLoad_forwardBias_system}
+\end{align}
+Solving \eqref{eq:forwardBias_node3} for $e_3$ gives an expression for the voltage at node \textcircled{3}
+\begin{equation}
+\begin{split}
+	e_3\left(\frac{1}{R_{L_1}} + \frac{1}{R_z} + \frac{1}{R_s}\right) = \frac{e_2}{R_s} + \frac{V_z}{R_z} + i_l \\
+		e_3 = \frac{\frac{e_2}{R_s} + \frac{V_z}{R_z} + i_l}{\frac{1}{R_{L_1}} + \frac{1}{R_z} + \frac{1}{R_s}}
+\end{split}
+\label{eq:fullLoad_forwardBias_e3_unsimplified}
+\end{equation}
+Multiply the numerator and denominator of \eqref{eq:fullLoad_forwardBias_e3_unsimplified} by  $R_sR_zR_{L_1}$
+\begin{equation}
+ e_3 = \frac{e_2 R_z R_{L_1} + V_z R_s R_{L_1} + i_l R_s R_z}{R_z R_{L_1} + R_s R_{L_1} + R_s R_z}
+\label{eq:fullLoad_forwardBias_e3}
+\end{equation}
+Substitute $e_3$ into the expression for $i_s$ from \eqref{eq:fullLoad_forwardBias_system},
+\begin{equation}
+i_s = \frac{e_2}{R_s} \left(\frac{R_z R_{L_1}}{R_s R_{L_1} + R_z R_{L_1} + R_s R_z}\right) + \frac{V_z R_{L_1}}{R_s R_{L_1} + R_z R_{L_1} + R_s R_z} - \frac{i_l R_s}{R_s R_{L_1} + R_z R_{L_1} + R_s R_z} + i_l
+\end{equation}
+Then, simplify the above expression:
+\begin{equation}
+i_s = \frac{e_2 (R_z + R_{L_1}) - V_z R_{L_1} + i_l R_z R_{L_1}}{R_z R_s + R_{L_1} R_z + R_s R_{L_1}}
+\end{equation}
+Hence, the current across the capacitor $i_c(t)$ is:
+\begin{equation}
+	i_c(t) = \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 (R_z + R_{L_1}) - V_z R_{L_1} + i_l R_z R_{L_1}}{R_z R_s + R_{L_1} R_z + R_s R_{L_1}}
+\end{equation}
+and it's resulting differential equation is,
+\begin{equation}
+	\frac{de_2}{dt} = \frac{1}{c}\bracket{\sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}} - \frac{e_2 (R_z + R_{L_1}) - V_z R_{L_1} + i_l R_z R_{L_1}}{R_z R_s + R_{L_1} R_z + R_s R_{L_1}}}
+	\label{eq:fullLoad_DiffEq3}
+\end{equation}
+This condition only holds true when $e_3 \geq V_z$. Another differential equation can be found relating the rate of change of $i_l$ to the inductance from the system of equations in \eqref{eq:fullLoad_forwardBias_system}.
+\begin{equation}
+	\begin{split}
+		L\frac{di_l}{dt} &= \frac{e_2 R_z R_{L_1} + V_z R_s R_{L_1} + i_l R_s R_z}{R_z R_{L_1} + R_s R_{L_1} + R_s R_z} - R_{L_2}i_l \\
+		 \frac{di_l}{dt} &= \frac{1}{L} \sbracket{\frac{e_2 R_z R_{L_1} + V_z R_s R_{L_1} + i_l R_s R_z}{R_z R_{L_1} + R_s R_{L_1} + R_s R_z} - R_{L_2}i_l}
+	\end{split}
+	\label{eq:fullLoad_DiffEq4}
+\end{equation}
+This also only holds true when $e_3 \geq V_z$, or, when
+\begin{equation}
+	\bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1} \geq V_z
+\end{equation}
+
+Thus, four differential equations \eqref{eq:fullLoad_DiffEq1}, \eqref{eq:fullLoad_DiffEq2}, \eqref{eq:fullLoad_DiffEq3}, \eqref{eq:fullLoad_DiffEq4} have been derived characterising the operation of the circuit under full load conditions.
+
