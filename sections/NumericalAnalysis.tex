@@ -320,7 +320,47 @@ For connecting an inductive load, it becomes essential to ensure that the curren
 
 This highlights the need to consider the dynamics of inductive loads during switching in motion, as the instantaneous reduction of current to zero may not be achieved. Proper analysis and understanding of these dynamics are essential for accurate modeling and effective control of systems involving inductive loads.
 
-    
+\begin{equation}
+    V_L=L\frac{di_L}{dt} \approx \lim_{\Delta t \to 0} L\frac{\Delta i_L}{\Delta t}=-Li_L \lim_{\Delta t \to 0} \frac{1}{\Delta t}
+\end{equation}\\
+
+Consequently, the solution tends to negative infinity (- $\infty$), which lacks physical significance. In actuality, the voltage will experience a spike; however, within any switch, an electrical breakdown will transpire, preventing the current from instantaneously reducing to zero. It would be more reasonable to model the voltage across the diode in the subsequent cycle after the switch is turned off as:\\
+
+\begin{equation}
+    V^{n+1}_L = -\frac{Li^{n}_L}{h}
+\end{equation}\\
+
+As a result, the current in the subsequent cycle is $i_L^{n+1} = 0$ (A). Consequently, in all subsequent cycles, both the voltage and current will be zero. Since the resistor is not a reactive element, the voltage across it will also be zero after the switch is flipped.
+
+It is important to note that this model cannot accurately predict the actual voltage across the inductor. Instead, it serves to indicate a surge in the inductor voltage after it is disconnected from the power supply.\\
+
+\Large\textcolor{blue}{Implementation of Numerical Algorithm for Circuit Analysis}
+
+The implementation of the numerical algorithm for the circuit analysis involved the development of a MATLAB function m-file, utilizing the derived equations as discussed earlier. This m-file takes various inputs, including the current voltage across the Zener diode, capacitor, and the current flowing through the inductor. Additionally, the input voltage at the present, intermediate, and next iteration is provided to determine the slopes at different time intervals. The timestep value, mode of operation, and relevant parameters of the circuit are also considered as inputs, as they may vary.
+
+The MATLAB function m-file then performs the necessary calculations and computations to determine all the currents and voltages in the circuit for the next iteration. By utilizing the numerical algorithm and considering the changing inputs, the function provides a comprehensive analysis of the circuit dynamics, facilitating the evaluation of various parameters and their impact on the circuit's behavior.
+
+This implementation enables efficient and accurate simulation and analysis of the circuit, allowing for insights into its performance under different operating conditions. It serves as a valuable tool for engineers and researchers in studying and optimizing circuit designs, understanding the effects of parameter variations, and making informed decisions for circuit improvement.\\
+
+[Code Section 1]\\
+
+\emph{Figure 3.1: MATLAB Function M-File for Computing Voltages and Currents in the Circuit at Time n+1}\\
+
+\Large\textcolor{blue}{\textbf{Refining Timestep Selection for Accurate Circuit Analysis}}
+
+
+To determine an appropriate timestep for the numerical algorithm, the input to the circuit, in this case, is a mains signal with a frequency of 50 Hz. Through a process of trial and error, it was found that a timestep of 20 μs, resulting in 1000 cycles per second, is sufficient for accurate simulations. However, it is sensible to verify this choice by comparing the results with a smaller timestep, such as 10 μs, which is half the size of 20 μs. If the difference between the resulting waveforms produced by the RungeKuttaCircuit using both timesteps is negligible, it indicates that the chosen timestep size is acceptable.
+
+To conduct this comparison, the voltage across the capacitor (Va) and the voltage across the load (Vb) can be analyzed during the first second after the power is supplied. This analysis should be performed for all four modes of operation, taking into account the nominal values of the resistor (Rs) and capacitor (C).
+
+By evaluating the waveforms and assessing the level of deviation between the two timesteps, engineers and researchers can confidently determine if the timestep of 20 μs is appropriate for accurately capturing the circuit behavior. This verification process helps ensure that the chosen timestep strikes a balance between computational efficiency and accuracy, resulting in reliable simulations for further analysis and evaluation.\\
+
+[Graph for Circuit Parameters versus time without load]\\
+
+\emph{Figure 3.2.1: Voltage across the load and capacitor, and current through the Zener diode under no-load conditions}\\
+
+
+
 
 
 
