@@ -1,0 +1,65 @@
+function [circuit] = powerSupply(mode,vin,h,ic)
+% power_supply: Uses the 4th order Runge-Kutta (RK4) method to solve
+% the differential equations governing the operation of a power supply circuit.
+%
+% The function performs one iterative step of the RK4 method, according to the specified
+% load conditions (mode). This function is designed to be called repeatedly to simulate 
+% the circuit over a period of time.
+%
+% Inputs:
+% mode: The load condition of the circuit, determining how the equations are solved
+%       (enum: CircuitMode).
+% vin:  A [1x3] real vector containing the input voltages at three points in time:
+%       the current time step (n), the midpoint of the current time step (n+1/2), and 
+%       the next time step (n+1).
+% h:    The time step size for the RK4 method, a positive real scalar.
+% ic:   A [1x3] real vector containing the initial conditions for the capacitor voltage (e2),
+%       zener voltage (e3), and inductance current (iL)
+%
+% Outputs:
+% circuit: A [1x13] real vector containing the calculated circuit parameters 
+%          at the next time step (n+1). 
+%
+% Author:  Jesse Onolememen
+% Version: 1.0.0
+% Date:    23/05/2023 
+%
+%
+% 1. Input validation
+arguments
+    mode (1,1) CircuitMode
+    v    (1,3) double
+    h    (1,1) double
+    ic   (1,3) double
+end
+
+% 2. Constant definition
+const.N   = [20, 1];  % Transformer turns ratio
+const.C   = 2200e-6;  % Capacitance of capacitor C (F)
+const.Rs  = 270;      % Minimum resistance of Rs (Ohms)
+const.RL1 = 287;      % Resistance of primary load (Ohms) 
+const.RL2 = 65.7;     % Resistance of secondary load (Ohms)
+const.Rb  = 3.2;      % Ideal diode bulk resistance (Ohms)
+const.Rz  = 4.85;     % Zener diode resistance (Ohms)
+const.Vz  = 6.2;      % Zener diode voltage (V)
+const.L   = 105.8e-4; % Inductance of inductor L (H)
+const.V2 =  N(1)/N(2) * abs(vin); % Secondary transformer voltage (V)
+const.e2 = ic(1);     % Node voltage at node (2) through capacitor (V)
+const.e3 = ic(2);     % Node voltage at node (3) through zener (V)
+const.iL = ic(3);     % Current at node (4)/(5) through inductor (A)
+
+% 3. Switching operation for each mode
+switch mode
+    case CircuitMode.NoLoad
+        op = powerSupply_noLoad(const, );
+    case CircuitMode.FullLoad
+        op = powerSupply_fullLoad(const);
+    case CircuitMode.ResistiveLoad
+        op = powerSupply_resistiveLoad(const);
+    case CircuitMode.InductiveLoad
+        op = powerSupply_inductiveLoad(const);
+    otherwise
+        error("Invalid mode passed to powerSupply()")
+end
+
+end
