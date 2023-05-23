@@ -1,13 +1,45 @@
 \section{Simulation}
 \subsection{Switches}
-\subsection{Algorithmic Implementation}
-MATLAB was used to implement the numerical analysis using RK4.
-\begin{itemize}
-	\item todo describe code operation get gpt-4 to do it
-\end{itemize}
-\lstinputlisting[caption=The MATLAB code used to derive the circuit parameters of the simple power supply]{code/powerSupply.m}
+Switches allow for the selective connection or disconnection of different loads while power is applied to the circuit. When it comes to resistive loads, they exhibit no dynamic response to changes in voltage or current. This implies that the ideal resistor model \eqref{eq:ideal_resistor} holds true.
+\leavevmode\newline
 
-\pagebreak \lstinputlisting[caption=The MATLAB code used to derive the circuit parameters of the simple power supply]{code/powerSupply_noLoad.m}
-\pagebreak \lstinputlisting[caption=The MATLAB code used to derive the circuit parameters of the simple power supply]{code/powerSupply_resistiveLoad.m}
-\pagebreak \lstinputlisting[caption=The MATLAB code used to derive the circuit parameters of the simple power supply]{code/powerSupply_inductiveLoad.m}
-\pagebreak \lstinputlisting[caption=The MATLAB code used to derive the circuit parameters of the simple power supply]{code/powerSupply_fullLoad.m}
+In contrast, when dealing with \textit{inductive loads}, it is important that the current through the inductor ($I_L$) is zero at the time of connection for the derived equations to hold true. This is due to the property of inductors resisting changes in current. \citep{inductor}
+
+\subsubsection{Considerations when Disconnecting Inductive Loads}
+However, disconnecting an inductive load presents a different scenario. Here, an ideal switch is presumed, which disconnects instantaneously as $\Delta t$ tends to zero. Nevertheless, due to the inductive property of resisting changes in current, the current through the inductor will be non-zero at the instant of switching. This leads to an instantaneous reduction of current to zero, thus causing a voltage spike across the inductor according to Faraday's law: \citep{inductor2}
+
+\begin{equation}
+V_L = -L \frac{di}{dt}
+\end{equation}
+
+where $V_L$ is the voltage across the inductor, $L$ is the inductance, and $\frac{di}{dt}$ is the rate of change of current.
+
+\subsubsection{Modelling Voltage Spike on Inductive Load Disconnection}
+
+This spike, mathematically, approaches negative infinity, which is not physically meaningful. In reality, the voltage will increase abruptly, but the breakdown of the switch will eventually occur, leading to a non-instantaneous reduction of current. To model this scenario, the voltage across the diode in the cycle following the switch-off event is estimated as:
+
+\begin{equation}
+V_{L_{n+1}} = - \frac{L \cdot i_{n}}{h}
+\end{equation}
+
+where $V_{L_{n+1}}$ is the voltage across the inductor at the next cycle, $i_n$ is the current through the inductor at the current cycle, and $h$ is the time-step size.
+
+\subsubsection{Post Disconnection of Inductive Load}
+In the subsequent cycles after disconnection, the voltage and current across the inductor are both equal to zero. The voltage across the resistor will also be zero after the switch is flipped, since it is not a reactive element.
+
+\pagebreak
+\subsection{Algorithmic Implementation}
+The numerical analysis of the circuit is implemented in MATLAB using the \texttt{powerSupply} function. This function applies the fourth-order Runge-Kutta method (RK4) to solve the governing differential equations.
+\begin{itemize}
+\item To manage varying load conditions, the design incorporates polymorphism by utilising four different sub-functions. Each sub-function handles the characteristic equations specific to a particular load condition.
+\item RK4 is applied in each scenario to compute the state of the circuit at the next time step, based on the current state and input voltages (.i.e. determine the characteristic voltages and currents of the circuit)
+\item The primary \small{\texttt{powerSupply}} function parses the \small{\texttt{mode}} argument to determine the current load condition. It then dispatches the calculation to the appropriate sub-function. This is managed through a switch-case control flow mechanism.
+\item After obtaining the next state from the appropriate sub-function, \small{\texttt{powerSupply}} calculates the remaining circuit parameters, $i_c(t), i_z(t), i_s, i_d(t)$.
+\end{itemize}
+The code is organised modularly, separating the overall simulation flow from the specific equations for different load conditions. This structure makes the design robust, readable, maintainable, and easily extendable for additional load conditions or complexities.
+
+\pagebreak \lstinputlisting[caption=Primary MATLAB function for simulating the power supply operations using RK4]{code/powerSupply.m}
+\pagebreak \lstinputlisting[caption=Sub-function for the no-load scenario of the power supply simulation]{code/powerSupply_noLoad.m}
+\pagebreak \lstinputlisting[caption=Sub-function for the resistive load scenario of the power supply simulation]{code/powerSupply_resistiveLoad.m}
+\pagebreak \lstinputlisting[caption=Sub-function for the inductive load scenario of the power supply simulation]{code/powerSupply_inductiveLoad.m}
+\pagebreak \lstinputlisting[caption=Sub-function for the full-load scenario of the power supply simulation]{code/powerSupply_fullLoad.m}

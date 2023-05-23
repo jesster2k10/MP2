@@ -17,15 +17,26 @@ function [y] = powerSupply(mode,vin,h,ic)
 %       zener voltage (e3), and inductance current (iL)
 %
 % Outputs:
-% circuit: A [1x13] real vector containing the calculated circuit parameters 
-%          at the next time step (n+1). 
+% y:    A structure containing the calculated circuit parameters 
+%       at the next time step (n+1). The structure contains:
+%       - Id: Current through the diode (A)
+%       - Is: Current through the resistor Rs (A)
+%       - Ic: Current through the capacitor C (A)
+%       - Iz: Current through the zener diode (A)
+%       - VL: Voltage at the inductor (V)
+%       - VR: Voltage at the resistive branch (V)
+%       - VLL: Voltage at the inductive branch (V)
+%       - iL2: Current flowing into the secondary load (inductor) (A)
+%       - iL1: Current flowing into the primary load (RL1) (A)
+%       - e2: The node voltage at node 2 (V)
+%       - e3: The node voltage at node 3 (V)
+%       - iL: The current flowing through the inductor (A)
 %
 % Author:  Jesse Onolememen
 % Version: 1.0.0
-% Date:    23/05/2023 
+% Date:    13/05/2023 
 %
 %
-% 1. Input validation
 arguments
     mode (1,1) CircuitMode {mustBeNonempty}
     vin  (1,3) double {mustBeNonempty}
@@ -33,7 +44,7 @@ arguments
     ic   (1,3) double {mustBeNonempty}
 end
 
-% 2. Constant definition
+% Constant definition
 x.N   = [20, 1];  % Transformer turns ratio
 x.C   = 2200e-6;  % Capacitance of capacitor C (F)
 x.Rs  = 270;      % Minimum resistance of Rs (Ohms)
@@ -49,7 +60,7 @@ x.e3  = ic(2);     % Node voltage at node (3) through zener (V)
 x.iL  = ic(3);     % Current at node (4)/(5) through inductor (A)
 x.Vth = 0.7;      % Threshold voltage of silicion ideal diode (V)
 
-% 3. Switching operation for each mode
+% Switching operation for each mode
 switch mode
     case CircuitMode.NoLoad
         y = powerSupply_noLoad(x, h);
@@ -62,5 +73,20 @@ switch mode
     otherwise
         error("Invalid mode passed to powerSupply()")
 end
+
+% Determine the primary currents
+% Determine the diode current id(t)
+y.Id = ( (x.V2(3) - x.e2)/2 - x.Vth ) / x.Rb;
+y.Id = ( (x.V2(3) - x.e2)/2 - x.Vth > 0) * y.Id; % Apply unit step function;
+
+% Determine the current in resistor Rs -> is
+y.Is = ( x.e2 - x.e3 ) / x.Rs;
+
+% Determine the current through the capacitor ic(t)
+y.Ic = y.Id - y.Is;
+
+% Determine the zener current iz(t)
+y.Iz = ( x.e2 - x.Vz ) / x.Rz;
+y.Iz = ( x.e3 - x.Vz > 0 )*y.Iz; % Apply unit step function
 
 end

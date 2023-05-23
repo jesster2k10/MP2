@@ -29,7 +29,7 @@ function y = powerSupply_inductiveLoad(x, h)
 %
 % Author:  Jesse Onolememen
 % Version: 1.0.0
-% Date:    13/05/2023 
+% Date:    04/05/2023 
 arguments
     x struct {mustBeNonempty, mustBeA(x,'struct')}
     h (1,1) double {mustBePositive, mustBeNonempty}
@@ -79,16 +79,10 @@ y.e2 = x.e2 + (k1(1)+2*k2(1)+2*k3(1)+k4(1))/6;
 y.iL = x.iL + (k1(2)+2*k2(2)+2*k3(2)+k4(2))/6;
 
 % Determine output votlage e_3 based on zener biasing
-y.e3 = (y.e2 - x.Vz + x.Rz*y.iL)/Rs_Rz;
+y.e3 = ( (y.e2 - x.Rs*y.iL)/(x.RL1 + x.Rs) * x.RL1 );
 if (y.e3 >= x.Vz) % Zener is in forward bias, apply different epxression for e3
-    y.e3 = ( y.e2*x.Rz + x.Vz*x.Rs - y.iL*x.Rs*x.Rz ) / Rs_Rz;
+    y.e3 = ( y.e2*x.Rz*x.RL1 + x.Vz*x.Rs*x.RL1 + y.iL*x.Rs.xRz ) / Rs_Rz;
 end
 
-% Determine remaining circuit parameters
-y.VL  = y.e3 - x.RL2*y.iL; % Voltage at the inductor
-y.VR  = 0; % Voltage at the resistive branch
-y.VLL = y.e3; % Voltage at the inductive branch
-y.iL2 = y.iL; % No current flows into the secondary load (indudctor)
-y.iL1 = 0; % Current flowing into the primary load (287 Ohms)
 
 end

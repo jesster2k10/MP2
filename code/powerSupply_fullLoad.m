@@ -28,7 +28,7 @@ function y = powerSupply_fullLoad(x, h)
 %
 % Author:  Jesse Onolememen
 % Version: 1.0.0
-% Date:    23/05/2023 
+% Date:    13/05/2023 
 arguments
     x struct {mustBeNonempty, mustBeA(x,'struct')}
     h (1,1) double {mustBePositive, mustBeNonempty}
@@ -81,7 +81,7 @@ y.iL = x.iL + (k1(2)+2*k2(2)+2*k3(2)+k4(2))/6;
 % Determine output votlage e_3 based on zener biasing
 y.e3 = ( (y.e2 - x.Rs*y.iL)/(x.RL1 + x.Rs) * x.RL1 );
 if (y.e3 >= x.Vz) % Zener is in forward bias, apply different epxression for e3
-    y.e3 = ( y.e2*x.Rz*x.RL1 + x.Vz*x.Rs*x.RL1 + y.iL*x.Rs.xRz ) / Rd;
+    y.e3 = ( y.e2*x.Rz*x.RL1 + x.Vz*x.Rs*x.RL1 + y.iL*x.Rs*x.Rz ) / Rd;
 end
 
 % Determine remaining circuit parameters

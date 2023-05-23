@@ -54,7 +54,7 @@ else
     id = ((x.V2(2)- x.e2 - k2/2)/2 - x.Vth) / x.Rb;
     k3 = h/x.C*((id>=0)*id - (x.e2+k2/2-x.Vz)/(Req));
     id = ((x.V2(3)- x.e2-k3)/2 - x.Vth) / x.Rb;
-    k4 = hx.C*((id>=0)*id - (x.e2+k3-x.Vz)/(Req));
+    k4 = h/x.C*((id>=0)*id - (x.e2+k3-x.Vz)/(Req));
 end
 
 % Apply RK4 to determine e2

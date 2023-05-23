@@ -28,7 +28,7 @@ function y = powerSupply_resistiveLoad(x, h)
 %
 % Author:  Jesse Onolememen
 % Version: 1.0.0
-% Date:    23/05/2023 
+% Date:    13/05/2023 
 arguments
     x struct {mustBeNonempty, mustBeA(x,'struct')}
     h (1,1) double {mustBePositive, mustBeNonempty}
