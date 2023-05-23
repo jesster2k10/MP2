@@ -1,0 +1,31 @@
+\paragraph{Full Load}
+There are four ODEs describing the system under a full load
+\begin{itemize}
+	\item \eqref{eq:fullLoad_DiffEq1}, \eqref{eq:fullLoad_DiffEq2} provide a differential equation for $\frac{de_2}{dt}$, $\frac{dI_l}{dt}$ when the zener is reverse biased.
+	\item \eqref{eq:fullLoad_DiffEq3}, \eqref{eq:fullLoad_DiffEq4} provide a differential equation for $\frac{de_2}{dt}$, $\frac{dI_l}{dt}$ when the zener is forward biased.
+\end{itemize}
+In this instance, let $\vec{y}$ be a vector combination of $e_2$ and $i_l$:
+\begin{equation}
+	\vec{y}(t,y) = \begin{bmatrix}
+		e_2(t,y) \\
+		i_l(t,y)
+	\end{bmatrix}
+\end{equation}
+\subparagraph{Reverse Bias}
+The condition for reverse bias under no-load conditions is given by $e_3 < V_z$.
+\begin{equation}
+	y'(t,y) = \begin{bmatrix}
+		 \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y_1}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y_1}{2} - V_{th}} - \frac{y_1 - R_s y_2}{R_{L_1} + R_s} - y_2} \\
+		 \frac{1}{L} \sbracket{
+		 	\bracket{\frac{y_1 - R_s y_2}{R_{L_1} + R_s}}R_{L_1} - R_{L_2}y_2
+		 }
+	\end{bmatrix}
+\end{equation}
+\subparagraph{Forward Bias}
+The condition for forward bias under no-load conditions is given by $e_3 \geq V_z$.  
+\begin{equation}
+	y'(t,y) = \begin{bmatrix}
+		 \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y_1}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y_1}{2} - V_{th}} - \frac{y_1 (R_z + R_{L_1}) - V_z R_{L_1} + y_2 R_z R_{L_1}}{R_z R_s + R_{L_1} R_z + R_s R_{L_1}}} \\
+		 \frac{1}{L} \sbracket{\frac{y_1 R_z R_{L_1} + V_z R_s R_{L_1} + y_2 R_s R_z}{R_z R_{L_1} + R_s R_{L_1} + R_s R_z} - R_{L_2}y_2}
+	\end{bmatrix}
+\end{equation}

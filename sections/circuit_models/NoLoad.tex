@@ -61,16 +61,16 @@ Here, \(i_z(t)\) depends on whether \(e_3 < V_z\) or \(e_3 \geq V_z\). Therefore
 \end{equation}
 
 \paragraph{Differential Equations}
-Two distinct cases emerge from the given conditions, each leading to a unique differential equation. These cases are determined by the relationship between \(e_2\) and \(V_z\).\\
+Two distinct cases emerge from the given conditions, each leading to a unique differential equation. These cases are determined by the relationship between \(e_3\) and \(V_z\).\\
 
-In the first case where \(e_2 < V_z\), the Zener diode remains in \textbf{the reverse bias region}, and the circuit is described by the following differential equation:
+In the first case where \(e_3 < V_z\), the Zener diode remains in \textbf{the reverse bias region}, and the circuit is described by the following differential equation:
 \begin{equation}
-    \frac{d(e_2)}{dt}=\frac{1}{C} \sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}} \cdot u\bracket{\frac{e_1-e_2}{2}-V_{th}}} \hspace{0.5cm} \text{for} \hspace{0.1cm} e_2 < V_z
+    \frac{d(e_2)}{dt}=\frac{1}{C} \sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}} \cdot u\bracket{\frac{e_1-e_2}{2}-V_{th}}} \hspace{0.5cm} \text{for} \hspace{0.1cm} e_3 < V_z
 \end{equation}
 
-In the second case where \(e_2 \geq V_z\), the Zener diode is \textbf{forward biased}. The differential equation characterising the circuit in this state is:
+In the second case where \(e_3 \geq V_z\), the Zener diode is \textbf{forward biased}. The differential equation characterising the circuit in this state is:
 \begin{equation}
-   \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_2 \geq V_z
+   \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_3 \geq V_z
 \end{equation}
 
 \subparagraph{Reverse Bias}
@@ -112,7 +112,7 @@ The above equations are a direct result of applying Kirchhoff's Current Law at n
 \eqref{eq:noLoad_diffEq1} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse bias conditions when $e_2 < V_z$.
 
 \subparagraph{Forward Bias}
-In the condition where $e_2 \geq V_z$, the Zener diode transitions to a forward bias state. The circuit characteristics during this state are governed by the equations presented below.
+In the condition where $e_3 \geq V_z$, the Zener diode transitions to a forward bias state. The circuit characteristics during this state are governed by the equations presented below.
 \begin{align}
     i_c(t) &= C\frac{d(e_2)}{dt}\\
     i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}\\
@@ -127,6 +127,7 @@ In the condition where $e_2 \geq V_z$, the Zener diode transitions to a forward 
 The output voltage $e_3$ across the end terminals of the circuit is governed by the voltage division
 \begin{equation}
     e_3=\frac{e_2R_z+V_zR_s}{R_s+R_z}
+    \label{eq:noLoad_e3}
 \end{equation}
 
 As a consequence, the following expression describes the current flowing through resistor $R_s$, which can be calculated as:
@@ -142,7 +143,7 @@ The current through the capacitor can now be calculated using the following expr
 
 As a result, the differential equation that emerges from this is
 \begin{equation}
-    \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_2 \geq V_z
+    \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_3 \geq V_z
     \label{eq:noLoad_diffEq2}
 \end{equation}
 

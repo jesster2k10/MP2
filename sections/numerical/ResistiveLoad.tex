@@ -1,0 +1,18 @@
+\paragraph{Resistive Load}
+There are two ODEs describing the system under a resistive load
+\begin{itemize}
+	\item \eqref{eq:resistiveLoad_DiffEq1} characterises the system when the zener diode is reverse biased
+	\item \eqref{eq:resistiveLoad_DiffEq2} characterises the system when the zener diode is forward biased
+\end{itemize}
+Both \eqref{eq:resistiveLoad_DiffEq1} \eqref{eq:resistiveLoad_DiffEq2} provide a differential equation for $\frac{de_2}{dt}$. Let $y = e_2$
+
+\subparagraph{Reverse Bias}
+The condition for reverse bias under no-load conditions is given by $e_3 < V_z$.
+\begin{equation}
+	y'(t,y) = \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y}{2} - V_{th}} - \frac{y}{R_{L_1} + R_s}}
+\end{equation}
+\subparagraph{Forward Bias}
+The condition for forward bias under no-load conditions is given by $e_3 \geq V_z$.  
+\begin{equation}
+	y'(t,y) = \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y}{2} - V_{th}} - \frac{y R_{L_1} + y R_z - R_{L_1} V_z}{R_{L_1} R_z + R_s R_z + R_s R_{L_1}}}
+\end{equation}

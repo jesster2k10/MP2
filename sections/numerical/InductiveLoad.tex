@@ -1,0 +1,29 @@
+\paragraph{Inductive Load}
+There are four ODEs describing the system under an inductive and resistive load connected in series
+\begin{itemize}
+	\item \eqref{eq:inductiveLoad_DiffEq1}, \eqref{eq:inductiveLoad_DiffEq2} provide a differential equation for $\frac{de_2}{dt}$, $\frac{dI_l}{dt}$ when the zener is reverse biased.
+	\item \eqref{eq:inductiveLoad_DiffEq3}, \eqref{eq:inductiveLoad_DiffEq4} provide a differential equation for $\frac{de_2}{dt}$, $\frac{dI_l}{dt}$ when the zener is forward biased.
+\end{itemize}
+In this instance, let $\vec{y}$ be a vector combination of $e_2$ and $i_l$:
+\begin{equation}
+	\vec{y}(t,y) = \begin{bmatrix}
+		e_2(t,y) \\
+		i_l(t,y)
+	\end{bmatrix}
+\end{equation}
+\subparagraph{Reverse Bias}
+The condition for reverse bias under no-load conditions is given by $e_3 < V_z$.
+\begin{equation}
+	y'(t,y) = \begin{bmatrix}
+		 \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y_1}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y_1}{2} - V_{th}} - y_2} \\
+		 \frac{1}{L}\bracket{y_1 - (R_s + R_{L_2})y_2}
+	\end{bmatrix}
+\end{equation}
+\subparagraph{Forward Bias}
+The condition for forward bias under no-load conditions is given by $e_3 \geq V_z$.  
+\begin{equation}
+	y'(t,y) = \begin{bmatrix}
+		 \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y_1}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y_1}{2} - V_{th}} - \frac{y_1 - V_z + R_z y_2}{R_s + R_z}} \\
+		 \frac{1}{L} \sbracket{\frac{R_z y_1 + R_s V_z - R_z R_s y_2}{R_s + R_z} - R_{L_2}y_2}
+	\end{bmatrix}
+\end{equation}

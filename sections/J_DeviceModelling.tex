@@ -201,7 +201,7 @@ Analytically $i_d$ can be described using Ohm's law and considering the voltage 
 \end{equation}
 This expression matches the expression for the ideal diode presented in \eqref{eq:ideal_diode}. 
 
-\subparagraph{Determination of Maximum Current}
+\subparagraph{Determination of Maximum Current}\label{determinationOfMaximimumCurrent}
 To accurately model the diode using the piece-wise linear circuit in Figure \ref{fig:piecewise_diode}, a reasonable estimate of the maximum current flowing through the diode while it is forward biased must be made.\\
 
 Consider the behaviour of the diode inside the bridge rectifier:
@@ -273,7 +273,11 @@ The solution to the ODE $V_c(t)$ is the combination of the homogenous and non-ho
 \begin{equation}
 	V_c(t) = Be^{-t\bracket{\frac{1}{2R_bC}}} + M\text{sin}(\omega t) + N\text{cos}(\omega t) - 1.4
 \end{equation}
-At time $t=0$ the capacitor is uncharged. Thus, the initial condition holds $V_c(0) = 0$
+At time $t=0$ the capacitor is uncharged. Thus, the initial condition holds
+\begin{equation}
+	V_c(0) = 0
+	\label{initialCondition}
+\end{equation}
 
 Define $p$ as $2R_bC$. The given ordinary differential equation \eqref{eq:diff} can then be written as:
 \begin{align}
