@@ -49,7 +49,7 @@ Determine an expression for $i_d(t)$ at node \textcircled{2} using KCL
 Determine an expression for $i_s$ at node \textcircled{3} using KCL
 \begin{equation}
 	\begin{split}
-		i_s &= i_z + i_{l} \\
+		i_s &= i_z + i_{l_{12}} \\
 		\frac{e_2 - e_3}{R_s} &= \frac{e_3 - V_z}{R_z} + i_{l_{12}}
 	\end{split}
 	\label{eq:fullLoad_node3}
@@ -126,10 +126,8 @@ This condition only holds true when $e_3 < V_z$.
 Another differential equation can be found relating the rate of change of $i_l$ to the inductance from the system of equations in \eqref{eq:fullLoad_system}.
 \begin{equation}
 	\begin{split}
-		L\frac{di_l}{dt} &= \bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1} - R_{L_2}i_l \\
-		 \frac{di_l}{dt} &= \frac{1}{L} \sbracket{
-		 	\bracket{\frac{e_2 - R_s i_l}{R_{L_1} + R_s}}R_{L_1} - R_{L_2}i_l
-		 }
+		L\frac{di_l}{dt} &= \frac{e_2R_{L_1} - i_l(R_s(R_{L_1}+R_{L_2}) + R_{L_1}R_{L_2})}{R_s + R_{L_1}} \\
+		 \frac{di_l}{dt} &= \frac{1}{L} \sbracket{\frac{e_2R_{L_1} - i_l(R_s(R_{L_1}+R_{L_2}) + R_{L_1}R_{L_2})}{R_s + R_{L_1}}}
 	\end{split}
 	\label{eq:fullLoad_DiffEq2}
 \end{equation}

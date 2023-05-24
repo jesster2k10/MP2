@@ -1,10 +1,12 @@
-function y = plotPowerSupply(mode,h,ts,te,p)
+function y = plotPowerSupply(mode,h,ts,te,p,Rs,C)
 arguments
     mode CircuitMode
     h (1,1) double
     ts = 0
     te = 1
     p = 1
+    Rs = 300
+    C = 2200e-6
 end
 
 t = ts:h:te;
@@ -28,7 +30,7 @@ for n = 1:N-1
     tn_2 = tn + h/2;
     Vin = [v(tn), v(tn_2), v(tn_1)];
     
-    g = powerSupply(mode,Vin,h,ic);
+    g = powerSupply(mode,Vin,h,ic,C,Rs);
 
     ic(1) = g.e2;
     ic(2) = g.e3;
@@ -52,7 +54,7 @@ y.Il = Il;
 y.Ic = Ic;
 
 if (p == 1)
-figure
+figure('Name', ['Power supply under ', char(mode), ' with h = ', num2str(h)])
 
 subplot(2,1,1);
 hold on
@@ -60,26 +62,48 @@ plot(t, e2);
 plot(t, e3);
 hold off
 
-title(['Voltages for ', char(mode), ' with h = ', num2str(h)]);
-
+title(['e_2 and e_3 for ', char(mode), ' with h=', num2str(h)], 'Interpreter','latex');
 legend('e2', 'e3');
 xlabel('Time (s)')
-ylabel('Vurrent (A)')
+ylabel('Current (A)')
+grid minor;
 
 subplot(2,1,2);
-hold on;
-% plot(t, Id, 'r');
-% plot(t, Is, 'b');
-% plot(t, Ic, 'g');
-plot(t, Il);
-% plot(t, Il, 'm');
-hold off;
-
-legend('Iz');
-title(['Currents for ', char(mode), ' with h = ', num2str(h)]);
+hold on
+plot(t, y.Iz);
+plot(t, y.Il);
+ylabel('Current (A)');
+grid minor
+hold off
+title(['Currents for ', char(mode), ' with h=', num2str(h)])
 xlabel('Time (s)')
-ylabel('Current (A)')
-end
+legend('Iz', 'IL')
+
+% subplot(2,1,1);
+% hold on;
+% plot(t, Iz);
+% plot(t, Il);
+% hold off;
+% grid minor;
+% legend('I_z', 'I_l')
+% title(['Zener Current, Inductor Current ', char(mode), ' with h = ', num2str(h)], 'Interpreter','latex');
+% xlabel('Time (s)')
+% ylabel('Current (A)')
+% end
+
+% subplot(2,2,4);
+% hold on;
+% plot(t, Iz);
+% plot(t, Il);
+% hold off;
+% grid minor;
+% legend('Iz', 'Il')
+% title(['Diode & Capacitor Current ', char(mode), ' with h = ', num2str(h)], 'Interpreter','latex');
+% xlabel('Time (s)')
+% ylabel('Current (A)')
+% end
+
+exportgraphics(gcf, ['../graphics/exports/psp_',char(mode),'_h_',num2str(h),'.png'], 'Resolution',300)
 
 end
 

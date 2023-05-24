@@ -43,19 +43,23 @@ Rd = x.Rs*x.Rz + x.Rz*x.RL1 + x.Rs*x.RL1; % common denominator;
 if (x.e3 < x.Vz)       
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = [h/x.C * ((id>=0)*id - ((x.e2 - x.Rs*x.iL) / RL1_Rs) - x.iL);
-          h/x.L * ( ( (x.e2 - x.Rs*x.iL) / RL1_Rs ) - x.RL2*x.iL )];
+          h/x.L * ( ( x.e2*x.RL1 - x.iL*( x.Rs*(x.RL1 + x.RL2) + x.RL1*x.RL2 ) ) / RL1_Rs ) ];
+%           h/x.L * ( ( (x.e2 - x.Rs*x.iL) / RL1_Rs ) - x.RL2*x.iL )];
 
     id = ((x.V2(2) - x.e2 - k1(1)/2)/2 - x.Vth) / x.Rb;
     k2 = [h/x.C * ((id>=0)*id - (((x.e2 + k1(1)/2) - x.Rs*(x.iL + k1(2)/2)) / RL1_Rs) - (x.iL + k1(2)/2));
-          h/x.L * ( ( ((x.e2 + k1(1)/2) - x.Rs*(x.iL + k1(2)/2)) / RL1_Rs ) - x.RL2*(x.iL + k1(2)/2)) ];
+          h/x.L * ( ( (x.e2 + k1(1)/2)*x.RL1 - (x.iL + k1(2)/2)*( x.Rs*(x.RL1 + x.RL2) + x.RL1*x.RL2 ) ) / RL1_Rs ) ];
+%           h/x.L * ( ( ((x.e2 + k1(1)/2) - x.Rs*(x.iL + k1(2)/2)) / RL1_Rs ) - x.RL2*(x.iL + k1(2)/2)) ];
 
     id = ((x.V2(2)- x.e2 - k2(1)/2)/2 - x.Vth) / x.Rb;
     k3 = [h/x.C * ((id>=0)*id - (((x.e2 + k2(1)/2) - x.Rs*(x.iL + k2(2)/2)) / RL1_Rs) - (x.iL + k2(2)/2));
-          h/x.L * ( ( ((x.e2 + k2(1)/2) - x.Rs*(x.iL + k2(2)/2)) / RL1_Rs ) - x.RL2*(x.iL + k2(2)/2)) ];
+          h/x.L * ( ((x.e2 + k2(1)/2)*x.RL1 - (x.iL + k2(2)/2)*( x.Rs*(x.RL1 + x.RL2) + x.RL1*x.RL2 ) ) / RL1_Rs ) ];
+%           h/x.L * ( ( ((x.e2 + k2(1)/2) - x.Rs*(x.iL + k2(2)/2)) / RL1_Rs ) - x.RL2*(x.iL + k2(2)/2)) ];
 
     id = ((x.V2(3)- x.e2-k3(1))/2 - x.Vth) / x.Rb;
     k4 = [h/x.C * ((id>=0)*id - (((x.e2 + k3(1)) - x.Rs*(x.iL + k3(2))) / RL1_Rs) - (x.iL + k3(2)));
-          h/x.L * ( ( ((x.e2 + k3(1)) - x.Rs*(x.iL + k3(2))) / RL1_Rs ) - x.RL2*(x.iL + k3(2))) ];
+          h/x.L * ( ( (x.e2 + k3(1))*x.RL1 - (x.iL + k3(2))*( x.Rs*(x.RL1 + x.RL2) + x.RL1*x.RL2 ) ) / RL1_Rs ) ];
+%           h/x.L * ( ( ((x.e2 + k3(1)) - x.Rs*(x.iL + k3(2))) / RL1_Rs ) - x.RL2*(x.iL + k3(2))) ];
 else
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = [h/x.C * ( (id>=0)*id - ( x.e2 * (x.Rz*x.RL1) - x.Vz*x.RL1 + x.iL*x.Rz*x.RL1 )/Rd );
@@ -81,7 +85,7 @@ y.iL = x.iL + (k1(2)+2*k2(2)+2*k3(2)+k4(2))/6;
 % Determine output votlage e_3 based on zener biasing
 y.e3 = ( ((y.e2 - x.Rs*y.iL)/(x.RL1 + x.Rs)) * x.RL1 );
 if (y.e3 >= x.Vz) % Zener is in forward bias, apply different epxression for e3
-    y.e3 = ( (y.e2*x.Rz + x.Vz*x.Rs - y.iL*x.Rs*x.Rz) / (x.Rz*x.Rs + x.Rz*x.RL1 + x.Rs*x.RL1) ) * x.RL1;
+    y.e3 = (y.e2*x.Rz*x.RL1 + x.Vz*x.Rs*x.RL1 + y.iL*x.Rs*x.Rz) / Rd;
 end 
 
 % Determine remaining circuit parameters

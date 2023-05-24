@@ -1,4 +1,4 @@
-function [y] = powerSupply(mode,vin,h,ic)
+function [y] = powerSupply(mode,vin,h,ic,C,Rs)
 % power_supply: Uses the 4th order Runge-Kutta (RK4) method to solve
 % the differential equations governing the operation of a power supply circuit.
 %
@@ -15,6 +15,8 @@ function [y] = powerSupply(mode,vin,h,ic)
 % h:    The time step size for the RK4 method, a positive real scalar.
 % ic:   A [1x3] real vector containing the initial conditions for the capacitor voltage (e2),
 %       zener voltage (e3), and inductance current (iL)
+% C:    Capacitance value (Farads). Defaults to 2200nF
+% Rs:   Rs resistance value (Ohms). Defaults to 300Ohms
 %
 % Outputs:
 % y:    A structure containing the calculated circuit parameters 
@@ -42,12 +44,14 @@ arguments
     vin  (1,3) double {mustBeNonempty}
     h    (1,1) double {mustBePositive, mustBeNonempty}
     ic   (1,3) double {mustBeNonempty}
+    C    (1,1) double {mustBeReal} = 2200e-6;
+    Rs   (1,1) double {mustBeReal} = 300;
 end
 
 % Constant definition
 x.N   = [20, 1];  % Transformer turns ratio
-x.C   = 2200e-6;  % Capacitance of capacitor C (F)
-x.Rs  = 270;      % Minimum resistance of Rs (Ohms)
+x.C   = C;  % Capacitance of capacitor C (F)
+x.Rs  = Rs;      % Minimum resistance of Rs (Ohms)
 x.RL1 = 287;      % Resistance of primary load (Ohms) 
 x.RL2 = 65.7;     % Resistance of secondary load (Ohms)
 x.Rb  = 3.2;      % Ideal diode bulk resistance (Ohms)
