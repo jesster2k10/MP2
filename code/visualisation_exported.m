@@ -6,7 +6,7 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
         CyclesPerSecondDropDownLabel  matlab.ui.control.Label
         SwitchingScenarioButton       matlab.ui.control.Button
         InstantPlotButton             matlab.ui.control.Button
-        RunningTImesLabel             matlab.ui.control.Label
+        RunningTimesLabel             matlab.ui.control.Label
         RunningTimesGauge             matlab.ui.control.Gauge
         RunningTimesGaugeLabel        matlab.ui.control.Label
         ResetButton                   matlab.ui.control.Button
@@ -39,7 +39,7 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
         StartDelay = 0;
         SwitchAOn = false;
         SwitchBOn = false;
-        TimeStep = 2e-5;
+        TimeStep = 4e-5;
     end
     
     properties (AbortSet, Access = public, GetObservable, SetObservable)
@@ -102,11 +102,10 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
 
         function resume(comp)
             comp.Paused = false;
-            disp(comp.k);
             updatePlot(comp)
         end
 
-        function updatePlot(comp)
+        function finished = updatePlot(comp)
             for n=comp.k:length(comp.t)-1
                 if ~comp.Running || comp.Paused
                     break
@@ -153,13 +152,17 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
                 drawnow limitrate
             end
             drawnow
+            finished = comp.k == length(comp.t)-1;
         end
 
         function start(comp)
             comp.Running = true;
             comp.Paused = false;
-            updatePlot(comp)
-            stop(comp)
+            
+            % check if finished
+            if updatePlot(comp)
+                stop(comp)
+            end
         end
     end
     
@@ -225,8 +228,8 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
                 return
             end
             if comp.Running
-                stop(comp)
-                resetSys('Rs was changed. Resetting Simulation')
+                resetSys(comp)
+                msgbox('Rs was changed. Resetting Simulation')
             end
             comp.Rs = parsed;
         end
@@ -238,8 +241,8 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
                 return
             end
             if comp.Running
-                stop(comp)
-                resetSys('C was changed. Resetting Simulation')
+                resetSys(comp)
+                msgbox('C was changed. Resetting Simulation')
             end
             comp.C = parsed;
         end
@@ -270,7 +273,9 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
         % Button pushed function: ResetButton
         function ResetButtonPushed(comp, event)
             resetSys(comp)
-            msgbox('The simulation was reset')
+            if comp.Running && ~comp.Paused
+                msgbox('The simulation was reset')
+            end
         end
 
         % Button pushed function: InstantPlotButton
@@ -643,11 +648,11 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
             comp.RunningTimesGauge = uigauge(comp, 'circular');
             comp.RunningTimesGauge.Position = [1176 611 184 184];
 
-            % Create RunningTImesLabel
-            comp.RunningTImesLabel = uilabel(comp);
-            comp.RunningTImesLabel.FontWeight = 'bold';
-            comp.RunningTImesLabel.Position = [1220 810 101 22];
-            comp.RunningTImesLabel.Text = 'Running TIme (s)';
+            % Create RunningTimesLabel
+            comp.RunningTimesLabel = uilabel(comp);
+            comp.RunningTimesLabel.FontWeight = 'bold';
+            comp.RunningTimesLabel.Position = [1220 810 101 22];
+            comp.RunningTimesLabel.Text = 'Running Time (s)';
 
             % Create InstantPlotButton
             comp.InstantPlotButton = uibutton(comp, 'push');
@@ -676,7 +681,7 @@ classdef visualisation_exported < matlab.ui.componentcontainer.ComponentContaine
             comp.CyclesPerSecondDropDown.Items = {'250', '500', '1000'};
             comp.CyclesPerSecondDropDown.ValueChangedFcn = matlab.apps.createCallbackFcn(comp, @CyclesPerSecondDropDownValueChanged, true);
             comp.CyclesPerSecondDropDown.Position = [420 757 100 22];
-            comp.CyclesPerSecondDropDown.Value = '250';
+            comp.CyclesPerSecondDropDown.Value = '500';
             
             % Execute the startup function
             postSetupFcn(comp)
