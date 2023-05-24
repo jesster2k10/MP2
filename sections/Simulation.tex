@@ -40,19 +40,15 @@ The code is organised modularly, separating the overall simulation flow from the
 
 \lstinputlisting[caption=Primary MATLAB function for simulating the power supply operations using RK4]{code/powerSupply.m}
 
-\pagebreak
 \subsubsection{No Load Scenario}
 \lstinputlisting[caption=Sub-function for the no-load scenario of the power supply simulation]{code/powerSupply_noLoad.m}
 
-\pagebreak
 \subsubsection{Resistive Load Scenario}
 \lstinputlisting[caption=Sub-function for the resistive load scenario of the power supply simulation]{code/powerSupply_resistiveLoad.m}
 
-\pagebreak
 \subsubsection{Inductive Load Scenario}
 \lstinputlisting[caption=Sub-function for the inductive load scenario of the power supply simulation]{code/powerSupply_inductiveLoad.m}
 
-\pagebreak
 \subsubsection{Full Load Scenario}
 \lstinputlisting[caption=Sub-function for the full-load scenario of the power supply simulation]{code/powerSupply_fullLoad.m}
 
@@ -82,7 +78,8 @@ The results of the simulation with a time step of $h = 40 \mu s$ are shown acros
     \caption{Node voltages and currents under No Load conditions with $h=4\mu s$}
 \end{figure}
 \begin{itemize}
-	\item The circuit behaves...
+	\item The first plot shows the voltages $e_2$ and $e_3$ under No load conditions with a timestep (h) of $4x10^{-05}$ seconds. The Voltage $e_2$ levels off at around 13.7V and the Voltage $e_3$ levels off at around 6.1V. The leveling off of voltages $e_2$ and $e_3$ is due to the steady-state reached in the power supply circuit. The voltage $e_2$ levels off at around 13.7V, indicating the equilibrium reached in the capacitor's charging and discharging processes. Likewise,The voltage $e_3$ levels off at around 6.1V, suggesting that the zener diode is biased in the reverse direction and has reached a steady-state voltage.
+    \item The second plot displays the currents $I_z$ and $I_L$ under the resistive load conditions. Current $I_L$ represents the inductor current. It initially increases due to changing voltage across the inductor but eventually reaches a steady-state level. The back EMF balances the applied voltage, resulting in a constant current flow. In the plot, $I_z$ levels off at approximately 0.025A, indicating the equilibrium in the inductor's behavior. Current $I_z$ represents the zener diode current. It remains at 0A throughout the simulation because the zener diode is in reverse bias when the voltage across it is below the zener voltage ($V_z$). The zener diode blocks significant current flow, acting as an open circuit. The voltage $e_3$ remains below $V_z$, maintaining the zener diode in a non-conducting state.
 \end{itemize}
 
 \subsubsection{Inductive Load}
@@ -92,7 +89,8 @@ The results of the simulation with a time step of $h = 40 \mu s$ are shown acros
     \caption{Node voltages and currents under Inductive Load conditions with $h=4\mu s$}
 \end{figure}
 \begin{itemize}
-	\item The circuit behaves...
+	\item The first plot shows the voltages $e_2$ and $e_3$ under inductive load conditions with a timestep (h) of $4x10^{-05}$ seconds. The Voltage $e_2$ levels off at around 13.7V and the Voltage $e_3$ levels off at around 2.3V. The leveling off of voltages $e_2$ and $e_3$ is due to the steady-state reached in the power supply circuit. The voltage $e_2$ levels off at around 13.7V, indicating the equilibrium reached in the capacitor's charging and discharging processes. Likewise,The voltage $e_3$ levels off at around 2.3V, suggesting that the zener diode is biased in the reverse direction and has reached a steady-state voltage.
+    \item The second plot displays the currents $I_z$ and $I_L$ under the resistive load conditions. Current $I_L$ represents the inductor current. It initially increases due to changing voltage across the inductor but eventually reaches a steady-state level. The back EMF balances the applied voltage, resulting in a constant current flow. In the plot, $I_z$ levels off at approximately 0.037A, indicating the equilibrium in the inductor's behavior. Current $I_z$ represents the zener diode current. It remains at 0A throughout the simulation because the zener diode is in reverse bias when the voltage across it is below the zener voltage ($V_z$). The zener diode blocks significant current flow, acting as an open circuit. The voltage $e_3$ remains below $V_z$, maintaining the zener diode in a non-conducting state.
 \end{itemize}
 
 \subsubsection{Resistive Load}
@@ -102,7 +100,8 @@ The results of the simulation with a time step of $h = 40 \mu s$ are shown acros
     \caption{Node voltages and currents under Resistive Load conditions with $h=4\mu s$}
 \end{figure}
 \begin{itemize}
-	\item The circuit behaves...
+	\item The first plot shows the voltages $e_2$ and $e_3$ under resistive load conditions with a timestep (h) of $4x10^{-05}$ seconds. The Voltage $e_2$ levels off at around 13.7V and the Voltage $e_3$ levels off at around 6.7V. The leveling off of voltages $e_2$ and $e_3$ is due to the steady-state reached in the power supply circuit. The voltage $e_2$ levels off at around 13.7V, indicating the equilibrium reached in the capacitor's charging and discharging processes. Likewise,The voltage $e_3$ levels off at around 6.7V, suggesting that the zener diode is biased in the reverse direction and has reached a steady-state voltage.
+    \item The second plot displays the currents $I_z$ and $I_L$ under the resistive load conditions. Current $I_L$ represents the inductor current. It initially increases due to changing voltage across the inductor but eventually reaches a steady-state level. The back EMF balances the applied voltage, resulting in a constant current flow. In the plot, $I_z$ levels off at approximately 0.037A, indicating the equilibrium in the inductor's behavior. Current $I_z$ represents the zener diode current. It remains at 0A throughout the simulation because the zener diode is in reverse bias when the voltage across it is below the zener voltage ($V_z$). The zener diode blocks significant current flow, acting as an open circuit. The voltage $e_3$ remains below $V_z$, maintaining the zener diode in a non-conducting state.
 \end{itemize}
 
 \subsubsection{Full Load}
@@ -112,7 +111,10 @@ The results of the simulation with a time step of $h = 40 \mu s$ are shown acros
     \caption{Node voltages and currents under Full Load conditions with $h=4\mu s$}
 \end{figure}
 \begin{itemize}
-	\item The circuit behaves...
+	\item The first plot shows the voltages $e_2$ and $e_3$ under full load conditions with a timestep (h) of $4x10^{-05}$ seconds. The Voltage $e_2$ levels off at around 13.7V and the Voltage $e_3$ levels off at around 2V. The leveling off of voltages $e_2$ and $e_3$ is due to the steady-state reached in the power supply circuit. The voltage $e_2$ levels off at around 13.7V, indicating the equilibrium reached in the capacitor's charging and discharging processes. Likewise,The voltage $e_3$ levels off at around 2V, suggesting that the zener diode is biased in the reverse direction and has reached a steady-state voltage.
+    \item The second plot displays the currents $I_z$ and $I_L$ under the full load conditions. Current $I_L$ represents the inductor current. It initially increases due to changing voltage across the inductor but eventually reaches a steady-state level. The back EMF balances the applied voltage, resulting in a constant current flow. In the plot, $I_L$ levels off at approximately 0.031A, indicating the equilibrium in the inductor's behavior. Current $I_z$ represents the zener diode current. It remains at 0A throughout the simulation because the zener diode is in reverse bias when the voltage across it is below the zener voltage ($V_z$). The zener diode blocks significant current flow, acting as an open circuit. The voltage $e_3$ remains below $V_z$, maintaining the zener diode in a non-conducting state.
+
+    
 \end{itemize}
 
 \pagebreak
