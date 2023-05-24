@@ -52,7 +52,7 @@ if (x.e3 < x.Vz)
     id = ((x.V2(3)- x.e2-k3)/2 - x.Vth) / x.Rb;
     k4 = h/x.C*((id>=0)*id - (x.e2+k3)/RL1_Rs);
 else
-    Req = RL1Rz + Rs* RL1_Rz;
+    Req = RL1Rz + x.Rs*RL1_Rz;
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = h/x.C*((id>=0)*id - (x.e2*RL1_Rz-RL1Vz)/Req);
     id = ((x.V2(2) - x.e2 - k1/2)/2 - x.Vth) / x.Rb;
@@ -67,16 +67,17 @@ end
 y.e2 = x.e2 + (k1+2*k2+2*k3+k4)/6;
 
 % Determine outvoltage e3 depending on biasing of zener
-y.e3 = x.RL1 * y.e2 / ( RL1_Rs );
+y.e3 = (x.RL1 * y.e2) / ( RL1_Rs );
 if (y.e3 >= x.Vz) % Forward bias e3 is given by another expression
-    y.e3 = (RL1Rz * y.e2 + x.RL1*x.Rs*y.e2) / (x.RL1*x.Rs + x.Rz*x.Rs + RL1Rz);
+    y.e3 = ( RL1Rz*y.e2 + x.RL1*x.Rs*x.Vz ) / ( x.RL1*x.Rs + x.Rs*x.Rz + x.RL1*x.Rz );
 end
 
 % Determine remaning parameters
-y.VL  = -x.L * x.IL/h; % Voltage at the inductor
+y.VL  = -x.L * x.iL/h; % Voltage at the inductor
 y.VR  = y.e3; % Voltage at the resistive branch
 y.VLL = y.VL; % Voltage at the inductive branch
 y.iL2 = 0; % No current flows into the secondary load (indudctor)
 y.iL1 = y.e3 / x.RL1; % Current flowing into the primary load (287 Ohms)
+y.iL = 0;
 
 end

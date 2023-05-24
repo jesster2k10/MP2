@@ -46,7 +46,7 @@ if (x.e3 < x.Vz)
     id = ((x.V2(3)- x.e2-k3)/2 - x.Vth) / x.Rb;
     k4 = h/x.C*((id>=0)*id);
 else
-    Req = Rz+Rs;
+    Req = x.Rz+x.Rs;
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = h/x.C*((id>=0)*id - (x.e2-x.Vz)/(Req));
     id = ((x.V2(2) - x.e2 - k1/2)/2 - x.Vth) / x.Rb;
@@ -61,17 +61,18 @@ end
 y.e2 = x.e2 + (k1+2*k2+2*k3+k4)/6;
 
 % Determine outvoltage e3 depending on biasing of zener
-if (y.e2 > x.Vz)
-    y.e3 = y.e2;
-else
+if (y.e2 >= x.Vz)
     y.e3 = (y.e2 * x.Rz + x.Vz * x.Rs)/(x.Rs + x.Rz);
+else
+    y.e3 = y.e2;
 end
 
 % Determine remaining circuit parameters
-y.VL  = -x.L * x.IL/h; % Voltage at the inductor
+y.VL  = -x.L * x.iL/h; % Voltage at the inductor
 y.VR  = 0; % No voltage at the resistive branch;
 y.VLL = y.VL; % Voltage at the inductive branch
 y.iL2 = 0; % No current flows into the secondary load (indudctor)
 y.iL1 = 0; % No current flows into the primary load
+y.iL = 0;
 
 end

@@ -45,15 +45,15 @@ if (x.e3 < x.Vz)
     k1 = [h/x.C * ((id>=0)*id - x.iL);
           h/x.L * ( x.e2 - ( x.Rs*x.RL2 ) * x.iL )];
 
-    id = ((x.V2(2) - x.e2 - k1/2)/2 - x.Vth) / x.Rb;
+    id = ((x.V2(2) - x.e2 - k1(1)/2)/2 - x.Vth) / x.Rb;
     k2 = [h/x.C * ((id>=0)*id - (x.iL + k1(2)/2));
           h/x.L * ( (x.e2 + k1(1)/2) - ( x.Rs*x.RL2 ) * (x.iL + k1(2)/2) )];
 
-    id = ((x.V2(2)- x.e2 - k2/2)/2 - x.Vth) / x.Rb;
+    id = ((x.V2(2)- x.e2 - k2(1)/2)/2 - x.Vth) / x.Rb;
     k3 = [h/x.C * ((id>=0)*id - (x.iL + k2(2)/2));
           h/x.L * ( (x.e2 + k2(1)/2) - ( x.Rs*x.RL2 ) * (x.iL + k2(2)/2) )];
 
-    id = ((x.V2(3)- x.e2 - k3)/2 - x.Vth) / x.Rb;
+    id = ((x.V2(3)- x.e2 - k3(1)/2) - x.Vth) / x.Rb;
     k4 = [h/x.C * ((id>=0)*id - (x.iL + k3(2)/2));
           h/x.L * ( (x.e2 + k3(1)/2) - ( x.Rs*x.RL2 ) * (x.iL + k3(2)/2) )];
 else
@@ -61,15 +61,15 @@ else
     k1 = [h/x.C * ((id>=0)*id - ( x.e2 - x.Vz + (x.Rz * x.iL) ) / Rs_Rz);
           h/x.L * ( ( x.e2 * x.Rz + x.Rs*x.Rz - x.Rz*x.Rz*x.iL / Rs_Rz ) - x.RL2 * x.iL )];
 
-    id = ((x.V2(2) - x.e2 - k1/2)/2 - x.Vth) / x.Rb;
+    id = ((x.V2(2) - x.e2 - k1(1)/2)/2 - x.Vth) / x.Rb;
     k2 = [h/x.C * ((id>=0)*id - ( (x.e2 + k1(1)/2) - x.Vz + (x.Rz * (x.iL + k1(2)/2)) ) / Rs_Rz);
           h/x.L * ( ( (x.e2 + k1(1)/2) * x.Rz + x.Rs*x.Rz - x.Rz*x.Rz*(x.iL + k1(2)/2) / Rs_Rz ) - x.RL2 * (x.iL + k1(2)/2) )];
 
-    id = ((x.V2(2)- x.e2 - k2/2)/2 - x.Vth) / x.Rb;
+    id = ((x.V2(2)- x.e2 - k2(1)/2)/2 - x.Vth) / x.Rb;
     k3 = [h/x.C * ((id>=0)*id - ( (x.e2 + k2(1)/2) - x.Vz + (x.Rz * (x.iL + k2(2)/2)) ) / Rs_Rz);
           h/x.L * ( ( (x.e2 + k2(1)/2) * x.Rz + x.Rs*x.Rz - x.Rz*x.Rz*(x.iL + k2(2)/2) / Rs_Rz ) - x.RL2 * (x.iL + k2(2)/2) )];
 
-    id = ((x.V2(3)- x.e2 - k3)/2 - x.Vth) / x.Rb;
+    id = ((x.V2(3)- x.e2 - k3(1)/2) - x.Vth) / x.Rb;
     k4 = [h/x.C * ((id>=0)*id - ( (x.e2 + k3(1)/2) - x.Vz + (x.Rz * (x.iL + k3(2)/2)) ) / Rs_Rz);
           h/x.L * ( ( (x.e2 + k3(1)/2) * x.Rz + x.Rs*x.Rz - x.Rz*x.Rz*(x.iL + k3(2)/2) / Rs_Rz ) - x.RL2 * (x.iL + k3(2)/2) )];
 end

@@ -54,11 +54,12 @@ x.Rb  = 3.2;      % Ideal diode bulk resistance (Ohms)
 x.Rz  = 4.85;     % Zener diode resistance (Ohms)
 x.Vz  = 6.2;      % Zener diode voltage (V)
 x.L   = 105.8e-4; % Inductance of inductor L (H)
-x.V2  =  N(1)/N(2) * abs(vin); % Secondary transformer voltage (V)
+x.V2  =  x.N(2)/x.N(1) * abs(vin); % Secondary transformer voltage (V)
 x.e2  = ic(1);     % Node voltage at node (2) through capacitor (V)
 x.e3  = ic(2);     % Node voltage at node (3) through zener (V)
 x.iL  = ic(3);     % Current at node (4)/(5) through inductor (A)
 x.Vth = 0.7;      % Threshold voltage of silicion ideal diode (V)
+
 
 % Switching operation for each mode
 switch mode
@@ -76,17 +77,17 @@ end
 
 % Determine the primary currents
 % Determine the diode current id(t)
-y.Id = ( (x.V2(3) - x.e2)/2 - x.Vth ) / x.Rb;
-y.Id = ( (x.V2(3) - x.e2)/2 - x.Vth > 0) * y.Id; % Apply unit step function;
+y.Id = ( (x.V2(3) - y.e2)/2 - x.Vth ) / x.Rb;
+y.Id = ( y.Id > 0) * y.Id; % Apply unit step function;
 
 % Determine the current in resistor Rs -> is
-y.Is = ( x.e2 - x.e3 ) / x.Rs;
+y.Is = ( y.e2 - x.e3 ) / x.Rs;
 
 % Determine the current through the capacitor ic(t)
 y.Ic = y.Id - y.Is;
 
 % Determine the zener current iz(t)
-y.Iz = ( x.e2 - x.Vz ) / x.Rz;
-y.Iz = ( x.e3 - x.Vz > 0 )*y.Iz; % Apply unit step function
+y.Iz = ( y.e3 - x.Vz ) / x.Rz;
+y.Iz = ( y.Iz > 0 )*y.Iz; % Apply unit step function
 
 end

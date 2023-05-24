@@ -38,8 +38,20 @@ The numerical analysis of the circuit is implemented in MATLAB using the \texttt
 \end{itemize}
 The code is organised modularly, separating the overall simulation flow from the specific equations for different load conditions. This structure makes the design robust, readable, maintainable, and easily extendable for additional load conditions or complexities.
 
-\pagebreak \lstinputlisting[caption=Primary MATLAB function for simulating the power supply operations using RK4]{code/powerSupply.m}
-\pagebreak \lstinputlisting[caption=Sub-function for the no-load scenario of the power supply simulation]{code/powerSupply_noLoad.m}
-\pagebreak \lstinputlisting[caption=Sub-function for the resistive load scenario of the power supply simulation]{code/powerSupply_resistiveLoad.m}
-\pagebreak \lstinputlisting[caption=Sub-function for the inductive load scenario of the power supply simulation]{code/powerSupply_inductiveLoad.m}
-\pagebreak \lstinputlisting[caption=Sub-function for the full-load scenario of the power supply simulation]{code/powerSupply_fullLoad.m}
+\lstinputlisting[caption=Primary MATLAB function for simulating the power supply operations using RK4]{code/powerSupply.m}
+
+\pagebreak
+\subsubsection{No Load Scenario}
+\lstinputlisting[caption=Sub-function for the no-load scenario of the power supply simulation]{code/powerSupply_noLoad.m}
+
+\pagebreak
+\subsubsection{Resistive Load Scenario}
+\lstinputlisting[caption=Sub-function for the resistive load scenario of the power supply simulation]{code/powerSupply_resistiveLoad.m}
+
+\pagebreak
+\subsubsection{Inductive Load Scenario}
+\lstinputlisting[caption=Sub-function for the inductive load scenario of the power supply simulation]{code/powerSupply_inductiveLoad.m}
+
+\pagebreak
+\subsubsection{Full Load Scenario}
+\lstinputlisting[caption=Sub-function for the full-load scenario of the power supply simulation]{code/powerSupply_fullLoad.m}
