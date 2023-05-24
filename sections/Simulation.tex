@@ -58,5 +58,137 @@ The code is organised modularly, separating the overall simulation flow from the
 
 \pagebreak
 \subsection{Timestep Selection}
+The time-step $h$ used in the RK4 method was determined using,
+\begin{equation}
+	h = \frac{T}{c}
+\end{equation}
+where $T$ is the period of the input sinusoid, or $0.02$  (corresponding to a 50 Hz signal), and $c$ is the desired number of samples per period (also known as the sampling rate).
+\begin{itemize}
+	\item A sensible choice for \(h\) would be sufficiently small to accurately capture the behavior of the system within each period of the sinusoidal input. Applying the Nyquist sampling theorem, \(c\) should be at least twice the highest frequency present in the signal to avoid aliasing. Therefore, a minimum value of \(c = 2 \times 50 = 100\) samples per second would be needed.
+	\item However, for numerical solutions of differential equations using the RK4 method, we may require a higher sampling rate to capture the system dynamics more accurately. In this case, \(c\) could be set to a much larger value, leading to a smaller time step \(h\).
+	\item For instance, setting \(c = 1000\) samples per second would result in a time step $h = \frac{0.02}{1000} = 20\mu s$, giving us a high-resolution representation of the system's behaviour within each period of the sinusoidal input.
+\end{itemize}
+
+A step size of $80\mu s$, $40 \mu s$ and $20 \mu s$, corresponding to a sampling rate of $250$, $500$ and $1000$ cycles per second (respectively) produced sensible results in the simulation across all loads. $40 \mu s$ was chosen as the final value which offered a reasonable compromise between computation time and quality of results. 
+
+\pagebreak
+\subsection{Results}
+The results of the simulation with a time step of $h = 40 \mu s$ are shown across all four load conditions. Each respective plot shows the voltages at node \textcircled{2} and \textcircled{3} alongside the inductor $i_l(t)$ and zener $i_z(t)$ currents, with respect to time.
+
+\subsubsection{No Load}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{/graphics/exports/psp_NoLoad_h_4e-05.png}
+    \caption{Node voltages and currents under No Load conditions with $h=4\mu s$}
+\end{figure}
+\begin{itemize}
+	\item The circuit behaves...
+\end{itemize}
+
+\subsubsection{Inductive Load}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{/graphics/exports/psp_InductiveLoad_h_4e-05.png}
+    \caption{Node voltages and currents under Inductive Load conditions with $h=4\mu s$}
+\end{figure}
+\begin{itemize}
+	\item The circuit behaves...
+\end{itemize}
+
+\subsubsection{Resistive Load}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{/graphics/exports/psp_ResistiveLoad_h_4e-05.png}
+    \caption{Node voltages and currents under Resistive Load conditions with $h=4\mu s$}
+\end{figure}
+\begin{itemize}
+	\item The circuit behaves...
+\end{itemize}
+
+\subsubsection{Full Load}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{/graphics/exports/psp_FullLoad_h_4e-05.png}
+    \caption{Node voltages and currents under Full Load conditions with $h=4\mu s$}
+\end{figure}
+\begin{itemize}
+	\item The circuit behaves...
+\end{itemize}
+
+\pagebreak
 \subsection{Maximum Diode Current}
+In Section \ref{determinationOfMaximimumCurrent}, the maximum current flowing through the diodes was estimated to be $\simeq 1.917A$.The simulated diode current across all modes of operation is plot for 8 cycles of the input voltage $V_{in}(t)$:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{/graphics/exports/diode_current_MIN.png}
+	\caption{Maximum diode in the circuit across all modes of operation}
+\end{figure}
+
+\begin{itemize}
+	\item The maximum current flowing through the diode occurs $t \simeq 0$. This supports the initial assumption made in section \ref{determinationOfMaximimumCurrent}, that the peak current occurs during the first half cycle.
+	\item The simulated maximum was $1.92A$ which approximately equals the analytically derived $1.917A$. 
+	\item This validates the piece-wise linear approximation of the ideal diode that was made during the modelling of the circuit, and shows that our estimation was very reasonable. 
+\end{itemize}
+
+\pagebreak
 \subsection{Power Dissipation in $R_s$}
+Resistor $R_s$ has a tolerance of $\pm 10\%$ and a maximum power rating of $0.5W$. The power dissipated across resistor $R_s$ must not exceed this rating across all modes of operation. The power is be determined using $P=VI$ and applying Ohm's law such that
+\begin{equation}
+	P=R_sI_s^2
+\end{equation}
+The power dissipation was simulated for all four modes of operation with respect to time, for $R_s = [270\Omega, 300\Omega, 330\Omega]$. The maximum power does not exceed the $0.5W$ rating at any point during the simulation, across all four modes with the three possible values of $R_s$.  The results are detailed below
+
+\subsubsection{Minimal Resistance}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}\hline
+	\textbf{Mode of Operation} & \textbf{Maximum Power Dissipated (W)} \\\hline
+	No Load & 0.17W \\
+	Full Load &  0.17W \\
+	Inductive Load & 0.39W \\
+	Resistive Load & 0.40W \\\hline
+\end{tabular}
+\caption{Maximum power dissipated in $R_s$ with $R_s = 270\Omega$ across all four modes}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{/graphics/exports/power_dissipation_min.png}
+	\caption{The power dissipated in $R_s$ with $R_s = 270\Omega$ across all four modes}
+\end{figure}
+
+\subsubsection{Nominal Resistance}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}\hline
+	\textbf{Mode of Operation} & \textbf{Maximum Power Dissipated (W)} \\\hline
+	No Load & 0.19W \\
+	Full Load &  0.19W \\
+	Inductive Load & 0.43W \\
+	Resistive Load & 0.44W \\\hline
+\end{tabular}
+\caption{Maximum power dissipated in $R_s$ with $R_s = 300\Omega$ across all four modes}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{/graphics/exports/power_dissipation_nominal.png}
+	\caption{The power dissipated in $R_s$ with $R_s = 300\Omega$ across all four modes}
+\end{figure}
+
+\subsubsection{Maximal Resistance}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}\hline
+	\textbf{Mode of Operation} & \textbf{Maximum Power Dissipated (W)} \\\hline
+	No Load & 0.21W \\
+	Full Load &  0.21W \\
+	Inductive Load & 0.48W \\
+	Resistive Load & 0.48W \\\hline
+\end{tabular}
+\caption{Maximum power dissipated in $R_s$ with $R_s = 330\Omega$ across all four modes}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{/graphics/exports/power_dissipation_max.png}
+	\caption{The power dissipated in $R_s$ with $R_s = 330\Omega$ across all four modes}
+\end{figure}
