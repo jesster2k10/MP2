@@ -2,16 +2,16 @@ clear;
 close all;
 clc;
 
-PLOT_SYS = 0;
+PLOT_SYS = 1;
 PLOT_DIODE = 0;
 PLOT_POWER = 0;
 
 T = 1/50;
-nCycles = 1000;
+nCycles = 250;
 h = T/nCycles;
 
-C=2200e-6;
-Rs = 300;
+C=2200e-6*1;
+Rs = 300*1;
 
 %% 1. Plot system parameters
 ts = 0;
@@ -41,8 +41,8 @@ plot(t,p_yr);
 
 legend('No Load', 'Full Load', 'Inductive Load', 'Resistive Load')
 xlabel('Time (s)')
-ylabel('Current (A)')
-title("Power Disspation in Rs under All Modes of Operation with Minimal Rs")
+ylabel('Power (W)')
+title("Power Disspation in Rs under All Modes of Operation with Nominal Values")
 grid minor
 
 % Find maximum values and indices
@@ -57,7 +57,7 @@ max_time = t([ind_yn, ind_yf, ind_yi, ind_yr]);
 max_time = max_time(max_idx);
 
 hold off
-exportgraphics(gcf,'../graphics/exports/power_dissipation_MIN.png','Resolution',300)
+exportgraphics(gcf,'../graphics/exports/power_dissipation_nominal.png','Resolution',300)
 
 % Print max values to console
 fprintf('Max Power No Load: %.2f W\n', max_yn)

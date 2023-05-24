@@ -65,7 +65,7 @@ hold off
 title(['e_2 and e_3 for ', char(mode), ' with h=', num2str(h)], 'Interpreter','latex');
 legend('e2', 'e3');
 xlabel('Time (s)')
-ylabel('Current (A)')
+ylabel('Voltage (V)')
 grid minor;
 
 subplot(2,1,2);
