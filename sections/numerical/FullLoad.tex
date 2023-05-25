@@ -16,9 +16,7 @@ The condition for reverse bias under no-load conditions is given by $e_3 < V_z$.
 \begin{equation}
 	y'(t,y) = \begin{bmatrix}
 		 \frac{1}{C}\bracket{\sbracket{\frac{\frac{e_1 - y_1}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y_1}{2} - V_{th}} - \frac{y_1 - R_s y_2}{R_{L_1} + R_s} - y_2} \\
-		 \frac{1}{L} \sbracket{
-		 	\bracket{\frac{y_1 - R_s y_2}{R_{L_1} + R_s}}R_{L_1} - R_{L_2}y_2
-		 }
+		 \frac{1}{L} \sbracket{\frac{y_1R_{L_1} - y_2(R_s(R_{L_1}+R_{L_2}) + R_{L_1}R_{L_2})}{R_s + R_{L_1}}}
 	\end{bmatrix}
 \end{equation}
 \subparagraph{Forward Bias}

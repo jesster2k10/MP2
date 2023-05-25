@@ -6,7 +6,7 @@ classdef CircuitMode
     %
     % Version: 1.0.0
     % Author:  Jesse Onolememen
-    % Date:    23/05/2023
+    % Date:    03/05/2023
     enumeration
         NoLoad,
         FullLoad,
