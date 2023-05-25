@@ -135,18 +135,18 @@ In Section \ref{determinationOfMaximimumCurrent}, the maximum current flowing th
 \end{figure}
 
 \begin{itemize}
-	\item The maximum current flowing through the diode occurs $t \simeq 0$. This supports the initial assumption made in section \ref{determinationOfMaximimumCurrent}, that the peak current occurs during the first half cycle.
-	\item The simulated maximum was $1.92A$ which approximately equals the analytically derived $1.917A$. 
-	\item This validates the piece-wise linear approximation of the ideal diode that was made during the modelling of the circuit, and shows that our estimation was very reasonable. 
+\item The diode experiences its maximum current flow at approximately $t = 0$, aligning with the initial assumption stated in section \ref{determinationOfMaximimumCurrent} that the peak current occurs during the first half cycle.
+\item The simulated maximum current was approximately $1.92A$, which closely matches the analytically derived value of $1.917A$.
+\item This confirms the validity of the piece-wise linear approximation used to model the ideal diode in the circuit. It demonstrates that our estimation was highly reasonable.
 \end{itemize}
 
 \pagebreak
 \subsection{Power Dissipation in $R_s$}
-Resistor $R_s$ has a tolerance of $\pm 10\%$ and a maximum power rating of $0.5W$. The power dissipated across resistor $R_s$ must not exceed this rating across all modes of operation. The power is be determined using $P=VI$ and applying Ohm's law such that
+The resistor $R_s$ has a tolerance of $\pm 10\%$ and a maximum power rating of $0.5W$. It is crucial to ensure that the power dissipated across resistor $R_s$ does not exceed this maximum rating in all modes of operation. The power can be calculated using the formula $P = VI$ while applying Ohm's law, which states that
 \begin{equation}
 	P=R_sI_s^2
 \end{equation}
-The power dissipation was simulated for all four modes of operation with respect to time, for $R_s = [270\Omega, 300\Omega, 330\Omega]$. The maximum power does not exceed the $0.5W$ rating at any point during the simulation, across all four modes with the three possible values of $R_s$.  The results are detailed below
+Power dissipation was evaluated through simulation for all four modes of operation over time, considering $R_s$ values of $270\Omega$, $300\Omega$, and $330\Omega$. In all cases, the maximum power does not exceed the rating of $0.5W$ at any point during the simulation. These results are presented in detail below.
 
 \subsubsection{Minimal Resistance}
 \begin{table}[H]
