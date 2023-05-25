@@ -63,8 +63,8 @@ Determine an expression for $i_l$ at node \textcircled{4} using KCL
 \paragraph{Differential Equations}
 The current $i_s$ depends on the biasing of the zener diode. The biasing of the zener is determined by the relation between $e_3$ and $V_z$. Two set of differential equations are derived based on the operation of the Zener.
 
-\subparagraph{Reverse Bias}
-When $e_3 < V_z$ the zener is in reverse bias. There is no additional current flow at node \textcircled{3} as the switch remains open. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_l$$
+\subparagraph{Cut Off}
+When $e_3 < V_z$ the zener is in cut Off. There is no additional current flow at node \textcircled{3} as the switch remains open. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_l$$
 \begin{equation}
 	\frac{e_2 - e_3}{R_s} = i_l
 	\label{eq:inductiveload_il}
@@ -115,8 +115,8 @@ This also only holds true when $e_3 < V_z$, or, when
 	e_2 - R_si_l < V_z
 \end{equation}
 
-\subparagraph{Forward Bias}
-When $e_3 \geq V_z$ the zener is in forward bias. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_l + i_z$$
+\subparagraph{Reverse Breakdown}
+When $e_3 \geq V_z$ the zener is in reverse breakdown. The current flow in node \textcircled{3} must be accounted for as the switch remains closed. Thus, the current flowing into node \textcircled{3} $i_s$ is just given by $$i_s = i_l + i_z$$
 \begin{equation}
 	\frac{e_2 - e_3}{R_s} = \frac{e_3 - V_z}{R_z} + i_l
 	\label{eq:inductiveLoad_forwardBias_node3}

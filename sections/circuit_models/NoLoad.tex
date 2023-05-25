@@ -63,18 +63,18 @@ Here, \(i_z(t)\) depends on whether \(e_3 < V_z\) or \(e_3 \geq V_z\). Therefore
 \paragraph{Differential Equations}
 Two distinct cases emerge from the given conditions, each leading to a unique differential equation. These cases are determined by the relationship between \(e_3\) and \(V_z\).\\
 
-In the first case where \(e_3 < V_z\), the Zener diode remains in \textbf{the reverse bias region}, and the circuit is described by the following differential equation:
+In the first case where \(e_3 < V_z\), the Zener diode remains in \textbf{cut off region}, and the circuit is described by the following differential equation:
 \begin{equation}
     \frac{d(e_2)}{dt}=\frac{1}{C} \sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}} \cdot u\bracket{\frac{e_1-e_2}{2}-V_{th}}} \hspace{0.5cm} \text{for} \hspace{0.1cm} e_3 < V_z
 \end{equation}
 
-In the second case where \(e_3 \geq V_z\), the Zener diode is \textbf{forward biased}. The differential equation characterising the circuit in this state is:
+In the second case where \(e_3 \geq V_z\), the Zener diode is \textbf{in reverse breakdown}. The differential equation characterising the circuit in this state is:
 \begin{equation}
    \frac{d(e_2)}{dt}=\frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}-\frac{e_2-V_z}{R_s+R_z}} \hspace{0.1cm} \text{for} \hspace{0.1cm} e_3 \geq V_z
 \end{equation}
 
-\subparagraph{Reverse Bias}
-During the reverse bias state of the Zener diode, the voltage $e_3$ across the diode may fall below the Zener voltage $V_z$. The current $i_z$ flowing through the Zener diode under the no-load condition can be expressed as a function of $e_2$ and $e_3$ as given by \eqref{eq:mode1_node3},
+\subparagraph{Cut off}
+During the cut off state of the Zener diode, the voltage $e_3$ across the diode may fall below the Zener voltage $V_z$. The current $i_z$ flowing through the Zener diode under the no-load condition can be expressed as a function of $e_2$ and $e_3$ as given by \eqref{eq:mode1_node3},
 
 \begin{equation}
 	i_z = \begin{cases}
@@ -93,7 +93,7 @@ When $e_3 < V_z$, the voltage $e_2$ is equivalent to $e_3$ rendering the current
     \label{eq:iz_condensed}
 \end{equation}
 
-In the first case of \eqref{eq:iz_condensed}, the Zener is in reverse bias. The system's state can be described by:
+In the first case of \eqref{eq:iz_condensed}, the Zener is in reverse cut off. The system's state can be described by:
 \begin{equation}
     \begin{split}
         i_c(t) &= C\frac{d(e_2)}{dt} \\
@@ -109,10 +109,10 @@ The above equations are a direct result of applying Kirchhoff's Current Law at n
     \label{eq:noLoad_diffEq1}
 \end{equation}
 
-\eqref{eq:noLoad_diffEq1} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse bias conditions when $e_2 < V_z$.
+\eqref{eq:noLoad_diffEq1} provides the rate of change of the voltage $e_2$ across the capacitor for $e_2 < V_z$. The unit step function, denoted by $u(\cdot)$, ensures that the right-hand side is zero whenever the condition inside the brackets is less than zero. This behaviour aligns with the physical scenario of the diode being in the off-state under reverse cut off conditions when $e_2 < V_z$.
 
-\subparagraph{Forward Bias}
-In the condition where $e_3 \geq V_z$, the Zener diode transitions to a forward bias state. The circuit characteristics during this state are governed by the equations presented below.
+\subparagraph{Reverse Breakdown}
+In the condition where $e_3 \geq V_z$, the Zener diode transitions to its reverse breakdown region. The circuit characteristics during this state are governed by the equations presented below.
 \begin{align}
     i_c(t) &= C\frac{d(e_2)}{dt}\\
     i_c(t) + i_s &= \sbracket{\frac{\frac{e_1 - e_2}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - e_2}{2} - V_{th}}\\

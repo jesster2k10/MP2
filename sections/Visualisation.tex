@@ -290,11 +290,22 @@ The visualisation was set up to support dynamic switching even while the simulat
     \label{tab:my_label}
 \end{table}
 \begin{lstlisting}[caption=Extract of code used to perform switching operation]
+% Setup switching scenario
+comp.SwitchingOperation = true;
+            
+% Power supply is switched off at t=0 neither attached loading
+% device is active, Ic, IL=0
+comp.ic = [0, 0, 0];
+comp.Mode = CircuitMode.NoLoad;
+
+% Use a larger time step to speed up
+comp.TimeStep = 8e-5;
+
+% Set time interval
 t1 = 2; % tn + t1=time when mode=ResistiveLoad
 t2 = 2.2; % tn + t2= time when mode=Full load
 t3 = 1.263; % time in full load
 tend = t1 + t2 + t3 + 1; % total time (add 1s for steady state at end)
-comp.t = 0:comp.TimeStep:tend; % Setup time vector
 
 % Time breaks
 resistiveLoadTime = t1;
@@ -302,6 +313,9 @@ fullLoadTime = t1+t2;
 revertTime = fullLoadTime+t3;
 
 for n=comp.k:length(comp.t)-1
+tn = comp.t(n)
+
+% Check for current mode of operation based on time
 if tn >= revertTime
   comp.mode = CircuitMode.ResistiveLoad;
 elseif tn >= fullLoadTime
@@ -312,21 +326,32 @@ else
   comp.mode = CircuitMode.NoLoad;
 end
 	
+% Update vin with time intervals
 tn_1 = tn + comp.TimeStep;
 tn_2 = tn + comp.TimeStep / 2;
-vin = comp.v([tn, tn_1, tn_2]); % Input voltage is a vector
+vin = comp.v([tn, tn_1, tn_2]); 
+
+% Perform RK4 simualtion
 y = powerSupply(comp.mode,vin,h,comp.ic,comp.C,comp.Rs);  % Perform iteration
-    
-% Plot y-values....
+   
+% Update initial conditions
+comp.ic(1) = y.e2;
+comp.ic(2) = y.e3;
+comp.ic(3) = y.iL;
+                
+% Plot y-values ... 
 end
 \end{lstlisting}
 \begin{figure}[H]
     \centering
-   	\includegraphics[width=0.9\textwidth]{graphics/visualisation/switching_1}
+   	\includegraphics[width=\textwidth]{graphics/visualisation/switching_1}
 	\caption{Visualisation at the beginning of the switching operation}
 \end{figure}
 \begin{figure}[H]
     \centering
-   	\includegraphics[width=0.9\textwidth]{graphics/visualisation/switching_4}
+   	\includegraphics[width=\textwidth]{graphics/visualisation/switching_4}
 	\caption{Visualisation towards the end of the switching operation}
 \end{figure}
+In general, the results of the switching operation align with predictions. After each incident, the circuit enters a transitory phase before stabilising into a consistent state following several cycles. The charge and discharge trajectories of the capacitor align with anticipated outcomes. The inductor's current becomes noticeable only when the inductive load is engaged, and it diminishes slightly upon reaching the stable state.
+
+

@@ -39,7 +39,7 @@ end
 Rs_Rz = x.Rs + x.Rz;
 
 % Perform RK4 depending on the biasing of the zener
-% When e3 >= Vz the zener is in forward bias:
+% When e3 < Vz the zener is in cut off
 if (x.e3 < x.Vz)  
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = [h/x.C * ((id>=0)*id - x.iL);
@@ -81,7 +81,7 @@ y.iL = x.iL + (k1(2)+2*k2(2)+2*k3(2)+k4(2))/6;
 % Determine output votlage e_3 based on zener biasing
 % y.e3 = (y.e2 - x.Vz + x.Rz*y.iL)/Rs_Rz;
 y.e3 = y.e2 - x.Rs*y.iL;
-if (y.e3 >= x.Vz) % Zener is in forward bias, apply different epxression for e3
+if (y.e3 >= x.Vz) % Reverse breakdown e3 is given by another expression
     y.e3 = ( y.e2*x.Rz + x.Vz*x.Rs - y.iL*x.Rs*x.Rz ) / Rs_Rz;
 end
 

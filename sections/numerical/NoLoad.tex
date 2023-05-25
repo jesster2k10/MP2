@@ -1,18 +1,18 @@
 \paragraph{No Load}
 There are two ODEs describing the system under no load conditions
 \begin{itemize}
-	\item \eqref{eq:noLoad_diffEq1} characterises the system when the zener diode is reverse biased
-	\item \eqref{eq:noLoad_diffEq2} characterises the system when the zener diode is forward biased
+	\item \eqref{eq:noLoad_diffEq1} characterises the system when the zener is in its cut off region
+	\item \eqref{eq:noLoad_diffEq2} characterises the system when the zener diode is operating in its reverse breakdown region
 \end{itemize}
 Both \eqref{eq:noLoad_diffEq1} \eqref{eq:noLoad_diffEq2} provide a differential equation for $\frac{de_2}{dt}$. Let $y = e_2$
 
-\subparagraph{Reverse Bias}
-The condition for reverse bias under no-load conditions is given by $e_3 < V_z$.
+\subparagraph{Cut off}
+The condition for zener cut off under no-load conditions is given by $e_3 < V_z$.
 \begin{equation}
 	y'(t,y) = \frac{1}{C} \sbracket{\bracket{\frac{\frac{e_1 - y}{2} - V_{th}}{R_b}} \cdot u\bracket{\frac{e_1-y}{2}-V_{th}}}
 \end{equation}
-\subparagraph{Forward Bias}
-The condition for forward bias under no-load conditions is given by $e_3 \geq V_z$.  
+\subparagraph{Reverse Breakdown}
+The condition for zener reverse breakdown under no-load conditions is given by $e_3 \geq V_z$.  
 \begin{equation}
 	y'(t,y) = \frac{1}{C}\sbracket{\bracket{\frac{\frac{e_1 - y}{2} - V_{th}}{R_b}}\cdot u\bracket{\frac{e_1 - y}{2} - V_{th}}-\frac{y-V_z}{R_s+R_z}}
 \end{equation}

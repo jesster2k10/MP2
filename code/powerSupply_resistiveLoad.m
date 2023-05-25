@@ -41,7 +41,7 @@ RL1_Rz = x.RL1 + x.Rz;
 RL1Vz  = x.RL1 * x.Vz;
 
 % Perform RK4 depending on the biasing of the zener
-% When e3 >= Vz the zener is in forward bias:
+% When e3 < Vz the zener is in cut off
 if (x.e3 < x.Vz)
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = h/x.C*((id>=0)*id - x.e2/RL1_Rs);
@@ -68,7 +68,7 @@ y.e2 = x.e2 + (k1+2*k2+2*k3+k4)/6;
 
 % Determine outvoltage e3 depending on biasing of zener
 y.e3 = (x.RL1 * y.e2) / ( RL1_Rs );
-if (y.e3 >= x.Vz) % Forward bias e3 is given by another expression
+if (y.e3 >= x.Vz) % Reverse breakdown e3 is given by another expression
     y.e3 = ( RL1Rz*y.e2 + x.RL1*x.Rs*x.Vz ) / ( x.RL1*x.Rs + x.Rs*x.Rz + x.RL1*x.Rz );
 end
 

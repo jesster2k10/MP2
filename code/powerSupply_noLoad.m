@@ -35,7 +35,7 @@ arguments
 end
 
 % Perform RK4 depending on the biasing of the zener
-% When e3 >= Vz the zener is in forward bias:
+% When e3 < Vz the zener is in cut off
 if (x.e3 < x.Vz)
     id = ((x.V2(1) - x.e2)/2 - x.Vth) / x.Rb;
     k1 = h/x.C*((id>=0)*id);
